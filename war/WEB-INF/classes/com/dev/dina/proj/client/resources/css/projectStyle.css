@@ -1,0 +1,32 @@
+.button, .controlPanel, .mainContainer, .cardsMainPanel {
+	display: block;
+	float: left;
+}
+
+.button {
+}
+
+.controlPanel {
+	width: 100%;
+	height: 20%;
+}
+
+.mainContainer {
+	width: 100%;
+	height: 80%;
+}
+
+.cardsMainPanel {
+	width: 100%;
+	height: 100%;
+}
+
+.cardsResultPanel {
+}
+
+.card {
+	margin: 5px;	
+}
+
+.instructionsPanel {
+}

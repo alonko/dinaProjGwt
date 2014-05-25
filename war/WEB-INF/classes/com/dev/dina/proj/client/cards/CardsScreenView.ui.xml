@@ -1,0 +1,30 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="com.dev.dina.proj.client.resources.ProjectResources"
+		field="res" />
+
+	<g:FlowPanel>
+		<g:FlowPanel styleName="{res.css.cardsMainPanel}">
+			<g:FlowPanel addStyleNames="col-xs-6 col-sm-3 placeholder">
+				<g:Image ui:field="card1" styleName="{res.css.card}" />
+			</g:FlowPanel>
+
+			<g:FlowPanel addStyleNames="col-xs-6 col-sm-3 placeholder">
+				<g:Image ui:field="card2" styleName="{res.css.card}" />
+			</g:FlowPanel>
+
+			<g:FlowPanel addStyleNames="col-xs-6 col-sm-3 placeholder">
+				<g:Image ui:field="card3" styleName="{res.css.card}" />
+			</g:FlowPanel>
+
+			<g:FlowPanel addStyleNames="col-xs-6 col-sm-3 placeholder">
+				<g:Image ui:field="card4" styleName="{res.css.card}" />
+			</g:FlowPanel>
+		</g:FlowPanel>
+		<g:FlowPanel styleName="{res.css.cardsResultPanel}">
+			<g:Label text="Your score:" />
+			<g:Label ui:field="resultLbl" />
+		</g:FlowPanel>
+	</g:FlowPanel>
+</ui:UiBinder> 
