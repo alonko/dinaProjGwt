@@ -7,78 +7,67 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class MainScreen implements EntryPoint {
 	private RootPanel mainContainer, controlPanel;
-	
-//	/**
-//	 * The message displayed to the user when the server cannot be reached or
-//	 * returns an error.
-//	 */
-//	private static final String SERVER_ERROR = "An error occurred while "
-//			+ "attempting to contact the server. Please check your network "
-//			+ "connection and try again.";
-//
-//	/**
-//	 * Create a remote service proxy to talk to the server-side Greeting
-//	 * service.
-//	 */
-//	private final GreetingServiceAsync greetingService = GWT
-//			.create(GreetingService.class);
+	private ProjectCssResources style;
+
+	// /**
+	// * The message displayed to the user when the server cannot be reached or
+	// * returns an error.
+	// */
+	// private static final String SERVER_ERROR = "An error occurred while "
+	// + "attempting to contact the server. Please check your network "
+	// + "connection and try again.";
+	//
+	// /**
+	// * Create a remote service proxy to talk to the server-side Greeting
+	// * service.
+	// */
+	// private final GreetingServiceAsync greetingService = GWT
+	// .create(GreetingService.class);
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		ProjectCssResources style = ProjectResources.INSTANCE.css();
-		style.ensureInjected(); 
+		style = ProjectResources.INSTANCE.css();
+		style.ensureInjected();
 
-		final TextBox nameField = new TextBox();
-		nameField.setText("Select task");
+		Label buttonsHeader = new Label();
+		buttonsHeader.setStyleName(style.buttonsHeader());
+		buttonsHeader.setText("Select task");
 
-		final Button mathExamButton = new Button("Math");
-//		mathExamButton.setStyleName(style.button());
-		mathExamButton.setStyleName("btn");
-		mathExamButton.addStyleName("btn-large");
-		mathExamButton.addStyleName("btn-success");
-		
+		final Button mathExamButton = createButton("Math");
+		final Button mathPresureExamButton = createButton("MathP");
+		final Button cardsExaButton = createButton("Cards");
+		final Button cardsPresureExaButton = createButton("CardsP");
 
-		final Button mathPresureExamButton = new Button("MathP");
-		mathPresureExamButton.setStyleName("btn");
-		mathPresureExamButton.addStyleName("btn-large");
-		mathPresureExamButton.addStyleName("btn-success");
-
-		final Button cardsExaButton = new Button("Cards");
-		cardsExaButton.setStyleName("btn");
-		cardsExaButton.addStyleName("btn-large");
-		cardsExaButton.addStyleName("btn-success");
-
-		final Button cardsPresureExaButton = new Button("CardsP");
-		cardsPresureExaButton.setStyleName("btn");
-		cardsPresureExaButton.addStyleName("btn-large");
-		cardsPresureExaButton.addStyleName("btn-success");
-
-		controlPanel = RootPanel.get("controlPanelContainer");
-		controlPanel.setStyleName("btn-group");
-		controlPanel.addStyleName("btn-group-justified");
+		controlPanel = RootPanel.get("controlPanelContainer");		
+//		controlPanel.setStyleName("btn-group");
+//		controlPanel.addStyleName("btn-group-justified");
+		controlPanel.add(buttonsHeader);
 		controlPanel.add(mathExamButton);
 		controlPanel.add(mathPresureExamButton);
 		controlPanel.add(cardsExaButton);
 		controlPanel.add(cardsPresureExaButton);
 		
-		mainContainer = RootPanel.get("mainScreenContainer");
-		mainContainer.add(nameField);
 		
+
+		mainContainer = RootPanel.get("mainScreenContainer");
+		
+
 		cardsExaButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				CardsScreenPresenter cardsScreenPresenter = new CardsScreenPresenter();
 				mainContainer.add(cardsScreenPresenter.gwtWidget());
+				controlPanel.setVisible(false);
 			}
 		});
 
@@ -175,5 +164,17 @@ public class MainScreen implements EntryPoint {
 		// MyHandler handler = new MyHandler();
 		// nameField.addKeyUpHandler(handler);
 		// }
+	}
+
+	private Button createButton(String text) {
+		final Button mathPresureExamButton = new Button(text);
+		mathPresureExamButton.setStyleName(style.mainButton());
+		mathPresureExamButton.addStyleName("btn");
+		mathPresureExamButton.addStyleName("btn-large");
+		mathPresureExamButton.addStyleName("btn-success");
+//		mathPresureExamButton.addStyleName("col-xs-6");
+//		mathPresureExamButton.addStyleName("col-sm-3");
+		mathPresureExamButton.addStyleName("placeholder");
+		return mathPresureExamButton;
 	}
 }

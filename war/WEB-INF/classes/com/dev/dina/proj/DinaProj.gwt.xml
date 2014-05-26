@@ -23,7 +23,10 @@
   <entry-point class='com.dev.dina.proj.client.main.MainScreen'/>
   
   <!-- <extend-property name="user.agent" values="ie8,ie9,opera" /> -->
-  <set-property name="user.agent" value="gecko1_8"/>
+  <!-- <set-property name="user.agent" value="gecko1_8"/>
+  <extend-property name="user.agent" values="chrome" /> -->
+  <!-- <define-property name="user.agent" values="ie6,gecko,gecko1_8"></define-property> -->
+  <set-property name="user.agent" value="gecko1_8,safari"/>
   
   <set-configuration-property name="CssResource.style" value="pretty"/>   
 

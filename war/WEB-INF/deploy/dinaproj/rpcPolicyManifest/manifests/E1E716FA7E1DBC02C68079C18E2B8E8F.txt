@@ -1,2 +1,0 @@
-serviceClass: com.dev.dina.proj.client.GreetingService
-path: B9331D6B3F02A0CF81EE3CB1655AFF31.gwt.rpc

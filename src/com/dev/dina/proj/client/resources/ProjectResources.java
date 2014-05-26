@@ -17,16 +17,20 @@ public interface ProjectResources extends ClientBundle {
 
 	public interface ProjectCssResources extends CssResource {
 		//Main
-		String button();
+		String mainButton();
 
 		String controlPanel();
 
 		String mainContainer();
 		
+		String buttonsHeader();
+		
 		//Cards
 		String cardsMainPanel();
 		
 		String cardsResultPanel();
+		
+		String cardContainer();
 		
 		String card();
 		

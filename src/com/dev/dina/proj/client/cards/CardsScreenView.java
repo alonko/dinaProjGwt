@@ -20,7 +20,7 @@ public class CardsScreenView {
 	Image card1, card2, card3, card4;
 
 	@UiField
-	Label resultLbl;
+	Label resultLbl, pointsLbl;
 
 	public CardsScreenView() {
 		ProjectResources resources = ProjectResources.INSTANCE;
@@ -41,5 +41,29 @@ public class CardsScreenView {
 
 	public Widget asWidget() {
 		return root;
+	}
+
+	public Image getCard1() {
+		return card2;
+	}
+
+	public Image getCard2() {
+		return card1;
+	}
+
+	public Image getCard3() {
+		return card3;
+	}
+
+	public Image getCard4() {
+		return card4;
+	}
+
+	public void setValueToResult(int result) {
+		resultLbl.setText(String.valueOf(result));
+	}
+
+	public void setValueTopoints(int points) {
+		pointsLbl.setText(String.valueOf(points));
 	}
 }
