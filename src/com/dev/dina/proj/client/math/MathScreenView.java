@@ -1,4 +1,4 @@
-package com.dev.dina.proj.client.cards;
+package com.dev.dina.proj.client.math;
 
 import com.dev.dina.proj.client.resources.ProjectResources;
 import com.google.gwt.core.client.GWT;
@@ -8,21 +8,21 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CardsScreenView {
+public class MathScreenView {
 	private Widget root;
 	private static CardsScreenUiBinder uiBinder = GWT
 			.create(CardsScreenUiBinder.class);
 
-	interface CardsScreenUiBinder extends UiBinder<Widget, CardsScreenView> {
+	interface CardsScreenUiBinder extends UiBinder<Widget, MathScreenView> {
 	}
 
 	@UiField(provided = true)
 	Image card1, card2, card3, card4;
 
 	@UiField
-	Label resultLbl, pointsAddedLbl, pointsReducedLbl, timerValue, timerLbl;
+	Label resultLbl, pointsLbl, timerValue, timerLbl;
 
-	public CardsScreenView() {
+	public MathScreenView() {
 		ProjectResources resources = ProjectResources.INSTANCE;
 		card1 = new Image(resources.cardImage());
 		card1.setSize("200px", "400px");
@@ -62,13 +62,9 @@ public class CardsScreenView {
 		resultLbl.setText(String.valueOf(result));
 	}
 
-	public void setValueToAddedPoints(int points) {
-		pointsAddedLbl.setText(String.valueOf(points));
+	public void setValueToErnedPoints(int points) {
+		pointsLbl.setText(String.valueOf(points));
 	}
-	
-	public void setValueToReducedPoints(int points) {
-		pointsReducedLbl.setText(String.valueOf(points));
-	}	
 
 	public void setTimer(int timeLeft) {
 		timerValue.setText(String.valueOf(timeLeft));

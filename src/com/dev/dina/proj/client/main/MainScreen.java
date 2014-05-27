@@ -3,6 +3,7 @@ package com.dev.dina.proj.client.main;
 import java.util.Arrays;
 import java.util.List;
 
+import com.dev.dina.proj.client.MessageBox;
 import com.dev.dina.proj.client.cards.CardsScreenPresenter;
 import com.dev.dina.proj.client.events.AppUtils;
 import com.dev.dina.proj.client.events.TestCompleteEvent;
@@ -13,10 +14,12 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -24,6 +27,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class MainScreen implements EntryPoint {
 	private RootPanel mainContainer, controlPanel;
 	private ProjectCssResources style;
+	private HandlerRegistration approveHandlerRegistration;
 
 	// /**
 	// * The message displayed to the user when the server cannot be reached or
@@ -56,6 +60,10 @@ public class MainScreen implements EntryPoint {
 		final Button cardsExaButton = createButton("Cards");
 		final Button cardsPresureExaButton = createButton("CardsP");
 
+		Label examineeLbl = new Label();
+		final TextBox examineeNumber = new TextBox();
+		final Button approveButton = new Button("OK");
+
 		controlPanel = RootPanel.get("controlPanelContainer");
 		// controlPanel.setStyleName("btn-group");
 		// controlPanel.addStyleName("btn-group-justified");
@@ -65,41 +73,95 @@ public class MainScreen implements EntryPoint {
 		controlPanel.add(cardsExaButton);
 		controlPanel.add(cardsPresureExaButton);
 
+		controlPanel.add(examineeLbl);
+		controlPanel.add(examineeNumber);
+		controlPanel.add(approveButton);
+
 		mainContainer = RootPanel.get("mainScreenContainer");
 
 		cardsExaButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardsExam(false);
+				if (approveHandlerRegistration != null) {
+					approveHandlerRegistration.removeHandler();
+				}
+				approveHandlerRegistration = approveButton
+						.addClickHandler(new ClickHandler() {
+							@Override
+							public void onClick(ClickEvent event) {
+								if (examineeNumber.getText() != "") {
+									cardsExam(false);
+									examineeNumber.setText("");
+								} else {
+									final MessageBox messageBox = new MessageBox(
+											"enter examinee number");
+									messageBox.show();
+									messageBox
+											.setCloseButtonHandler(new ClickHandler() {
+												@Override
+												public void onClick(
+														ClickEvent event) {
+													messageBox.hide();
+												}
+											});
+								}
+							}
+						});
 			}
 		});
-		
+
 		cardsPresureExaButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardsExam(true);
+				if (approveHandlerRegistration != null) {
+					approveHandlerRegistration.removeHandler();
+				}
+				approveHandlerRegistration = approveButton
+						.addClickHandler(new ClickHandler() {
+							@Override
+							public void onClick(ClickEvent event) {
+								if (examineeNumber.getText() != "") {
+									cardsExam(true);
+									examineeNumber.setText("");
+								} else {
+									final MessageBox messageBox = new MessageBox(
+											"enter examinee number");
+									messageBox.show();
+									messageBox
+											.setCloseButtonHandler(new ClickHandler() {
+												@Override
+												public void onClick(
+														ClickEvent event) {
+													messageBox.hide();
+												}
+											});
+								}
+							}
+						});
 			}
 		});
-		
+
 		setHandlers();
-		
-		
+
 		UIBinderDemo uiBinder = new UIBinderDemo();
-        List<String> sentences = Arrays.asList("This table was built with UIBinder", "It uses a SimplePanel to place the export widget", "You can also provide it");
-        fillaTableWithSentences(uiBinder.getExportFlexTable(), sentences);
-		
+		List<String> sentences = Arrays.asList(
+				"This table was built with UIBinder",
+				"It uses a SimplePanel to place the export widget",
+				"You can also provide it");
+		fillaTableWithSentences(uiBinder.getExportFlexTable(), sentences);
+
 		mainContainer.add(uiBinder);
-		
-		
-		
-//		Grid grid = new Grid(4, 4);
-//		TableElement table = new TableElement();
-//		CellTable<String> table = new CellTable<String>();
-//		TableToExcelClientBuilder tableToExcelClient = TableToExcelClientBuilder.fromTable(table); 
-//		TableToExcelClient tableToExcelClient = new TableToExcelClient(table);
-//		FlowPanel myPanel = new FlowPanel(); 
-//		myPanel.add(tableToExcelClient.getExportWidget());
-		
+
+		// Grid grid = new Grid(4, 4);
+		// TableElement table = new TableElement();
+		// CellTable<String> table = new CellTable<String>();
+		// TableToExcelClientBuilder tableToExcelClient =
+		// TableToExcelClientBuilder.fromTable(table);
+		// TableToExcelClient tableToExcelClient = new
+		// TableToExcelClient(table);
+		// FlowPanel myPanel = new FlowPanel();
+		// myPanel.add(tableToExcelClient.getExportWidget());
+
 		// // Focus the cursor on the name field when the app loads
 		// nameField.setFocus(true);
 		// nameField.selectAll();
@@ -194,20 +256,22 @@ public class MainScreen implements EntryPoint {
 		// nameField.addKeyUpHandler(handler);
 		// }
 	}
-	
-	private void fillaTableWithSentences(FlexTable flexTable, List<String> sentences) {
-        for (int i = 0; i < sentences.size(); i++) {
-                String sentence = sentences.get(i);
-                String[] words = sentence.split(" ");
-                for (int j = 0; j < words.length; j++) {
-                        String word = words[j];
-                        flexTable.setWidget(i, j, new Label(word));
-                }
-        }
-}
-	
+
+	private void fillaTableWithSentences(FlexTable flexTable,
+			List<String> sentences) {
+		for (int i = 0; i < sentences.size(); i++) {
+			String sentence = sentences.get(i);
+			String[] words = sentence.split(" ");
+			for (int j = 0; j < words.length; j++) {
+				String word = words[j];
+				flexTable.setWidget(i, j, new Label(word));
+			}
+		}
+	}
+
 	private void cardsExam(Boolean isPresure) {
-		CardsScreenPresenter cardsScreenPresenter = new CardsScreenPresenter(isPresure);
+		CardsScreenPresenter cardsScreenPresenter = new CardsScreenPresenter(
+				isPresure);
 		mainContainer.add(cardsScreenPresenter.gwtWidget());
 		controlPanel.setVisible(false);
 	}

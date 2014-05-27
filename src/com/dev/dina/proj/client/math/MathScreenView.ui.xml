@@ -23,10 +23,8 @@
 			</g:FlowPanel>
 		</g:FlowPanel>
 		<g:FlowPanel styleName="{res.css.cardsResultPanel}">
-			<g:Label text="Points added for card:" />
-			<g:Label ui:field="pointsAddedLbl" />
-			<g:Label text="Points reduced for card:" />
-			<g:Label ui:field="pointsReducedLbl" />
+			<g:Label text="Points for card:" />
+			<g:Label ui:field="pointsLbl" />
 			<g:Label text="Your score:" />
 			<g:Label ui:field="resultLbl" />
 		</g:FlowPanel>

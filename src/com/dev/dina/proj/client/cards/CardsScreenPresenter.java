@@ -3,69 +3,68 @@ package com.dev.dina.proj.client.cards;
 import com.dev.dina.proj.client.MessageBox;
 import com.dev.dina.proj.client.events.AppUtils;
 import com.dev.dina.proj.client.events.TestCompleteEvent;
+import com.dev.dina.proj.client.main.AbstractPresenter;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CardsScreenPresenter {
+public class CardsScreenPresenter extends AbstractPresenter{
 	private CardsScreenView view;
-	private int totalPoints;
-	private int step;
-	private int timeLeft;
-	private Boolean isPresure;
-
 	private static final int MAX_STEPS = 4;
 	private static int TEST_TIME = 10;
 	private static int PENALTY_POINTS = 10;
-	private Timer timer;
+	
 
 	public CardsScreenPresenter(Boolean isPresure) {
 		this.isPresure = isPresure;
-		view = new CardsScreenView();		
+		view = new CardsScreenView();
 
 		view.getCard1().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(100);
+				cardClicked(100, -200);
 			}
 		});
 
 		view.getCard2().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(200);
+				cardClicked(200, 0);
 			}
 		});
 
 		view.getCard3().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(-300);
+				cardClicked(100,-300);
 			}
 		});
 
 		view.getCard4().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(-400);
+				cardClicked(200,-400);
 			}
 		});
 		beginTest();
 	}
 
-	private void beginTest() {
+	@Override
+	protected void beginTest() {
 		totalPoints = 0;
 		step = 0;
-		updatePoints(0);
+		updatePoints(0, 0);
 		view.setTimerVisible(isPresure);
 		timeLeft = TEST_TIME;
 		view.setTimer(timeLeft);
 		playTurn();
 	}
 
-	private void finishTest() {
+	@Override
+	protected void finishTest() {
 		view.setTimerVisible(false);
+		timer.cancel();
 		final MessageBox messageBox = new MessageBox("test complete");
 		messageBox.setResult(totalPoints);
 		messageBox.show();
@@ -78,15 +77,15 @@ public class CardsScreenPresenter {
 		});
 	}
 
-	private void cardClicked(int cardValue) {
-		int value = cardValue;
-		updatePoints(value);
+	private void cardClicked(int addedPoints, int reducedPoints) {		
+		updatePoints(addedPoints, reducedPoints);
 		playTurn();
 	}
-	
-	private void updatePoints(int value) {
-		view.setValueToErnedPoints(value);
-		totalPoints += value;
+
+	private void updatePoints(int addedPoints, int reducedPoints) {
+		view.setValueToAddedPoints(addedPoints);
+		view.setValueToReducedPoints(reducedPoints);
+		totalPoints += addedPoints + reducedPoints;
 		view.setValueToResult(totalPoints);
 	}
 
@@ -94,7 +93,11 @@ public class CardsScreenPresenter {
 		step++;
 		if (step <= MAX_STEPS) {
 			if (isPresure) {
+				if (timer != null) {
+					timer.cancel();
+				}
 				timeLeft = TEST_TIME;
+				view.setTimer(timeLeft);
 				updateTimer();
 			}
 		} else {
@@ -102,22 +105,23 @@ public class CardsScreenPresenter {
 		}
 	}
 
-	private void updateTimer() {
+	@Override
+	protected void updateTimer() {
 		timer = new Timer() {
 			@Override
 			public void run() {
 				timeLeft--;
-				if (timeLeft == 0) {
-					int value = -PENALTY_POINTS;
-					updatePoints(value);
+				if (timeLeft < 0) {
+					int reducedPoints = -PENALTY_POINTS;
+					updatePoints(0, reducedPoints);
 					playTurn();
+					this.cancel(); // cancel the timer -- important!
 				} else {
 					view.setTimer(timeLeft);
-					updateTimer();
 				}
 			}
 		};
-		timer.schedule(1000);
+		timer.scheduleRepeating(1000);
 	}
 
 	public Widget gwtWidget() {
