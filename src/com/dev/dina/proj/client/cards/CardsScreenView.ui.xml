@@ -23,10 +23,14 @@
 			</g:FlowPanel>
 		</g:FlowPanel>
 		<g:FlowPanel styleName="{res.css.cardsResultPanel}">
-		    <g:Label text="Points for card:"/>
-		    <g:Label ui:field="pointsLbl" />
-			<g:Label text="Your score:"/>
+			<g:Label text="Points for card:" />
+			<g:Label ui:field="pointsLbl" />
+			<g:Label text="Your score:" />
 			<g:Label ui:field="resultLbl" />
+		</g:FlowPanel>
+		<g:FlowPanel styleName="{res.css.timerContainer}">
+			<g:Label ui:field="timerLbl" text="Time left:" />
+			<g:Label ui:field="timerValue" styleName="{res.css.timer}" />
 		</g:FlowPanel>
 	</g:FlowPanel>
 </ui:UiBinder> 

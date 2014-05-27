@@ -20,7 +20,7 @@ public class CardsScreenView {
 	Image card1, card2, card3, card4;
 
 	@UiField
-	Label resultLbl, pointsLbl;
+	Label resultLbl, pointsLbl, timerValue, timerLbl;
 
 	public CardsScreenView() {
 		ProjectResources resources = ProjectResources.INSTANCE;
@@ -36,7 +36,6 @@ public class CardsScreenView {
 		card4 = new Image(resources.cardImage());
 		card4.setSize("200px", "400px");
 		root = uiBinder.createAndBindUi(this);
-
 	}
 
 	public Widget asWidget() {
@@ -44,11 +43,11 @@ public class CardsScreenView {
 	}
 
 	public Image getCard1() {
-		return card2;
+		return card1;
 	}
 
 	public Image getCard2() {
-		return card1;
+		return card2;
 	}
 
 	public Image getCard3() {
@@ -63,7 +62,16 @@ public class CardsScreenView {
 		resultLbl.setText(String.valueOf(result));
 	}
 
-	public void setValueTopoints(int points) {
+	public void setValueToErnedPoints(int points) {
 		pointsLbl.setText(String.valueOf(points));
+	}
+
+	public void setTimer(int timeLeft) {
+		timerValue.setText(String.valueOf(timeLeft));
+	}
+
+	public void setTimerVisible(Boolean isVisible) {
+		timerValue.setVisible(isVisible);
+		timerLbl.setVisible(isVisible);
 	}
 }

@@ -1,12 +1,20 @@
 package com.dev.dina.proj.client.main;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.dev.dina.proj.client.cards.CardsScreenPresenter;
+import com.dev.dina.proj.client.events.AppUtils;
+import com.dev.dina.proj.client.events.TestCompleteEvent;
+import com.dev.dina.proj.client.events.TestCompleteEventHandler;
 import com.dev.dina.proj.client.resources.ProjectResources;
 import com.dev.dina.proj.client.resources.ProjectResources.ProjectCssResources;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -48,29 +56,50 @@ public class MainScreen implements EntryPoint {
 		final Button cardsExaButton = createButton("Cards");
 		final Button cardsPresureExaButton = createButton("CardsP");
 
-		controlPanel = RootPanel.get("controlPanelContainer");		
-//		controlPanel.setStyleName("btn-group");
-//		controlPanel.addStyleName("btn-group-justified");
+		controlPanel = RootPanel.get("controlPanelContainer");
+		// controlPanel.setStyleName("btn-group");
+		// controlPanel.addStyleName("btn-group-justified");
 		controlPanel.add(buttonsHeader);
 		controlPanel.add(mathExamButton);
 		controlPanel.add(mathPresureExamButton);
 		controlPanel.add(cardsExaButton);
 		controlPanel.add(cardsPresureExaButton);
-		
-		
 
 		mainContainer = RootPanel.get("mainScreenContainer");
-		
 
 		cardsExaButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				CardsScreenPresenter cardsScreenPresenter = new CardsScreenPresenter();
-				mainContainer.add(cardsScreenPresenter.gwtWidget());
-				controlPanel.setVisible(false);
+				cardsExam(false);
 			}
 		});
-
+		
+		cardsPresureExaButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				cardsExam(true);
+			}
+		});
+		
+		setHandlers();
+		
+		
+		UIBinderDemo uiBinder = new UIBinderDemo();
+        List<String> sentences = Arrays.asList("This table was built with UIBinder", "It uses a SimplePanel to place the export widget", "You can also provide it");
+        fillaTableWithSentences(uiBinder.getExportFlexTable(), sentences);
+		
+		mainContainer.add(uiBinder);
+		
+		
+		
+//		Grid grid = new Grid(4, 4);
+//		TableElement table = new TableElement();
+//		CellTable<String> table = new CellTable<String>();
+//		TableToExcelClientBuilder tableToExcelClient = TableToExcelClientBuilder.fromTable(table); 
+//		TableToExcelClient tableToExcelClient = new TableToExcelClient(table);
+//		FlowPanel myPanel = new FlowPanel(); 
+//		myPanel.add(tableToExcelClient.getExportWidget());
+		
 		// // Focus the cursor on the name field when the app loads
 		// nameField.setFocus(true);
 		// nameField.selectAll();
@@ -165,6 +194,37 @@ public class MainScreen implements EntryPoint {
 		// nameField.addKeyUpHandler(handler);
 		// }
 	}
+	
+	private void fillaTableWithSentences(FlexTable flexTable, List<String> sentences) {
+        for (int i = 0; i < sentences.size(); i++) {
+                String sentence = sentences.get(i);
+                String[] words = sentence.split(" ");
+                for (int j = 0; j < words.length; j++) {
+                        String word = words[j];
+                        flexTable.setWidget(i, j, new Label(word));
+                }
+        }
+}
+	
+	private void cardsExam(Boolean isPresure) {
+		CardsScreenPresenter cardsScreenPresenter = new CardsScreenPresenter(isPresure);
+		mainContainer.add(cardsScreenPresenter.gwtWidget());
+		controlPanel.setVisible(false);
+	}
+
+	private void setHandlers() {
+		EventBus eventBus = AppUtils.EVENT_BUS;
+		eventBus.addHandler(TestCompleteEvent.TYPE,
+				new TestCompleteEventHandler() {
+					@Override
+					public void onTestComplete(
+							TestCompleteEvent authenticationEvent) {
+						mainContainer.clear();
+						controlPanel.setVisible(true);
+
+					}
+				});
+	}
 
 	private Button createButton(String text) {
 		final Button mathPresureExamButton = new Button(text);
@@ -172,8 +232,8 @@ public class MainScreen implements EntryPoint {
 		mathPresureExamButton.addStyleName("btn");
 		mathPresureExamButton.addStyleName("btn-large");
 		mathPresureExamButton.addStyleName("btn-success");
-//		mathPresureExamButton.addStyleName("col-xs-6");
-//		mathPresureExamButton.addStyleName("col-sm-3");
+		// mathPresureExamButton.addStyleName("col-xs-6");
+		// mathPresureExamButton.addStyleName("col-sm-3");
 		mathPresureExamButton.addStyleName("placeholder");
 		return mathPresureExamButton;
 	}
