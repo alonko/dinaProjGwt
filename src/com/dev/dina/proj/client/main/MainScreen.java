@@ -17,6 +17,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -28,6 +29,7 @@ public class MainScreen implements EntryPoint {
 	private RootPanel mainContainer, controlPanel;
 	private ProjectCssResources style;
 	private HandlerRegistration approveHandlerRegistration;
+	private FlowPanel examineeContainer;
 
 	// /**
 	// * The message displayed to the user when the server cannot be reached or
@@ -73,9 +75,12 @@ public class MainScreen implements EntryPoint {
 		controlPanel.add(cardsExaButton);
 		controlPanel.add(cardsPresureExaButton);
 
-		controlPanel.add(examineeLbl);
-		controlPanel.add(examineeNumber);
-		controlPanel.add(approveButton);
+		examineeContainer = new FlowPanel();
+		examineeContainer.add(examineeLbl);
+		examineeContainer.add(examineeNumber);
+		examineeContainer.add(approveButton);
+		examineeContainer.setVisible(false);
+		controlPanel.add(examineeContainer);
 
 		mainContainer = RootPanel.get("mainScreenContainer");
 
@@ -85,6 +90,7 @@ public class MainScreen implements EntryPoint {
 				if (approveHandlerRegistration != null) {
 					approveHandlerRegistration.removeHandler();
 				}
+				examineeContainer.setVisible(true);
 				approveHandlerRegistration = approveButton
 						.addClickHandler(new ClickHandler() {
 							@Override
@@ -92,6 +98,7 @@ public class MainScreen implements EntryPoint {
 								if (examineeNumber.getText() != "") {
 									cardsExam(false);
 									examineeNumber.setText("");
+									examineeContainer.setVisible(false);
 								} else {
 									final MessageBox messageBox = new MessageBox(
 											"enter examinee number");
@@ -116,6 +123,7 @@ public class MainScreen implements EntryPoint {
 				if (approveHandlerRegistration != null) {
 					approveHandlerRegistration.removeHandler();
 				}
+				examineeContainer.setVisible(true);
 				approveHandlerRegistration = approveButton
 						.addClickHandler(new ClickHandler() {
 							@Override
@@ -123,6 +131,7 @@ public class MainScreen implements EntryPoint {
 								if (examineeNumber.getText() != "") {
 									cardsExam(true);
 									examineeNumber.setText("");
+									examineeContainer.setVisible(false);
 								} else {
 									final MessageBox messageBox = new MessageBox(
 											"enter examinee number");

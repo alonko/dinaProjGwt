@@ -57,7 +57,7 @@ public class CardsScreenPresenter extends AbstractPresenter{
 		updatePoints(0, 0);
 		view.setTimerVisible(isPresure);
 		timeLeft = TEST_TIME;
-		view.setTimer(timeLeft);
+		view.setTimer(timeLeft);		
 		playTurn();
 	}
 
@@ -91,15 +91,13 @@ public class CardsScreenPresenter extends AbstractPresenter{
 
 	private void playTurn() {
 		step++;
-		if (step <= MAX_STEPS) {
-			if (isPresure) {
+		if (step <= MAX_STEPS) {			
 				if (timer != null) {
 					timer.cancel();
 				}
 				timeLeft = TEST_TIME;
 				view.setTimer(timeLeft);
 				updateTimer();
-			}
 		} else {
 			finishTest();
 		}
