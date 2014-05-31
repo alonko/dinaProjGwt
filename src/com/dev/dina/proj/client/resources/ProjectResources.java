@@ -12,12 +12,19 @@ public interface ProjectResources extends ClientBundle {
 	@Source("com/dev/dina/proj/client/resources/images/card.jpg")
 	ImageResource cardImage();
 
+	@Source("com/dev/dina/proj/client/resources/images/logo_excel.gif")
+	ImageResource excelImage();
+
 	@Source("com/dev/dina/proj/client/resources/css/projectStyle.css")
 	public ProjectCssResources css();
 
 	public interface ProjectCssResources extends CssResource {
 		// Main
 		String mainButton();
+		
+		String okButton();
+		
+		String mainButtonContainer();
 
 		String controlPanel();
 
@@ -29,10 +36,20 @@ public interface ProjectResources extends ClientBundle {
 
 		String timer();
 
+		String examineeContainer();
+
+		String examineeLbl();
+		
+		String examineeText();
+
 		// Cards
 		String cardsMainPanel();
 
-		String cardsResultPanel();
+		String resultPanel();
+		
+		String resultLbl();
+		
+		String resultValue();
 
 		String cardContainer();
 
@@ -40,5 +57,20 @@ public interface ProjectResources extends ClientBundle {
 
 		// instructions
 		String instructionsPanel();
+
+		// Math
+		String mathContainer();
+
+		String mathValue();
+
+		String addLbl();
+
+		String equals();
+		
+		String questionPanel();
+
+		String answerPanel();
+
+		String answer();
 	}
 }

@@ -3,48 +3,58 @@ package com.dev.dina.proj.client.cards;
 import com.dev.dina.proj.client.MessageBox;
 import com.dev.dina.proj.client.events.AppUtils;
 import com.dev.dina.proj.client.events.TestCompleteEvent;
-import com.dev.dina.proj.client.main.AbstractPresenter;
+import com.dev.dina.proj.client.main.AbstractTestPresenter;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CardsScreenPresenter extends AbstractPresenter{
+public class CardsScreenPresenter extends AbstractTestPresenter {
 	private CardsScreenView view;
 	private static final int MAX_STEPS = 4;
 	private static int TEST_TIME = 10;
 	private static int PENALTY_POINTS = 10;
 	
-
+	private int[] firstDeckPositivePoints = {100, 200, 300, 400};
+	private int[] firstDeckNegativePoints = {50, 300, 100, 0};
+	private int[] secondDeckPositivePoints = {100, 200, 300, 400};
+	private int[] secondDeckNegativePoints = {50, 300, 100, 0};
+	private int[] thirdDeckPositivePoints = {100, 200, 300, 400};
+	private int[] thirdDeckNegativePoints = {50, 300, 100, 0};
+	private int[] forthDeckPositivePoints = {100, 200, 300, 400};
+	private int[] forthDeckNegativePoints = {50, 300, 100, 0};
+	
 	public CardsScreenPresenter(Boolean isPresure) {
-		this.isPresure = isPresure;
+		super(isPresure);
 		view = new CardsScreenView();
+		addExportWidget();
 
 		view.getCard1().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(100, -200);
+				cardClicked(firstDeckPositivePoints[step], firstDeckNegativePoints[step]);
 			}
 		});
 
 		view.getCard2().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(200, 0);
+				cardClicked(secondDeckPositivePoints[step], secondDeckNegativePoints[step]);
 			}
 		});
 
 		view.getCard3().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(100,-300);
+				cardClicked(thirdDeckPositivePoints[step], thirdDeckNegativePoints[step]);
 			}
 		});
 
 		view.getCard4().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(200,-400);
+				cardClicked(forthDeckPositivePoints[step], forthDeckNegativePoints[step]);
 			}
 		});
 		beginTest();
@@ -52,13 +62,11 @@ public class CardsScreenPresenter extends AbstractPresenter{
 
 	@Override
 	protected void beginTest() {
-		totalPoints = 0;
-		step = 0;
-		updatePoints(0, 0);
+		super.beginTest();
 		view.setTimerVisible(isPresure);
 		timeLeft = TEST_TIME;
-		view.setTimer(timeLeft);		
-		playTurn();
+		view.setTimer(timeLeft);
+//		playTurn();
 	}
 
 	@Override
@@ -67,22 +75,25 @@ public class CardsScreenPresenter extends AbstractPresenter{
 		timer.cancel();
 		final MessageBox messageBox = new MessageBox("test complete");
 		messageBox.setResult(totalPoints);
-		messageBox.show();
+		messageBox.center();
 		messageBox.setCloseButtonHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				messageBox.hide();
 				AppUtils.EVENT_BUS.fireEvent(new TestCompleteEvent());
+				exportWidget.performExport();
+
 			}
 		});
 	}
 
-	private void cardClicked(int addedPoints, int reducedPoints) {		
+	private void cardClicked(int addedPoints, int reducedPoints) {
 		updatePoints(addedPoints, reducedPoints);
 		playTurn();
 	}
 
-	private void updatePoints(int addedPoints, int reducedPoints) {
+	@Override
+	protected void updatePoints(int addedPoints, int reducedPoints) {
 		view.setValueToAddedPoints(addedPoints);
 		view.setValueToReducedPoints(reducedPoints);
 		totalPoints += addedPoints + reducedPoints;
@@ -91,13 +102,13 @@ public class CardsScreenPresenter extends AbstractPresenter{
 
 	private void playTurn() {
 		step++;
-		if (step <= MAX_STEPS) {			
-				if (timer != null) {
-					timer.cancel();
-				}
-				timeLeft = TEST_TIME;
-				view.setTimer(timeLeft);
-				updateTimer();
+		if (step < MAX_STEPS) {
+			if (timer != null) {
+				timer.cancel();
+			}
+			timeLeft = TEST_TIME;
+			view.setTimer(timeLeft);
+			updateTimer();
 		} else {
 			finishTest();
 		}
@@ -122,7 +133,12 @@ public class CardsScreenPresenter extends AbstractPresenter{
 		timer.scheduleRepeating(1000);
 	}
 
-	public Widget gwtWidget() {
+	@Override
+	protected FlowPanel getMmainContainer() {
+		return view.getMainContainer();
+	}
+
+	public Widget getWidget() {
 		return view.asWidget();
 	}
 }

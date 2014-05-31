@@ -1,27 +1,58 @@
-.mainButton, .controlPanel, .mainContainer, .cardsMainPanel {
+.mainButton,.controlPanel,.mainContainer,.cardsMainPanel {
 	display: block;
 	float: left;
+}
+
+.mainContainer {
+	width: 100%;
+	height: 100%;
 }
 
 .mainButton {
 	width: 200px;
 	height: 60px;
-	padding: 30px;
-	margin: 30px;
+	margin: 60px;
+	font-size: 35px;
+}
+
+.okButton {
+	margin-left: 68%;
+}
+
+.mainButtonContainer {
+	position: relative;
 }
 
 .controlPanel {
 	width: 100%;
-	height: 20%;
-}
-
-.mainContainer {
-	width: 100%;
-	height: 80%;
+	height: 40%;
+	display: block;
+	float: left;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 30px;
 }
 
 .buttonsHeader {
-	
+	text-align: center;
+}
+
+.examineeContainer {
+	width: 100%;
+	height: 100px;
+	display: block;
+	float: left;
+	padding-right: 40%;
+}
+
+.examineeLbl {
+	padding-right: 80px;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 30px;
+}
+
+.examineeText {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 30px;
 }
 
 .cardsMainPanel {
@@ -29,30 +60,133 @@
 	height: 100%;
 }
 
-.cardsResultPanel {
+.resultPanel {
+	direction: rtl;
+	display: block;
+	float: left;
+	width: 100%;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 30px;
 }
 
+.resultLbl {
+	display: inline-block;
+	margin-left: 30%;
+}
+
+.resultValue {
+	display: inline-block;
+	padding-left: 30px;
+}
 .card {
-	margin: 5px;
+	margin: 48px;
+	width: 150px;
+	height: 230px;
 }
 
-.cardContainer{
-	padding-left: 10%;
+.cardContainer {
+	
 }
 
 .instructionsPanel {
+	
 }
 
 .timerContainer {
+	
 }
 
 .timer {
+	
 }
 
-@external gwt-table-to-excel-form, gwt-table-to-excel-panel, gwt-table-to-excel-exportWidget;
-.gwt-table-to-excel-form {
+.mathContainer {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 40px;
+	width: 300px;
+	height: 300px;
+	padding-right: 50%;
 }
-.gwt-table-to-excel-panel {
+
+.mathValue {
+	height: 60px;
+	width: 100px;
+	padding-left: 10px;
+	display: block;
+	float: left;
 }
+
+.addLbl {
+	width: 30px;
+	height: 30px;
+	display: block;
+	float: left;
+	padding-left: 140px;
+}
+
+.equals {
+	display: block;
+	float: left;
+}
+
+.questionPanel {
+	display: block;
+	float: left;
+	width: 100px;
+	height: 300px;
+}
+
+.answerPanel {
+	display: block;
+	float: left;
+	width: 200px;
+	height: 70px;
+}
+
+.answer {
+	width: 50px;
+	height: 50px;
+	float: right;
+	text-align: center;
+	line-height: 50px;
+}
+
+@external gwt-table-to-excel-form, gwt-table-to-excel-panel, gwt-table-to-excel-exportWidget, invisible, exportMainContainer;
+.invisible {
+	position: absolute;
+	width: 0;
+	height: 0;
+	border: 0;
+}
+
+.gwt-table-to-excel-form,.gwt-table-to-excel-panel {
+	margin: 0;
+	padding: 0;
+}
+
+@url excel excelImage;
 .gwt-table-to-excel-exportWidget {
+	border: 1px solid #333333;
+	cursor: pointer;
+	/* background: #016300 url(../image/logo_excel.gif) top left no-repeat; */
+	background: #016300 excel top left no-repeat;
+	height: 20px;
+	padding: 0 4px 0 20px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	min-width: 40px;
+	max-width: 100px;
+	color: white;
+}
+
+button.gwt-table-to-excel-exportWidget {
+	color: #666666;
+}
+
+.exportMainContainer {
+	display: block;
+	float: left;
+	width: 100%;
+	height: 300px;
 }

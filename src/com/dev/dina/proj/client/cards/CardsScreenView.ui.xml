@@ -3,9 +3,11 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:with type="com.dev.dina.proj.client.resources.ProjectResources"
 		field="res" />
+	<ui:with type="com.dev.dina.proj.client.constants.MyConstants"
+		field="constants" />
 
 	<g:FlowPanel>
-		<g:FlowPanel styleName="{res.css.cardsMainPanel}">
+		<g:FlowPanel ui:field="mainContainer" styleName="{res.css.cardsMainPanel}">
 			<g:FlowPanel addStyleNames="col-xs-6 col-sm-3 placeholder {res.css.cardContainer}">
 				<g:Image ui:field="card1" styleName="{res.css.card}" />
 			</g:FlowPanel>
@@ -22,16 +24,16 @@
 				<g:Image ui:field="card4" styleName="{res.css.card}" />
 			</g:FlowPanel>
 		</g:FlowPanel>
-		<g:FlowPanel styleName="{res.css.cardsResultPanel}">
-			<g:Label text="Points added for card:" />
-			<g:Label ui:field="pointsAddedLbl" />
-			<g:Label text="Points reduced for card:" />
-			<g:Label ui:field="pointsReducedLbl" />
-			<g:Label text="Your score:" />
-			<g:Label ui:field="resultLbl" />
+		<g:FlowPanel styleName="{res.css.resultPanel}">
+			<g:Label styleName="{res.css.resultLbl}" text="{constants.pointsAddedLbl}" />
+			<g:Label styleName="{res.css.resultValue}" ui:field="pointsAddedValue" />
+			<g:Label styleName="{res.css.resultLbl}" text="{constants.pointsReducedLbl}" />
+			<g:Label styleName="{res.css.resultValue}" ui:field="pointsReducedValue" />
+			<g:Label styleName="{res.css.resultLbl}" text="{constants.resultLbl}" />
+			<g:Label styleName="{res.css.resultValue}" ui:field="resultValue" />
 		</g:FlowPanel>
 		<g:FlowPanel styleName="{res.css.timerContainer}">
-			<g:Label ui:field="timerLbl" text="Time left:" />
+			<g:Label ui:field="timerLbl" text="{constants.timerLbl}" />
 			<g:Label ui:field="timerValue" styleName="{res.css.timer}" />
 		</g:FlowPanel>
 	</g:FlowPanel>

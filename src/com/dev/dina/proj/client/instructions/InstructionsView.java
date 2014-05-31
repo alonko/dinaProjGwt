@@ -1,6 +1,5 @@
 package com.dev.dina.proj.client.instructions;
 
-import com.dev.dina.proj.client.resources.ProjectResources;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -14,12 +13,11 @@ public class InstructionsView {
 
 	interface InstructionsUiBinder extends UiBinder<Widget, InstructionsView> {
 	}
-	
+
 	@UiField
 	Button approveBtn;
 
 	public InstructionsView() {
-		ProjectResources resources = ProjectResources.INSTANCE;
 		root = uiBinder.createAndBindUi(this);
 	}
 

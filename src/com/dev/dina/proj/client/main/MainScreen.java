@@ -1,22 +1,22 @@
 package com.dev.dina.proj.client.main;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.dev.dina.proj.client.MessageBox;
 import com.dev.dina.proj.client.cards.CardsScreenPresenter;
+import com.dev.dina.proj.client.constants.MyConstants;
 import com.dev.dina.proj.client.events.AppUtils;
 import com.dev.dina.proj.client.events.TestCompleteEvent;
 import com.dev.dina.proj.client.events.TestCompleteEventHandler;
+import com.dev.dina.proj.client.math.MathScreenPresenter;
 import com.dev.dina.proj.client.resources.ProjectResources;
 import com.dev.dina.proj.client.resources.ProjectResources.ProjectCssResources;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -55,34 +55,60 @@ public class MainScreen implements EntryPoint {
 
 		Label buttonsHeader = new Label();
 		buttonsHeader.setStyleName(style.buttonsHeader());
-		buttonsHeader.setText("Select task");
+		buttonsHeader.setText(MyConstants.INSTANCE.selectTask());
 
 		final Button mathExamButton = createButton("Math");
 		final Button mathPresureExamButton = createButton("MathP");
 		final Button cardsExaButton = createButton("Cards");
 		final Button cardsPresureExaButton = createButton("CardsP");
 
-		Label examineeLbl = new Label();
+		Label examineeLbl = new Label(MyConstants.INSTANCE.examineeLbl());
+		examineeLbl.setStyleName(style.examineeLbl());
 		final TextBox examineeNumber = new TextBox();
-		final Button approveButton = new Button("OK");
+		examineeNumber.setStyleName(style.examineeText());
+		examineeNumber.addKeyPressHandler(new KeyPressHandler() {
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				if (!Character.isDigit(event.getCharCode())) {
+					examineeNumber.cancelKey();
+				}
+			}
+		});
+		final Button approveButton = createButton(MyConstants.INSTANCE.approveBtn());
+		approveButton.addStyleName(style.okButton());
 
 		controlPanel = RootPanel.get("controlPanelContainer");
-		// controlPanel.setStyleName("btn-group");
-		// controlPanel.addStyleName("btn-group-justified");
-		controlPanel.add(buttonsHeader);
-		controlPanel.add(mathExamButton);
-		controlPanel.add(mathPresureExamButton);
-		controlPanel.add(cardsExaButton);
-		controlPanel.add(cardsPresureExaButton);
+		controlPanel.setStyleName(style.controlPanel());
+		FlowPanel buttonContainer = new FlowPanel();
+		buttonContainer.setStyleName(style.mainButtonContainer());
+		buttonContainer.add(mathExamButton);
+		controlPanel.add(buttonContainer);
+		
+		buttonContainer = new FlowPanel();
+		buttonContainer.setStyleName(style.mainButtonContainer());
+		buttonContainer.add(mathPresureExamButton);
+		controlPanel.add(buttonContainer);
+		
+		buttonContainer = new FlowPanel();
+		buttonContainer.setStyleName(style.mainButtonContainer());
+		buttonContainer.add(cardsExaButton);
+		controlPanel.add(buttonContainer);
+		
+		buttonContainer = new FlowPanel();
+		buttonContainer.setStyleName(style.mainButtonContainer());
+		buttonContainer.add(cardsPresureExaButton);
+		controlPanel.add(buttonContainer);
 
+		mainContainer = RootPanel.get("mainScreenContainer");
+		mainContainer.setStyleName(style.mainContainer());
+		
 		examineeContainer = new FlowPanel();
 		examineeContainer.add(examineeLbl);
 		examineeContainer.add(examineeNumber);
 		examineeContainer.add(approveButton);
+		examineeContainer.setStyleName(style.examineeContainer());
 		examineeContainer.setVisible(false);
 		controlPanel.add(examineeContainer);
-
-		mainContainer = RootPanel.get("mainScreenContainer");
 
 		cardsExaButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -150,16 +176,73 @@ public class MainScreen implements EntryPoint {
 			}
 		});
 
+		mathExamButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (approveHandlerRegistration != null) {
+					approveHandlerRegistration.removeHandler();
+				}
+				examineeContainer.setVisible(true);
+				approveHandlerRegistration = approveButton
+						.addClickHandler(new ClickHandler() {
+							@Override
+							public void onClick(ClickEvent event) {
+								if (examineeNumber.getText() != "") {
+									mathExam(false);
+									examineeNumber.setText("");
+									examineeContainer.setVisible(false);
+								} else {
+									final MessageBox messageBox = new MessageBox(
+											"enter examinee number");
+									messageBox.show();
+									messageBox
+											.setCloseButtonHandler(new ClickHandler() {
+												@Override
+												public void onClick(
+														ClickEvent event) {
+													messageBox.hide();
+												}
+											});
+								}
+							}
+						});
+			}
+		});
+
+		mathPresureExamButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (approveHandlerRegistration != null) {
+					approveHandlerRegistration.removeHandler();
+				}
+				examineeContainer.setVisible(true);
+				approveHandlerRegistration = approveButton
+						.addClickHandler(new ClickHandler() {
+							@Override
+							public void onClick(ClickEvent event) {
+								if (examineeNumber.getText() != "") {
+									mathExam(true);
+									examineeNumber.setText("");
+									examineeContainer.setVisible(false);
+								} else {
+									final MessageBox messageBox = new MessageBox(
+											"enter examinee number");
+									messageBox.show();
+									messageBox
+											.setCloseButtonHandler(new ClickHandler() {
+												@Override
+												public void onClick(
+														ClickEvent event) {
+													messageBox.hide();
+												}
+											});
+								}
+							}
+						});
+			}
+		});
+
 		setHandlers();
-
-		UIBinderDemo uiBinder = new UIBinderDemo();
-		List<String> sentences = Arrays.asList(
-				"This table was built with UIBinder",
-				"It uses a SimplePanel to place the export widget",
-				"You can also provide it");
-		fillaTableWithSentences(uiBinder.getExportFlexTable(), sentences);
-
-		mainContainer.add(uiBinder);
 
 		// Grid grid = new Grid(4, 4);
 		// TableElement table = new TableElement();
@@ -266,22 +349,17 @@ public class MainScreen implements EntryPoint {
 		// }
 	}
 
-	private void fillaTableWithSentences(FlexTable flexTable,
-			List<String> sentences) {
-		for (int i = 0; i < sentences.size(); i++) {
-			String sentence = sentences.get(i);
-			String[] words = sentence.split(" ");
-			for (int j = 0; j < words.length; j++) {
-				String word = words[j];
-				flexTable.setWidget(i, j, new Label(word));
-			}
-		}
-	}
-
 	private void cardsExam(Boolean isPresure) {
 		CardsScreenPresenter cardsScreenPresenter = new CardsScreenPresenter(
 				isPresure);
-		mainContainer.add(cardsScreenPresenter.gwtWidget());
+		mainContainer.add(cardsScreenPresenter.getWidget());
+		controlPanel.setVisible(false);
+	}
+
+	private void mathExam(Boolean isPresure) {
+		MathScreenPresenter mathScreenPresenter = new MathScreenPresenter(
+				isPresure);
+		mainContainer.add(mathScreenPresenter.getWidget());
 		controlPanel.setVisible(false);
 	}
 
@@ -305,8 +383,6 @@ public class MainScreen implements EntryPoint {
 		mathPresureExamButton.addStyleName("btn");
 		mathPresureExamButton.addStyleName("btn-large");
 		mathPresureExamButton.addStyleName("btn-success");
-		// mathPresureExamButton.addStyleName("col-xs-6");
-		// mathPresureExamButton.addStyleName("col-sm-3");
 		mathPresureExamButton.addStyleName("placeholder");
 		return mathPresureExamButton;
 	}

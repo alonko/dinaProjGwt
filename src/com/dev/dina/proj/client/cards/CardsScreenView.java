@@ -4,37 +4,35 @@ import com.dev.dina.proj.client.resources.ProjectResources;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CardsScreenView {
 	private Widget root;
+	@UiField
+	FlowPanel mainContainer;
+
+	@UiField(provided = true)
+	Image card1, card2, card3, card4;
+
+	@UiField
+	Label resultValue, pointsAddedValue, pointsReducedValue, timerValue,
+			timerLbl;
+
 	private static CardsScreenUiBinder uiBinder = GWT
 			.create(CardsScreenUiBinder.class);
 
 	interface CardsScreenUiBinder extends UiBinder<Widget, CardsScreenView> {
 	}
 
-	@UiField(provided = true)
-	Image card1, card2, card3, card4;
-
-	@UiField
-	Label resultLbl, pointsAddedLbl, pointsReducedLbl, timerValue, timerLbl;
-
 	public CardsScreenView() {
 		ProjectResources resources = ProjectResources.INSTANCE;
 		card1 = new Image(resources.cardImage());
-		card1.setSize("200px", "400px");
-
 		card2 = new Image(resources.cardImage());
-		card2.setSize("200px", "400px");
-
 		card3 = new Image(resources.cardImage());
-		card3.setSize("200px", "400px");
-
 		card4 = new Image(resources.cardImage());
-		card4.setSize("200px", "400px");
 		root = uiBinder.createAndBindUi(this);
 	}
 
@@ -59,16 +57,16 @@ public class CardsScreenView {
 	}
 
 	public void setValueToResult(int result) {
-		resultLbl.setText(String.valueOf(result));
+		resultValue.setText(String.valueOf(result));
 	}
 
 	public void setValueToAddedPoints(int points) {
-		pointsAddedLbl.setText(String.valueOf(points));
+		pointsAddedValue.setText(String.valueOf(points));
 	}
-	
+
 	public void setValueToReducedPoints(int points) {
-		pointsReducedLbl.setText(String.valueOf(points));
-	}	
+		pointsReducedValue.setText(String.valueOf(points));
+	}
 
 	public void setTimer(int timeLeft) {
 		timerValue.setText(String.valueOf(timeLeft));
@@ -77,5 +75,9 @@ public class CardsScreenView {
 	public void setTimerVisible(Boolean isVisible) {
 		timerValue.setVisible(isVisible);
 		timerLbl.setVisible(isVisible);
+	}
+
+	public FlowPanel getMainContainer() {
+		return mainContainer;
 	}
 }
