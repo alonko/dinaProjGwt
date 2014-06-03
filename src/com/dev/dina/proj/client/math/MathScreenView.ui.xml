@@ -1,13 +1,13 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:math="urn:import:com.dev.dina.proj.client.math.widget">
 	<ui:with type="com.dev.dina.proj.client.resources.ProjectResources"
 		field="res" />
 
 	<g:FlowPanel>
 		<g:FlowPanel styleName="{res.css.mathContainer}">
 			<g:FlowPanel ui:field="mainContainer" styleName="{res.css.questionPanel}">
-				
+
 				<g:Label ui:field="firstNumberLbl" styleName="{res.css.mathValue}" />
 
 				<g:Label text="+" styleName="{res.css.addLbl}" />
@@ -19,11 +19,21 @@
 					text="------" />
 			</g:FlowPanel>
 
+			<g:FlowPanel styleName="{res.css.answerPanel}" visible="false">
+				<g:TextBox ui:field="forthAnswer" styleName="{res.css.answer}"
+					visible="false" />
+				<g:TextBox ui:field="thirdAnswer" styleName="{res.css.answer}"
+					visible="false" />
+				<g:TextBox ui:field="secondAnswer" styleName="{res.css.answer}"
+					visible="false" />
+				<g:TextBox ui:field="firstAnswer" styleName="{res.css.answer}"
+					visible="false" />
+			</g:FlowPanel>
+
+			<math:MathWidget />
+
 			<g:FlowPanel styleName="{res.css.answerPanel}">
-				<g:TextBox ui:field="forthAnswer" styleName="{res.css.answer}" />
-				<g:TextBox ui:field="thirdAnswer" styleName="{res.css.answer}" />
-				<g:TextBox ui:field="secondAnswer" styleName="{res.css.answer}" />
-				<g:TextBox ui:field="firstAnswer" styleName="{res.css.answer}" />
+				<g:Button ui:field="approveBtn" />
 			</g:FlowPanel>
 		</g:FlowPanel>
 

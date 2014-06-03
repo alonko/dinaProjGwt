@@ -2,6 +2,7 @@ package com.dev.dina.proj.client.constants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.safehtml.shared.SafeHtml;
 
 public interface MyConstants extends Constants {
 	static final MyConstants INSTANCE = GWT.create(MyConstants.class);
@@ -21,4 +22,6 @@ public interface MyConstants extends Constants {
 	String pointsReducedLbl();
 
 	String approveBtn();
+
+	String closeBtn();
 }

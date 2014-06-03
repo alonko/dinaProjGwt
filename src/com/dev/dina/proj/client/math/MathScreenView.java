@@ -1,10 +1,14 @@
 package com.dev.dina.proj.client.math;
 
+import com.dev.dina.proj.client.constants.MyConstants;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
@@ -12,23 +16,25 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MathScreenView {
 	private Widget root;
-	private static CardsScreenUiBinder uiBinder = GWT
-			.create(CardsScreenUiBinder.class);
-
-	interface CardsScreenUiBinder extends UiBinder<Widget, MathScreenView> {
-	}
 
 	@UiField
 	FlowPanel mainContainer;
 
 	@UiField
-	Label firstNumberLbl, secondNumberLbl, thirdNumberLbl;
-
-	@UiField
-	Label timerValue, timerLbl;
+	Label firstNumberLbl, secondNumberLbl, thirdNumberLbl, timerValue,
+			timerLbl;
 
 	@UiField
 	TextBox firstAnswer, secondAnswer, thirdAnswer, forthAnswer;
+
+	@UiField
+	Button approveBtn;
+	
+	private static CardsScreenUiBinder uiBinder = GWT
+			.create(CardsScreenUiBinder.class);
+
+	interface CardsScreenUiBinder extends UiBinder<Widget, MathScreenView> {
+	}
 
 	public MathScreenView() {
 
@@ -42,6 +48,36 @@ public class MathScreenView {
 		secondAnswer.setTabIndex(2);
 		thirdAnswer.setTabIndex(3);
 		forthAnswer.setTabIndex(4);
+		
+		firstAnswer.addFocusHandler(new FocusHandler() {
+			@Override
+			public void onFocus(FocusEvent event) {
+				firstAnswer.selectAll();
+			}
+		});
+		
+		secondAnswer.addFocusHandler(new FocusHandler() {
+			@Override
+			public void onFocus(FocusEvent event) {
+				secondAnswer.selectAll(); 
+			}
+		});
+		
+		thirdAnswer.addFocusHandler(new FocusHandler() {
+			@Override
+			public void onFocus(FocusEvent event) {
+				thirdAnswer.selectAll();
+			}
+		});
+		
+		forthAnswer.addFocusHandler(new FocusHandler() {
+			@Override
+			public void onFocus(FocusEvent event) {
+				forthAnswer.selectAll();
+			}
+		});
+		
+		approveBtn.setText(MyConstants.INSTANCE.approveBtn());
 
 		firstAnswer.addKeyPressHandler(new KeyPressHandler() {
 			@Override
@@ -56,7 +92,7 @@ public class MathScreenView {
 				thirdAnswer.setFocus(true);
 			}
 		});
-		
+
 		thirdAnswer.addKeyPressHandler(new KeyPressHandler() {
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
@@ -118,5 +154,13 @@ public class MathScreenView {
 
 	public FlowPanel getMainContainer() {
 		return mainContainer;
+	}
+
+	public void setFocusOnFirst() {
+		firstAnswer.setFocus(true);
+	}
+	
+	public Button getApproveBtn(){
+		return approveBtn;
 	}
 }

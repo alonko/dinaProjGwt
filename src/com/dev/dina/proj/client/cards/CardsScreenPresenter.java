@@ -74,7 +74,8 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		view.setTimerVisible(false);
 		timer.cancel();
 		final MessageBox messageBox = new MessageBox("test complete");
-		messageBox.setResult(totalPoints);
+		messageBox.setDescriptionText("test desc");
+		messageBox.setText(String.valueOf(totalPoints));
 		messageBox.center();
 		messageBox.setCloseButtonHandler(new ClickHandler() {
 			@Override

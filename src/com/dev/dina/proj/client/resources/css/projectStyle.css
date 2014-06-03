@@ -11,16 +11,19 @@
 .mainButton {
 	width: 200px;
 	height: 60px;
-	margin: 60px;
+	margin: 25%;
 	font-size: 35px;
 }
 
 .okButton {
-	margin-left: 68%;
+	margin-top: 5%;
+	margin-left: 78%;
 }
 
-.mainButtonContainer {
-	position: relative;
+.mainButtonContainer {	
+	width: 25%;
+	height: 100%;
+	display: inline-block;
 }
 
 .controlPanel {
@@ -71,7 +74,7 @@
 
 .resultLbl {
 	display: inline-block;
-	margin-left: 30%;
+	margin-left: 40%;
 }
 
 .resultValue {
@@ -146,7 +149,7 @@
 .answer {
 	width: 50px;
 	height: 50px;
-	float: right;
+	float: left;
 	text-align: center;
 	line-height: 50px;
 }

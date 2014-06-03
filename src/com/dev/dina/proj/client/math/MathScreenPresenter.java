@@ -1,6 +1,12 @@
 package com.dev.dina.proj.client.math;
 
+import com.dev.dina.proj.client.MessageBox;
+import com.dev.dina.proj.client.events.AppUtils;
+import com.dev.dina.proj.client.events.TestCompleteEvent;
 import com.dev.dina.proj.client.main.AbstractTestPresenter;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -18,6 +24,14 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 	public MathScreenPresenter(Boolean isPresure) {
 		super(isPresure);
 		view = new MathScreenView();
+		addExportWidget();
+
+		view.getApproveBtn().addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				playTurn();
+			}
+		});
 		beginTest();
 	}
 
@@ -29,9 +43,9 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 		view.setTimer(timeLeft);
 		playTurn();
 	}
-	
+
 	private void playTurn() {
-		step++;
+		view.setFocusOnFirst();
 		if (step <= MAX_STEPS) {
 			if (timer != null) {
 				timer.cancel();
@@ -39,9 +53,10 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 			timeLeft = TEST_TIME;
 			view.setTimer(timeLeft);
 			updateTimer();
-			view.setFirstValue(firstNumbersArray[step-1]);
-			view.setSecondValue(secondNumbersArray[step-1]);
-			view.setThirdValue(thirdNumbersArray[step-1]);
+			view.setFirstValue(firstNumbersArray[step]);
+			view.setSecondValue(secondNumbersArray[step]);
+			view.setThirdValue(thirdNumbersArray[step]);
+			step++;
 		} else {
 			finishTest();
 		}
@@ -49,14 +64,36 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 
 	@Override
 	protected void finishTest() {
-		// TODO Auto-generated method stub
-
+		view.setTimerVisible(false);
+		timer.cancel();
+		final MessageBox messageBox = new MessageBox("test complete");
+		messageBox.center();
+		messageBox.setCloseButtonHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				messageBox.hide();
+				AppUtils.EVENT_BUS.fireEvent(new TestCompleteEvent());
+				exportWidget.performExport();
+			}
+		});
 	}
 
 	@Override
 	protected void updateTimer() {
-		// TODO Auto-generated method stub
-
+		timer = new Timer() {
+			@Override
+			public void run() {
+				timeLeft--;
+				if (timeLeft < 0) {
+					
+					playTurn();
+					this.cancel(); // cancel the timer -- important!
+				} else {
+					view.setTimer(timeLeft);
+				}
+			}
+		};
+		timer.scheduleRepeating(1000);
 	}
 
 	@Override
@@ -64,7 +101,7 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	@Override
 	protected FlowPanel getMmainContainer() {
 		return view.getMainContainer();

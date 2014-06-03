@@ -30,6 +30,8 @@ public class MainScreen implements EntryPoint {
 	private ProjectCssResources style;
 	private HandlerRegistration approveHandlerRegistration;
 	private FlowPanel examineeContainer;
+	private Button approveButton;
+	private TextBox examineeNumber;
 
 	// /**
 	// * The message displayed to the user when the server cannot be reached or
@@ -64,7 +66,7 @@ public class MainScreen implements EntryPoint {
 
 		Label examineeLbl = new Label(MyConstants.INSTANCE.examineeLbl());
 		examineeLbl.setStyleName(style.examineeLbl());
-		final TextBox examineeNumber = new TextBox();
+		examineeNumber = new TextBox();
 		examineeNumber.setStyleName(style.examineeText());
 		examineeNumber.addKeyPressHandler(new KeyPressHandler() {
 			@Override
@@ -74,7 +76,7 @@ public class MainScreen implements EntryPoint {
 				}
 			}
 		});
-		final Button approveButton = createButton(MyConstants.INSTANCE.approveBtn());
+		approveButton = createButton(MyConstants.INSTANCE.approveBtn());
 		approveButton.addStyleName(style.okButton());
 
 		controlPanel = RootPanel.get("controlPanelContainer");
@@ -83,17 +85,17 @@ public class MainScreen implements EntryPoint {
 		buttonContainer.setStyleName(style.mainButtonContainer());
 		buttonContainer.add(mathExamButton);
 		controlPanel.add(buttonContainer);
-		
+
 		buttonContainer = new FlowPanel();
 		buttonContainer.setStyleName(style.mainButtonContainer());
 		buttonContainer.add(mathPresureExamButton);
 		controlPanel.add(buttonContainer);
-		
+
 		buttonContainer = new FlowPanel();
 		buttonContainer.setStyleName(style.mainButtonContainer());
 		buttonContainer.add(cardsExaButton);
 		controlPanel.add(buttonContainer);
-		
+
 		buttonContainer = new FlowPanel();
 		buttonContainer.setStyleName(style.mainButtonContainer());
 		buttonContainer.add(cardsPresureExaButton);
@@ -101,7 +103,7 @@ public class MainScreen implements EntryPoint {
 
 		mainContainer = RootPanel.get("mainScreenContainer");
 		mainContainer.setStyleName(style.mainContainer());
-		
+
 		examineeContainer = new FlowPanel();
 		examineeContainer.add(examineeLbl);
 		examineeContainer.add(examineeNumber);
@@ -110,137 +112,13 @@ public class MainScreen implements EntryPoint {
 		examineeContainer.setVisible(false);
 		controlPanel.add(examineeContainer);
 
-		cardsExaButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (approveHandlerRegistration != null) {
-					approveHandlerRegistration.removeHandler();
-				}
-				examineeContainer.setVisible(true);
-				approveHandlerRegistration = approveButton
-						.addClickHandler(new ClickHandler() {
-							@Override
-							public void onClick(ClickEvent event) {
-								if (examineeNumber.getText() != "") {
-									cardsExam(false);
-									examineeNumber.setText("");
-									examineeContainer.setVisible(false);
-								} else {
-									final MessageBox messageBox = new MessageBox(
-											"enter examinee number");
-									messageBox.show();
-									messageBox
-											.setCloseButtonHandler(new ClickHandler() {
-												@Override
-												public void onClick(
-														ClickEvent event) {
-													messageBox.hide();
-												}
-											});
-								}
-							}
-						});
-			}
-		});
+		cardsExaButton.addClickHandler(getMainButtonClickHandler(1));
 
-		cardsPresureExaButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (approveHandlerRegistration != null) {
-					approveHandlerRegistration.removeHandler();
-				}
-				examineeContainer.setVisible(true);
-				approveHandlerRegistration = approveButton
-						.addClickHandler(new ClickHandler() {
-							@Override
-							public void onClick(ClickEvent event) {
-								if (examineeNumber.getText() != "") {
-									cardsExam(true);
-									examineeNumber.setText("");
-									examineeContainer.setVisible(false);
-								} else {
-									final MessageBox messageBox = new MessageBox(
-											"enter examinee number");
-									messageBox.show();
-									messageBox
-											.setCloseButtonHandler(new ClickHandler() {
-												@Override
-												public void onClick(
-														ClickEvent event) {
-													messageBox.hide();
-												}
-											});
-								}
-							}
-						});
-			}
-		});
+		cardsPresureExaButton.addClickHandler(getMainButtonClickHandler(2));
 
-		mathExamButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (approveHandlerRegistration != null) {
-					approveHandlerRegistration.removeHandler();
-				}
-				examineeContainer.setVisible(true);
-				approveHandlerRegistration = approveButton
-						.addClickHandler(new ClickHandler() {
-							@Override
-							public void onClick(ClickEvent event) {
-								if (examineeNumber.getText() != "") {
-									mathExam(false);
-									examineeNumber.setText("");
-									examineeContainer.setVisible(false);
-								} else {
-									final MessageBox messageBox = new MessageBox(
-											"enter examinee number");
-									messageBox.show();
-									messageBox
-											.setCloseButtonHandler(new ClickHandler() {
-												@Override
-												public void onClick(
-														ClickEvent event) {
-													messageBox.hide();
-												}
-											});
-								}
-							}
-						});
-			}
-		});
+		mathExamButton.addClickHandler(getMainButtonClickHandler(3));
 
-		mathPresureExamButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (approveHandlerRegistration != null) {
-					approveHandlerRegistration.removeHandler();
-				}
-				examineeContainer.setVisible(true);
-				approveHandlerRegistration = approveButton
-						.addClickHandler(new ClickHandler() {
-							@Override
-							public void onClick(ClickEvent event) {
-								if (examineeNumber.getText() != "") {
-									mathExam(true);
-									examineeNumber.setText("");
-									examineeContainer.setVisible(false);
-								} else {
-									final MessageBox messageBox = new MessageBox(
-											"enter examinee number");
-									messageBox.show();
-									messageBox
-											.setCloseButtonHandler(new ClickHandler() {
-												@Override
-												public void onClick(
-														ClickEvent event) {
-													messageBox.hide();
-												}
-											});
-								}
-							}
-						});
-			}
-		});
+		mathPresureExamButton.addClickHandler(getMainButtonClickHandler(4));
 
 		setHandlers();
 
@@ -349,14 +227,63 @@ public class MainScreen implements EntryPoint {
 		// }
 	}
 
-	private void cardsExam(Boolean isPresure) {
+	private ClickHandler getMainButtonClickHandler(final int testNumber) {
+		return new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (approveHandlerRegistration != null) {
+					approveHandlerRegistration.removeHandler();
+				}
+				examineeContainer.setVisible(true);
+				examineeNumber.setFocus(true);
+				approveHandlerRegistration = approveButton
+						.addClickHandler(new ClickHandler() {
+							@Override
+							public void onClick(ClickEvent event) {
+								String examinee = examineeNumber.getText();
+								if (!examinee.isEmpty()) {
+									startExam(testNumber, examinee);
+									examineeNumber.setText("");
+									examineeContainer.setVisible(false);
+								} else {
+									final MessageBox messageBox = new MessageBox(
+											"enter examinee number");
+									messageBox.center();
+									messageBox
+											.setCloseButtonHandler(new ClickHandler() {
+												@Override
+												public void onClick(
+														ClickEvent event) {
+													messageBox.hide();
+												}
+											});
+								}
+							}
+						});
+			}
+		};
+	}
+
+	private void startExam(int testNumber, String examineeNumber) {
+		if (testNumber == 1) {
+			cardsExam(false, examineeNumber);
+		} else if (testNumber == 2) {
+			cardsExam(true, examineeNumber);
+		} else if (testNumber == 3) {
+			mathExam(false, examineeNumber);
+		} else { // (testNumber == 4)
+			mathExam(true, examineeNumber);
+		}
+	}
+
+	private void cardsExam(Boolean isPresure, String examineeNumber) {
 		CardsScreenPresenter cardsScreenPresenter = new CardsScreenPresenter(
 				isPresure);
 		mainContainer.add(cardsScreenPresenter.getWidget());
 		controlPanel.setVisible(false);
 	}
 
-	private void mathExam(Boolean isPresure) {
+	private void mathExam(Boolean isPresure, String examineeNumber) {
 		MathScreenPresenter mathScreenPresenter = new MathScreenPresenter(
 				isPresure);
 		mainContainer.add(mathScreenPresenter.getWidget());
