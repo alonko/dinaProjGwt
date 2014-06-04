@@ -99,12 +99,6 @@ public class MathScreenView {
 				forthAnswer.setFocus(true);
 			}
 		});
-
-		// Widget[] objects = new Widget[4];
-		// objects[0] = firstAnswer;
-		// objects[1] = secondAnswer;
-		// objects[2] = thirdAnswer;
-		// objects[3] = forthAnswer;
 	}
 
 	public Widget asWidget() {

@@ -1,17 +1,18 @@
 package com.dev.dina.proj.client.main;
 
-import com.dev.dina.proj.client.MessageBox;
 import com.dev.dina.proj.client.cards.CardsScreenPresenter;
 import com.dev.dina.proj.client.constants.MyConstants;
 import com.dev.dina.proj.client.events.AppUtils;
 import com.dev.dina.proj.client.events.TestCompleteEvent;
 import com.dev.dina.proj.client.events.TestCompleteEventHandler;
 import com.dev.dina.proj.client.math.MathScreenPresenter;
+import com.dev.dina.proj.client.popup.MessageBox;
 import com.dev.dina.proj.client.resources.ProjectResources;
 import com.dev.dina.proj.client.resources.ProjectResources.ProjectCssResources;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -32,6 +33,8 @@ public class MainScreen implements EntryPoint {
 	private FlowPanel examineeContainer;
 	private Button approveButton;
 	private TextBox examineeNumber;
+
+	private final static int ENTER = KeyCodes.KEY_ENTER;
 
 	// /**
 	// * The message displayed to the user when the server cannot be reached or
@@ -71,12 +74,15 @@ public class MainScreen implements EntryPoint {
 		examineeNumber.addKeyPressHandler(new KeyPressHandler() {
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
-				if (!Character.isDigit(event.getCharCode())) {
+				if (event.getCharCode() == ENTER) {
+					approveButton.click();
+				} else if (!Character.isDigit(event.getCharCode())) {
 					examineeNumber.cancelKey();
 				}
 			}
 		});
-		approveButton = createButton(MyConstants.INSTANCE.approveBtn());
+		approveButton = new Button(MyConstants.INSTANCE.approveBtn());// createButton(MyConstants.INSTANCE.approveBtn());
+
 		approveButton.addStyleName(style.okButton());
 
 		controlPanel = RootPanel.get("controlPanelContainer");
@@ -105,9 +111,21 @@ public class MainScreen implements EntryPoint {
 		mainContainer.setStyleName(style.mainContainer());
 
 		examineeContainer = new FlowPanel();
-		examineeContainer.add(examineeLbl);
-		examineeContainer.add(examineeNumber);
-		examineeContainer.add(approveButton);
+		FlowPanel container = new FlowPanel();
+		container.add(examineeLbl);
+		container.setStyleName(style.examineeInnerContainer());
+		examineeContainer.add(container);
+
+		container = new FlowPanel();
+		container.add(examineeNumber);
+		container.setStyleName(style.examineeInnerContainer());
+		examineeContainer.add(container);
+
+		container = new FlowPanel();
+		container.add(approveButton);
+		container.setStyleName(style.examineeInnerContainer());
+		examineeContainer.add(container);
+
 		examineeContainer.setStyleName(style.examineeContainer());
 		examineeContainer.setVisible(false);
 		controlPanel.add(examineeContainer);
@@ -248,7 +266,7 @@ public class MainScreen implements EntryPoint {
 								} else {
 									final MessageBox messageBox = new MessageBox(
 											"enter examinee number");
-									messageBox.center();
+									messageBox.show();
 									messageBox
 											.setCloseButtonHandler(new ClickHandler() {
 												@Override

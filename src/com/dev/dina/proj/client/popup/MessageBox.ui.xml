@@ -1,0 +1,16 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="com.dev.dina.proj.client.resources.ProjectResources"
+		field="res" />
+	<ui:with type="com.dev.dina.proj.client.constants.MyConstants"
+		field="constants" />
+
+	<g:PopupPanel styleName="{res.css.popupPanel}">
+		<g:FlowPanel styleName="{res.css.popupContainer}">
+			<g:Label ui:field="title" styleName="{res.css.popupTitle}" />
+			<g:TextArea ui:field="messageContent" styleName="{res.css.popupTextArea}" />
+			<g:Button ui:field="closeButton" styleName="{res.css.popupCloseButton}" />
+		</g:FlowPanel>
+	</g:PopupPanel>
+</ui:UiBinder> 

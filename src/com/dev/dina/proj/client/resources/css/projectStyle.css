@@ -16,11 +16,14 @@
 }
 
 .okButton {
-	margin-top: 5%;
-	margin-left: 78%;
+	width: 200px;
+	height: 60px;
+	font-size: 35px;
+	background: green;
+	color: white;
 }
 
-.mainButtonContainer {	
+.mainButtonContainer {
 	width: 25%;
 	height: 100%;
 	display: inline-block;
@@ -44,11 +47,16 @@
 	height: 100px;
 	display: block;
 	float: left;
-	padding-right: 40%;
+	text-align: center;
+}
+
+.examineeInnerContainer {
+	width: 100%;
+	display: inline-block;
+	padding: 5px;
 }
 
 .examineeLbl {
-	padding-right: 80px;
 	font-family: "Times New Roman", Times, serif;
 	font-size: 30px;
 }
@@ -56,6 +64,48 @@
 .examineeText {
 	font-family: "Times New Roman", Times, serif;
 	font-size: 30px;
+}
+
+.popupPanel {
+	min-height: 200px;
+	min-width: 300px;
+	background: rgb(206, 220, 231); /* Old browsers */
+	background: -moz-linear-gradient(top, rgba(206, 220, 231, 1) 0%,
+		rgba(89, 106, 114, 1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(206,
+		220, 231, 1)), color-stop(100%, rgba(89, 106, 114, 1)));
+	/* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(206, 220, 231, 1) 0%,
+		rgba(89, 106, 114, 1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(206, 220, 231, 1) 0%,
+		rgba(89, 106, 114, 1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(206, 220, 231, 1) 0%,
+		rgba(89, 106, 114, 1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom, rgba(206, 220, 231, 1) 0%,
+		rgba(89, 106, 114, 1) 100%); /* W3C */
+}
+
+.popupContainer {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+.popupTextArea {
+	width: 90%;
+	height: 75%;
+	resize: none;
+}
+
+.popupCloseButton {
+	width: 100px;
+	height: 30px;
+}
+
+.popupTitle {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
 }
 
 .cardsMainPanel {
@@ -72,15 +122,21 @@
 	font-size: 30px;
 }
 
+.resultInnerPanel {
+	width: 100%;
+	text-align: center;
+}
+
 .resultLbl {
 	display: inline-block;
-	margin-left: 40%;
 }
 
 .resultValue {
 	display: inline-block;
 	padding-left: 30px;
+	direction: ltr;
 }
+
 .card {
 	margin: 48px;
 	width: 150px;

@@ -1,9 +1,9 @@
 package com.dev.dina.proj.client.math;
 
-import com.dev.dina.proj.client.MessageBox;
 import com.dev.dina.proj.client.events.AppUtils;
 import com.dev.dina.proj.client.events.TestCompleteEvent;
 import com.dev.dina.proj.client.main.AbstractTestPresenter;
+import com.dev.dina.proj.client.popup.MessageBox;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
@@ -67,7 +67,7 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 		view.setTimerVisible(false);
 		timer.cancel();
 		final MessageBox messageBox = new MessageBox("test complete");
-		messageBox.center();
+		messageBox.show();
 		messageBox.setCloseButtonHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {

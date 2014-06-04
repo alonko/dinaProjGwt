@@ -37,15 +37,29 @@ public interface ProjectResources extends ClientBundle {
 		String timer();
 
 		String examineeContainer();
+		
+		String examineeInnerContainer();
 
 		String examineeLbl();
 		
 		String examineeText();
-
+		
+		String popupPanel();
+		
+		String popupContainer();
+		
+		String popupTextArea();
+		
+		String popupCloseButton();
+		
+		String popupTitle();
+		
 		// Cards
 		String cardsMainPanel();
 
 		String resultPanel();
+		
+		String resultInnerPanel(); 
 		
 		String resultLbl();
 		

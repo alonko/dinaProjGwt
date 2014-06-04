@@ -25,16 +25,26 @@
 			</g:FlowPanel>
 		</g:FlowPanel>
 		<g:FlowPanel styleName="{res.css.resultPanel}">
-			<g:Label styleName="{res.css.resultLbl}" text="{constants.pointsAddedLbl}" />
-			<g:Label styleName="{res.css.resultValue}" ui:field="pointsAddedValue" />
-			<g:Label styleName="{res.css.resultLbl}" text="{constants.pointsReducedLbl}" />
-			<g:Label styleName="{res.css.resultValue}" ui:field="pointsReducedValue" />
-			<g:Label styleName="{res.css.resultLbl}" text="{constants.resultLbl}" />
-			<g:Label styleName="{res.css.resultValue}" ui:field="resultValue" />
-		</g:FlowPanel>
-		<g:FlowPanel styleName="{res.css.timerContainer}">
-			<g:Label ui:field="timerLbl" text="{constants.timerLbl}" />
-			<g:Label ui:field="timerValue" styleName="{res.css.timer}" />
+			<g:FlowPanel styleName="{res.css.resultInnerPanel}">
+				<g:Label styleName="{res.css.resultLbl}" text="{constants.pointsAddedLbl}" />
+				<g:Label styleName="{res.css.resultValue}" ui:field="pointsAddedValue" />
+			</g:FlowPanel>
+
+			<g:FlowPanel styleName="{res.css.resultInnerPanel}">
+				<g:Label styleName="{res.css.resultLbl}" text="{constants.pointsReducedLbl}" />
+				<g:Label styleName="{res.css.resultValue}" ui:field="pointsReducedValue" />
+			</g:FlowPanel>
+
+			<g:FlowPanel styleName="{res.css.resultInnerPanel}">
+				<g:Label styleName="{res.css.resultLbl}" text="{constants.resultLbl}" />
+				<g:Label styleName="{res.css.resultValue}" ui:field="resultValue" />
+			</g:FlowPanel>
+
+			<g:FlowPanel styleName="{res.css.resultInnerPanel}">
+				<g:Label ui:field="timerLbl" styleName="{res.css.resultLbl}"
+					text="{constants.timerLbl}" />
+				<g:Label ui:field="timerValue" styleName="{res.css.resultValue}" />
+			</g:FlowPanel>
 		</g:FlowPanel>
 	</g:FlowPanel>
 </ui:UiBinder> 
