@@ -76,7 +76,7 @@ public interface ProjectResources extends ClientBundle {
 		String mathContainer();
 
 		String mathValue();
-
+		
 		String addLbl();
 
 		String equals();

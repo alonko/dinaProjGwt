@@ -1,10 +1,9 @@
 package com.dev.dina.proj.client.cards;
 
+import java.util.Date;
+
 import com.dev.dina.proj.client.constants.MyConstants;
-import com.dev.dina.proj.client.events.AppUtils;
-import com.dev.dina.proj.client.events.TestCompleteEvent;
 import com.dev.dina.proj.client.main.AbstractTestPresenter;
-import com.dev.dina.proj.client.popup.MessageBox;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
@@ -14,19 +13,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class CardsScreenPresenter extends AbstractTestPresenter {
 	private CardsScreenView view;
 	private static final int MAX_STEPS = 4;
-	private static final int MAX_PREVIEW_STEPS = 4;
 	private static int TEST_TIME = 10;
 	private static int PENALTY_POINTS = 10;
-	private Boolean isPreview;
 
-	private int[] previewFirstDeckPositivePoints = { 10, 20, 30, 40 };
-	private int[] previewFirstDeckNegativePoints = { 5, 30, 10, 0 };
-	private int[] previewSecondDeckPositivePoints = { 10, 20, 30, 40 };
-	private int[] previewSecondDeckNegativePoints = { 5, 30, 10, 0 };
-	private int[] previewThirdDeckPositivePoints = { 10, 20, 30, 40 };
-	private int[] previewThirdDeckNegativePoints = { 5, 30, 10, 0 };
-	private int[] previewForthDeckPositivePoints = { 10, 20, 30, 40 };
-	private int[] previewForthDeckNegativePoints = { 5, 30, 10, 0 };
+	private int totalWinAmount, totalLoseAmount, totalPoints;
 
 	private int[] firstDeckPositivePoints = { 100, 200, 300, 400 };
 	private int[] firstDeckNegativePoints = { 50, 300, 100, 0 };
@@ -37,75 +27,46 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	private int[] forthDeckPositivePoints = { 100, 200, 300, 400 };
 	private int[] forthDeckNegativePoints = { 50, 300, 100, 0 };
 
-	public CardsScreenPresenter(Boolean isPresure) {
-		super(isPresure);
-		isPreview = true;
+	public CardsScreenPresenter(Boolean isPresure, String examineeNumber) {
+		super(isPresure, examineeNumber);
 		view = new CardsScreenView();
-		addExportWidget();
+		addExportWidget("Cards");
 		addCardClickHandlers();
-		
-		final MessageBox msgBox = new MessageBox(MyConstants.INSTANCE.examExplanation(), MyConstants.INSTANCE.cardsExamExplanation()); 
-		msgBox.asWidget().setSize("700px", "400px");
-		msgBox.setCloseButtonHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				msgBox.hide();
-				beginTest();
-			}
-		});
-		msgBox.show();
+
+		showExplanationScreen(MyConstants.INSTANCE.examExplanation(),
+				MyConstants.INSTANCE.cardsExamExplanation());
 	}
 
 	private void addCardClickHandlers() {
 		view.getCard1().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!isPreview) {
-					cardClicked(firstDeckPositivePoints[step],
-							firstDeckNegativePoints[step]);
-				} else {
-					cardClicked(previewFirstDeckPositivePoints[step],
-							previewFirstDeckNegativePoints[step]);
-				}
+				cardClicked(firstDeckPositivePoints[step],
+						firstDeckNegativePoints[step], "A");
 			}
 		});
 
 		view.getCard2().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!isPreview) {
-					cardClicked(secondDeckPositivePoints[step],
-							secondDeckNegativePoints[step]);
-				} else {
-					cardClicked(previewSecondDeckPositivePoints[step],
-							previewSecondDeckNegativePoints[step]);
-				}
+				cardClicked(secondDeckPositivePoints[step],
+						secondDeckNegativePoints[step], "B");
 			}
 		});
 
 		view.getCard3().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!isPreview) {
-					cardClicked(thirdDeckPositivePoints[step],
-							thirdDeckNegativePoints[step]);
-				} else {
-					cardClicked(previewThirdDeckPositivePoints[step],
-							previewThirdDeckNegativePoints[step]);
-				}
+				cardClicked(thirdDeckPositivePoints[step],
+						thirdDeckNegativePoints[step], "C");
 			}
 		});
 
 		view.getCard4().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!isPreview) {
-					cardClicked(forthDeckPositivePoints[step],
-							forthDeckNegativePoints[step]);
-				} else {
-					cardClicked(previewForthDeckPositivePoints[step],
-							previewForthDeckNegativePoints[step]);
-				}
+				cardClicked(forthDeckPositivePoints[step],
+						forthDeckNegativePoints[step], "D");
 			}
 		});
 	}
@@ -113,41 +74,37 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	@Override
 	protected void beginTest() {
 		super.beginTest();
+		totalPoints = 0;
+		totalWinAmount = 0;
+		totalLoseAmount = 0;
+		turnTime = 0;
+		updatePoints(0, 0);
+
+		Date now = new Date();
+		addColumnToTable(MyConstants.INSTANCE.examineeNumberOutput(),
+				examineeNumber);
+		addColumnToTable(MyConstants.INSTANCE.dateOutput(), now.toString());
+		addColumnToTable(MyConstants.INSTANCE.isPresureOutput(),
+				isPresure.toString());
+
 		view.setTimerVisible(isPresure);
-		timeLeft = TEST_TIME;
-		view.setTimer(timeLeft);
+		view.setTimer(TEST_TIME);
 		updateTimer();
 	}
 
 	@Override
 	protected void finishTest() {
+		super.finishTest();
 		view.setTimerVisible(false);
-		timer.cancel();
-		final MessageBox messageBox = new MessageBox("test complete");
-		messageBox.setTitle(MyConstants.INSTANCE.testComplete());
-		messageBox.show();
-		messageBox.setCloseButtonHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				messageBox.hide();
-				AppUtils.EVENT_BUS.fireEvent(new TestCompleteEvent());
-				exportWidget.performExport();
 
-			}
-		});
-	}
+		addColumnToTable(MyConstants.INSTANCE.totalWinAmountOutput(),
+				String.valueOf(totalWinAmount));
 
-	private void cardClicked(int addedPoints, int reducedPoints) {
-		updatePoints(addedPoints, reducedPoints);
-		playTurn();
-	}
+		addColumnToTable(MyConstants.INSTANCE.totalLoseAmountOutput(),
+				String.valueOf(totalLoseAmount));
 
-	@Override
-	protected void updatePoints(int addedPoints, int reducedPoints) {
-		view.setValueToAddedPoints(addedPoints);
-		view.setValueToReducedPoints(reducedPoints);
-		totalPoints += addedPoints - reducedPoints;
-		view.setValueToResult(totalPoints);
+		addColumnToTable(MyConstants.INSTANCE.totalAmountOutput(),
+				String.valueOf(totalPoints));
 	}
 
 	private void playTurn() {
@@ -155,35 +112,49 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		if (timer != null) {
 			timer.cancel();
 		}
-		if (!isPreview) {
-			if (step < MAX_STEPS) {
-				timeLeft = TEST_TIME;
-				view.setTimer(timeLeft);
-				updateTimer();
-			} else {
-				finishTest();
-			}
-		} else {
-			if (step < MAX_PREVIEW_STEPS) {
-				timeLeft = TEST_TIME;
-				view.setTimer(timeLeft);
-				updateTimer();
-			} else {
-				isPreview = false;
-				final MessageBox msgBox = new MessageBox(
-						MyConstants.INSTANCE.previewComplete());
-				msgBox.setCloseButtonHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-						step = 0;
-						beginTest();
-						msgBox.hide();
-					}
-				});
+		totalTestTime += turnTime;
 
-				msgBox.show();
+		if (step < MAX_STEPS) {
+			turnTime = 0;
+			if (isPresure) {
+				view.setTimer(TEST_TIME);
 			}
+			updateTimer();
+		} else {
+			finishTest();
 		}
+	}
+
+	private void cardClicked(int addedPoints, int reducedPoints, String deck) {
+		updatePoints(addedPoints, reducedPoints);
+		totalWinAmount += addedPoints;
+		totalLoseAmount += reducedPoints;
+
+		String questionNumner = String.valueOf(step + 1) + " ";
+		addColumnToTable(
+				questionNumner + MyConstants.INSTANCE.questionTimeOutput(),
+				String.valueOf(turnTime));
+
+		addColumnToTable(
+				questionNumner + MyConstants.INSTANCE.selectedDeckOutput(),
+				deck);
+
+		addColumnToTable(
+				questionNumner + MyConstants.INSTANCE.winAmountOutput(),
+				String.valueOf(addedPoints));
+
+		addColumnToTable(
+				questionNumner + MyConstants.INSTANCE.loseAmountOutput(),
+				String.valueOf(reducedPoints));
+
+		playTurn();
+	}
+
+	protected void updatePoints(int addedPoints, int reducedPoints) {
+		view.setValueToAddedPoints(addedPoints);
+		view.setValueToReducedPoints(reducedPoints);
+		totalPoints += addedPoints - reducedPoints;
+		view.setValueToResult(totalPoints);
 	}
 
 	@Override
@@ -191,14 +162,13 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		timer = new Timer() {
 			@Override
 			public void run() {
-				timeLeft--;
-				if (timeLeft < 0) {
-					int reducedPoints = -PENALTY_POINTS;
-					updatePoints(0, reducedPoints);
-					playTurn();
-					this.cancel(); // cancel the timer -- important!
-				} else {
-					view.setTimer(timeLeft);
+				turnTime++;
+				if (isPresure) {
+					if (turnTime > TEST_TIME) {
+						cardClicked(0, PENALTY_POINTS, null);
+					} else {
+						view.setTimer(TEST_TIME - turnTime);
+					}
 				}
 			}
 		};

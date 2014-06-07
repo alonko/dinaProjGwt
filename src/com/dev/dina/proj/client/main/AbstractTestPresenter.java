@@ -1,32 +1,33 @@
 package com.dev.dina.proj.client.main;
 
-import java.util.Arrays;
-import java.util.List;
-
+import com.dev.dina.proj.client.constants.MyConstants;
+import com.dev.dina.proj.client.events.TestCompleteEvent;
+import com.dev.dina.proj.client.popup.MessageBox;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public abstract class AbstractTestPresenter {
-	protected int totalPoints;
+public abstract class AbstractTestPresenter {	
 	protected int step;
-	protected int timeLeft;
+	protected int turnTime;
+	protected int totalTestTime;
 	protected Boolean isPresure;
 	protected Timer timer;
 	protected ExportToExcelWidget exportWidget;
+	protected int gridColumnNumber;
+	protected String examineeNumber;
 
-	public AbstractTestPresenter(Boolean isPresure) {
+	public AbstractTestPresenter(Boolean isPresure, String examineeNumber) {
 		this.isPresure = isPresure;
+		this.examineeNumber = examineeNumber;
+		gridColumnNumber = 0;
+		turnTime = 0;
 	}
 
-	protected void addExportWidget() {
-		exportWidget = new ExportToExcelWidget();
-		List<String> sentences = Arrays.asList(
-				"This table was built with UIBinder",
-				"It uses a SimplePanel to place the export widget",
-				"You can also provide it");
-		fillaTableWithSentences(exportWidget.getExportFlexTable(), sentences);
+	protected void addExportWidget(String testType) {
+		exportWidget = new ExportToExcelWidget(examineeNumber,testType,isPresure);
 		exportWidget.setVisible(false);
 
 		getMmainContainer().add(exportWidget);
@@ -35,26 +36,49 @@ public abstract class AbstractTestPresenter {
 	protected abstract FlowPanel getMmainContainer();
 
 	protected void beginTest() {
-		totalPoints = 0;
 		step = 0;
-		updatePoints(0, 0);
 	}
-
-	private void fillaTableWithSentences(FlexTable flexTable,
-			List<String> sentences) {
-		for (int i = 0; i < sentences.size(); i++) {
-			String sentence = sentences.get(i);
-			String[] words = sentence.split(" ");
-			for (int j = 0; j < words.length; j++) {
-				String word = words[j];
-				flexTable.setWidget(i, j, new Label(word));
+	
+	protected void finishTest(){
+		timer.cancel();
+		addColumnToTable(MyConstants.INSTANCE.totalTestTimeOutput(),
+				String.valueOf(totalTestTime));
+		showTestCompleteMessage();
+	}
+	
+	protected void addColumnToTable(String header, String value) {
+		exportWidget.getExportFlexTable().setWidget(0, gridColumnNumber, new Label(header));
+		exportWidget.getExportFlexTable().setWidget(1, gridColumnNumber, new Label(value));
+		gridColumnNumber++;
+		
+	}
+	
+	protected void showTestCompleteMessage() {
+		final MessageBox messageBox = new MessageBox(MyConstants.INSTANCE.testComplete());
+		messageBox.setTitle(MyConstants.INSTANCE.testComplete());
+		messageBox.show();
+		messageBox.setCloseButtonHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				messageBox.hide();
+				AppUtils.EVENT_BUS.fireEvent(new TestCompleteEvent());
+				exportWidget.performExport();
 			}
-		}
+		});
 	}
-
-	protected abstract void finishTest();
+	
+	protected void showExplanationScreen(String title, String message) {
+		final MessageBox msgBox = new MessageBox(title,message);
+		msgBox.asWidget().setSize("700px", "400px");
+		msgBox.setCloseButtonHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				msgBox.hide();
+				beginTest();
+			}
+		});
+		msgBox.show();
+	}
 
 	protected abstract void updateTimer();
-
-	protected abstract void updatePoints(int addedPoints, int reducedPoints);
 }

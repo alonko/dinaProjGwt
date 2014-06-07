@@ -14,6 +14,13 @@ import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.gwtTableToExcel.client.TableToExcelClientBuilder;
 
 public class ExportToExcelWidget extends Composite {
+	private Button exportWidget;
+	@UiField(provided = true)
+	FlexTable exportFlexTable;
+	@UiField
+	SimplePanel exportPanel;
+	@UiField(provided = true)
+	FormPanel exportForm;
 
 	private static exportToExcelUiBinder uiBinder = GWT
 			.create(exportToExcelUiBinder.class);
@@ -22,47 +29,25 @@ public class ExportToExcelWidget extends Composite {
 			UiBinder<Widget, ExportToExcelWidget> {
 	}
 
-	private Button exportWidget;
-
-	@UiField(provided = true)
-	FlexTable exportFlexTable;
-
-	@UiField
-	SimplePanel exportPanel;
-
-	@UiField(provided = true)
-	FormPanel exportForm;
-
-	public ExportToExcelWidget() {
+	public ExportToExcelWidget(String examineeNumber, String testType,
+			Boolean isPresure) {
 		exportFlexTable = new FlexTable();
 		TableToExcelClientBuilder fromTable = TableToExcelClientBuilder
 				.fromTable(exportFlexTable);
 		exportWidget = new Button(MyConstants.INSTANCE.exportLbl());
-//		exportWidget.addClickHandler(new ClickHandler() {
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				System.out.println("clicked!!!");
-//			}
-//		});
 		fromTable.withClickable(exportWidget);
-		fromTable.toFileName("test_results");
+		fromTable.toFileName(examineeNumber + "_" + testType + "_" + isPresure);
+
 		exportForm = fromTable.buildExportFormWidget();
 
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
 	public void performExport() {
-		// exportWidget.click();
-		// exportWidget.fireNativeEvent(new NativeEvent(), exportWidget)
-		// exportWidget.fireEvent(new ClickEvent());
 		exportWidget.fireEvent(new ButtonClickEvent());
-
-		// exportWidget.fireEvent(new CliEvent.ONCLICK);
 	}
 
 	private class ButtonClickEvent extends ClickEvent {
-
 		/*
 		 * To call click() function for Programmatic equivalent of the user
 		 * clicking the button.

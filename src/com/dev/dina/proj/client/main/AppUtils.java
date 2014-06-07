@@ -1,4 +1,4 @@
-package com.dev.dina.proj.client.events;
+package com.dev.dina.proj.client.main;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;

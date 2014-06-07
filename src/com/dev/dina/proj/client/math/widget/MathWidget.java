@@ -1,6 +1,10 @@
 package com.dev.dina.proj.client.math.widget;
 
+import com.dev.dina.proj.client.events.AnswerRecivedEvent;
+import com.dev.dina.proj.client.main.AppUtils;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.adapters.TakesValueEditor;
 import com.google.gwt.editor.ui.client.adapters.ValueBoxEditor;
@@ -25,7 +29,7 @@ public class MathWidget extends Composite implements HasValue<String>,
 		IsEditor<TakesValueEditor<String>> {
 	private final static int CURSOR_LEFT = 37;
 	private final static int CURSOR_RIGHT = 39;
-	private final static int TAB = KeyCodes.KEY_TAB;
+	private final static int ENTER = KeyCodes.KEY_ENTER;
 
 	private static MathWidgetUiBinder uiBinder = GWT
 			.create(MathWidgetUiBinder.class);
@@ -47,6 +51,13 @@ public class MathWidget extends Composite implements HasValue<String>,
 		thirdValue.setMaxLength(1);
 		forthValue.setMaxLength(1);
 
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				firstValue.setFocus(true);
+			}
+		});
+
 		addHandlers();
 	}
 
@@ -55,12 +66,13 @@ public class MathWidget extends Composite implements HasValue<String>,
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				int keyPressed = event.getNativeKeyCode();
-				if (keyPressed != CURSOR_LEFT && keyPressed != CURSOR_RIGHT) {
+				if (keyPressed == ENTER) {
+					AppUtils.EVENT_BUS.fireEvent(new AnswerRecivedEvent());
+				} else if (keyPressed != CURSOR_LEFT
+						&& keyPressed != CURSOR_RIGHT) {
 					firstValue.setValue("");
 				} else if (keyPressed == CURSOR_LEFT) {
 					secondValue.setFocus(true);
-				} else {
-					forthValue.setFocus(true);
 				}
 			}
 		});
@@ -69,7 +81,10 @@ public class MathWidget extends Composite implements HasValue<String>,
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				int keyPressed = event.getNativeKeyCode();
-				if (keyPressed != CURSOR_LEFT && keyPressed != CURSOR_RIGHT) {
+				if (keyPressed == ENTER) {
+					AppUtils.EVENT_BUS.fireEvent(new AnswerRecivedEvent());
+				} else if (keyPressed != CURSOR_LEFT
+						&& keyPressed != CURSOR_RIGHT) {
 					secondValue.setValue("");
 				} else if (keyPressed == CURSOR_LEFT) {
 					thirdValue.setFocus(true);
@@ -83,7 +98,10 @@ public class MathWidget extends Composite implements HasValue<String>,
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				int keyPressed = event.getNativeKeyCode();
-				if (keyPressed != CURSOR_LEFT && keyPressed != CURSOR_RIGHT) {
+				if (keyPressed == ENTER) {
+					AppUtils.EVENT_BUS.fireEvent(new AnswerRecivedEvent());
+				} else if (keyPressed != CURSOR_LEFT
+						&& keyPressed != CURSOR_RIGHT) {
 					thirdValue.setValue("");
 				} else if (keyPressed == CURSOR_LEFT) {
 					forthValue.setFocus(true);
@@ -97,11 +115,12 @@ public class MathWidget extends Composite implements HasValue<String>,
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				int keyPressed = event.getNativeKeyCode();
-				if (keyPressed != CURSOR_LEFT && keyPressed != CURSOR_RIGHT) {
+				if (keyPressed == ENTER) {
+					AppUtils.EVENT_BUS.fireEvent(new AnswerRecivedEvent());
+				} else if (keyPressed != CURSOR_LEFT
+						&& keyPressed != CURSOR_RIGHT) {
 					forthValue.setValue("");
-				} else if (keyPressed == CURSOR_LEFT) {
-					firstValue.setFocus(true);
-				} else {
+				} else if (keyPressed == CURSOR_RIGHT) {
 					thirdValue.setFocus(true);
 				}
 			}
@@ -170,9 +189,8 @@ public class MathWidget extends Composite implements HasValue<String>,
 	@Override
 	public String getValue() {
 		String value = "";
-		value += this.firstValue.getValue() + "/" + this.secondValue.getValue()
-				+ "/" + this.thirdValue.getValue() + "/"
-				+ this.forthValue.getValue();
+		value += this.forthValue.getValue() + this.thirdValue.getValue()
+				+ this.secondValue.getValue() + this.firstValue.getValue();
 		return value;
 	}
 
@@ -193,6 +211,13 @@ public class MathWidget extends Composite implements HasValue<String>,
 		System.out.println("Set Value:" + value);
 	}
 
+	public void clearValue() {
+		this.firstValue.setValue("");
+		this.secondValue.setValue("");
+		this.thirdValue.setValue("");
+		this.forthValue.setValue("");
+	}
+
 	@Override
 	public void setValue(String value, boolean fireEvents) {
 		setValue(value);
@@ -206,5 +231,9 @@ public class MathWidget extends Composite implements HasValue<String>,
 			editor = ValueBoxEditor.of(this);
 		}
 		return editor;
+	}
+
+	public void setFocusOnFirst() {
+		firstValue.setFocus(true);
 	}
 }

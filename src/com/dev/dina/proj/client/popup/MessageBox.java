@@ -37,7 +37,12 @@ public class MessageBox {
 		setDescriptionText(text);
 		root.setAnimationEnabled(true);
 		root.setModal(true);
+		messageContent.setEnabled(false);
 		closeButton.setText(MyConstants.INSTANCE.closeBtn());
+		setHandlers();
+	}
+
+	private void setHandlers() {
 		closeButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -48,6 +53,12 @@ public class MessageBox {
 
 	public void show() {
 		root.center();
+//		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+//			@Override
+//			public void execute() {
+//				closeButton.setFocus(true);
+//			}
+//		});
 	}
 
 	public void hide() {

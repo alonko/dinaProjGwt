@@ -2,7 +2,6 @@ package com.dev.dina.proj.client.main;
 
 import com.dev.dina.proj.client.cards.CardsScreenPresenter;
 import com.dev.dina.proj.client.constants.MyConstants;
-import com.dev.dina.proj.client.events.AppUtils;
 import com.dev.dina.proj.client.events.TestCompleteEvent;
 import com.dev.dina.proj.client.events.TestCompleteEventHandler;
 import com.dev.dina.proj.client.math.MathScreenPresenter;
@@ -265,7 +264,8 @@ public class MainScreen implements EntryPoint {
 									examineeContainer.setVisible(false);
 								} else {
 									final MessageBox messageBox = new MessageBox(
-											"enter examinee number");
+											MyConstants.INSTANCE
+													.enterExamineeNumber());
 									messageBox.show();
 									messageBox
 											.setCloseButtonHandler(new ClickHandler() {
@@ -296,14 +296,14 @@ public class MainScreen implements EntryPoint {
 
 	private void cardsExam(Boolean isPresure, String examineeNumber) {
 		CardsScreenPresenter cardsScreenPresenter = new CardsScreenPresenter(
-				isPresure);
+				isPresure, examineeNumber);
 		mainContainer.add(cardsScreenPresenter.getWidget());
 		controlPanel.setVisible(false);
 	}
 
 	private void mathExam(Boolean isPresure, String examineeNumber) {
 		MathScreenPresenter mathScreenPresenter = new MathScreenPresenter(
-				isPresure);
+				isPresure, examineeNumber);
 		mainContainer.add(mathScreenPresenter.getWidget());
 		controlPanel.setVisible(false);
 	}

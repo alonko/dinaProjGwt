@@ -15,25 +15,14 @@
 
 				<g:Label text="+" styleName="{res.css.addLbl}" />
 				<g:Label ui:field="thirdNumberLbl" styleName="{res.css.mathValue}" />
-				<g:Label ui:field="equalsLbl" styleName="{res.css.mathValue}"
+				<g:Label ui:field="equalsLbl" styleName="{res.css.equals}"
 					text="------" />
-			</g:FlowPanel>
+			</g:FlowPanel>			
 
-			<g:FlowPanel styleName="{res.css.answerPanel}" visible="false">
-				<g:TextBox ui:field="forthAnswer" styleName="{res.css.answer}"
-					visible="false" />
-				<g:TextBox ui:field="thirdAnswer" styleName="{res.css.answer}"
-					visible="false" />
-				<g:TextBox ui:field="secondAnswer" styleName="{res.css.answer}"
-					visible="false" />
-				<g:TextBox ui:field="firstAnswer" styleName="{res.css.answer}"
-					visible="false" />
-			</g:FlowPanel>
-
-			<math:MathWidget />
+			<math:MathWidget ui:field="answerWidget"/>
 
 			<g:FlowPanel styleName="{res.css.answerPanel}">
-				<g:Button ui:field="approveBtn" />
+				<g:Button ui:field="approveBtn"  styleName="{res.css.okButton}"/>
 			</g:FlowPanel>
 		</g:FlowPanel>
 

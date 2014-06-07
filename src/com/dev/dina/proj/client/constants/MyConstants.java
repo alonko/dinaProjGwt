@@ -9,6 +9,8 @@ public interface MyConstants extends Constants {
 	String exportLbl();
 
 	String examineeLbl();
+	
+	String enterExamineeNumber();
 
 	String selectTask();
 
@@ -31,4 +33,35 @@ public interface MyConstants extends Constants {
 	String examExplanation();
 
 	String cardsExamExplanation();
+	
+	String mathExamExplanation();
+	
+//	File output
+	String examineeNumberOutput();
+
+	String isPresureOutput();
+
+	String dateOutput();
+
+	String questionTimeOutput();
+
+	String examineeAnswerOutput();
+
+	String isCorrectAnswerOutput();
+
+	String numberOfCorrectAnswersOutput();
+
+	String totalTestTimeOutput();
+
+	String selectedDeckOutput();
+
+	String winAmountOutput();
+
+	String loseAmountOutput();
+
+	String totalWinAmountOutput();
+
+	String totalLoseAmountOutput();
+
+	String totalAmountOutput();
 }

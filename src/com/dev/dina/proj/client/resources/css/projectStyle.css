@@ -161,30 +161,36 @@
 
 .mathContainer {
 	font-family: "Times New Roman", Times, serif;
-	font-size: 40px;
+	font-size: 60px;
 	width: 300px;
-	height: 300px;
+	height: 240px;
 	padding-right: 50%;
+	padding-top: 10%;
 }
 
 .mathValue {
-	height: 60px;
-	width: 100px;
-	padding-left: 10px;
+	height: 40px;
+	width: 120px;
+	/* padding-left: 10px; */
 	display: block;
 	float: left;
 }
 
 .addLbl {
-	width: 30px;
-	height: 30px;
-	display: block;
+	width: 10px;
+	height: 50px;
+	display: inline-block;
 	float: left;
-	padding-left: 140px;
+	padding-left: 160px;
+	line-height: 100px;
 }
 
 .equals {
-	display: block;
+	display: inline-block;
+	width: 150px;
+	height: 60px;
+	line-height: 70px;
+	text-align: center;
 	float: left;
 }
 
@@ -192,7 +198,7 @@
 	display: block;
 	float: left;
 	width: 100px;
-	height: 300px;
+	height: 245px;
 }
 
 .answerPanel {
@@ -200,14 +206,17 @@
 	float: left;
 	width: 200px;
 	height: 70px;
+	padding-left: 27px;
+	padding-top: 40px;
 }
 
 .answer {
-	width: 50px;
+	width: 32px;
 	height: 50px;
 	float: left;
 	text-align: center;
 	line-height: 50px;
+	font-size: 42px;
 }
 
 @external gwt-table-to-excel-form, gwt-table-to-excel-panel, gwt-table-to-excel-exportWidget, invisible, exportMainContainer;
