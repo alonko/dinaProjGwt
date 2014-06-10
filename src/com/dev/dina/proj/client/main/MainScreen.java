@@ -23,8 +23,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
- * Entry point classes define <code>onModuleLoad()</code>.
+ * @author Alon Kodner
  */
+
 public class MainScreen implements EntryPoint {
 	private RootPanel mainContainer, controlPanel;
 	private ProjectCssResources style;
@@ -34,21 +35,6 @@ public class MainScreen implements EntryPoint {
 	private TextBox examineeNumber;
 
 	private final static int ENTER = KeyCodes.KEY_ENTER;
-
-	// /**
-	// * The message displayed to the user when the server cannot be reached or
-	// * returns an error.
-	// */
-	// private static final String SERVER_ERROR = "An error occurred while "
-	// + "attempting to contact the server. Please check your network "
-	// + "connection and try again.";
-	//
-	// /**
-	// * Create a remote service proxy to talk to the server-side Greeting
-	// * service.
-	// */
-	// private final GreetingServiceAsync greetingService = GWT
-	// .create(GreetingService.class);
 
 	/**
 	 * This is the entry point method.
@@ -61,6 +47,7 @@ public class MainScreen implements EntryPoint {
 		buttonsHeader.setStyleName(style.buttonsHeader());
 		buttonsHeader.setText(MyConstants.INSTANCE.selectTask());
 
+		final Button mathPreviewExaButton = createButton("MathPre");
 		final Button mathExamButton = createButton("Math");
 		final Button mathPresureExamButton = createButton("MathP");
 		final Button cardsExaButton = createButton("Cards");
@@ -86,7 +73,13 @@ public class MainScreen implements EntryPoint {
 
 		controlPanel = RootPanel.get("controlPanelContainer");
 		controlPanel.setStyleName(style.controlPanel());
+
 		FlowPanel buttonContainer = new FlowPanel();
+		buttonContainer.setStyleName(style.mainButtonContainer());
+		buttonContainer.add(mathPreviewExaButton);
+		controlPanel.add(buttonContainer);
+		
+		buttonContainer = new FlowPanel();
 		buttonContainer.setStyleName(style.mainButtonContainer());
 		buttonContainer.add(mathExamButton);
 		controlPanel.add(buttonContainer);
@@ -137,111 +130,9 @@ public class MainScreen implements EntryPoint {
 
 		mathPresureExamButton.addClickHandler(getMainButtonClickHandler(4));
 
+		mathPreviewExaButton.addClickHandler(getMainButtonClickHandler(5));
+
 		setHandlers();
-
-		// Grid grid = new Grid(4, 4);
-		// TableElement table = new TableElement();
-		// CellTable<String> table = new CellTable<String>();
-		// TableToExcelClientBuilder tableToExcelClient =
-		// TableToExcelClientBuilder.fromTable(table);
-		// TableToExcelClient tableToExcelClient = new
-		// TableToExcelClient(table);
-		// FlowPanel myPanel = new FlowPanel();
-		// myPanel.add(tableToExcelClient.getExportWidget());
-
-		// // Focus the cursor on the name field when the app loads
-		// nameField.setFocus(true);
-		// nameField.selectAll();
-		//
-		// // Create the popup dialog box
-		// final DialogBox dialogBox = new DialogBox();
-		// dialogBox.setText("Remote Procedure Call");
-		// dialogBox.setAnimationEnabled(true);
-		// final Button closeButton = new Button("Close");
-		// // We can set the id of a widget by accessing its Element
-		// closeButton.getElement().setId("closeButton");
-		// final Label textToServerLabel = new Label();
-		// final HTML serverResponseLabel = new HTML();
-		// VerticalPanel dialogVPanel = new VerticalPanel();
-		// dialogVPanel.addStyleName("dialogVPanel");
-		// dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
-		// dialogVPanel.add(textToServerLabel);
-		// dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-		// dialogVPanel.add(serverResponseLabel);
-		// dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		// dialogVPanel.add(closeButton);
-		// dialogBox.setWidget(dialogVPanel);
-		//
-		// mathExamButton.addClickHandler(new ClickHandler() {
-		// @Override
-		// public void onClick(ClickEvent event) {
-		//
-		// }
-		// });
-
-		//
-		// // Create a handler for the sendButton and nameField
-		// class MyHandler implements ClickHandler, KeyUpHandler {
-		// /**
-		// * Fired when the user clicks on the sendButton.
-		// */
-		// public void onClick(ClickEvent event) {
-		// sendNameToServer();
-		// }
-		//
-		// /**
-		// * Fired when the user types in the nameField.
-		// */
-		// public void onKeyUp(KeyUpEvent event) {
-		// if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-		// sendNameToServer();
-		// }
-		// }
-		//
-		// /**
-		// * Send the name from the nameField to the server and wait for a
-		// * response.
-		// */
-		// private void sendNameToServer() {
-		// // First, we validate the input.
-		// // errorLabel.setText("");
-		// String textToServer = nameField.getText();
-		// if (!FieldVerifier.isValidName(textToServer)) {
-		// // errorLabel.setText("Please enter at least four characters");
-		// return;
-		// }
-		//
-		// // Then, we send the input to the server.
-		// textToServerLabel.setText(textToServer);
-		// serverResponseLabel.setText("");
-		// greetingService.greetServer(textToServer,
-		// new AsyncCallback<String>() {
-		// public void onFailure(Throwable caught) {
-		// // Show the RPC error message to the user
-		// dialogBox
-		// .setText("Remote Procedure Call - Failure");
-		// serverResponseLabel
-		// .addStyleName("serverResponseLabelError");
-		// serverResponseLabel.setHTML(SERVER_ERROR);
-		// dialogBox.center();
-		// closeButton.setFocus(true);
-		// }
-		//
-		// public void onSuccess(String result) {
-		// dialogBox.setText("Remote Procedure Call");
-		// serverResponseLabel
-		// .removeStyleName("serverResponseLabelError");
-		// serverResponseLabel.setHTML(result);
-		// dialogBox.center();
-		// closeButton.setFocus(true);
-		// }
-		// });
-		// }
-		// }
-		// // Add a handler to send the name to the server
-		// MyHandler handler = new MyHandler();
-		// nameField.addKeyUpHandler(handler);
-		// }
 	}
 
 	private ClickHandler getMainButtonClickHandler(final int testNumber) {
@@ -251,6 +142,7 @@ public class MainScreen implements EntryPoint {
 				if (approveHandlerRegistration != null) {
 					approveHandlerRegistration.removeHandler();
 				}
+
 				examineeContainer.setVisible(true);
 				examineeNumber.setFocus(true);
 				approveHandlerRegistration = approveButton
@@ -288,9 +180,11 @@ public class MainScreen implements EntryPoint {
 		} else if (testNumber == 2) {
 			cardsExam(true, examineeNumber);
 		} else if (testNumber == 3) {
-			mathExam(false, examineeNumber);
-		} else { // (testNumber == 4)
-			mathExam(true, examineeNumber);
+			mathExam(false, examineeNumber, false);
+		} else if (testNumber == 4) {
+			mathExam(true, examineeNumber, false);
+		} else { // math preview
+			mathExam(false, examineeNumber, true);
 		}
 	}
 
@@ -301,9 +195,9 @@ public class MainScreen implements EntryPoint {
 		controlPanel.setVisible(false);
 	}
 
-	private void mathExam(Boolean isPresure, String examineeNumber) {
+	private void mathExam(Boolean isPresure, String examineeNumber, Boolean isPreview) {
 		MathScreenPresenter mathScreenPresenter = new MathScreenPresenter(
-				isPresure, examineeNumber);
+				isPresure, examineeNumber, isPreview);
 		mainContainer.add(mathScreenPresenter.getWidget());
 		controlPanel.setVisible(false);
 	}

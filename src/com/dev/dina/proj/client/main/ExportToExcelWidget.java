@@ -13,6 +13,10 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.gwtTableToExcel.client.TableToExcelClientBuilder;
 
+/**
+ * @author Alon Kodner
+ */
+
 public class ExportToExcelWidget extends Composite {
 	private Button exportWidget;
 	@UiField(provided = true)

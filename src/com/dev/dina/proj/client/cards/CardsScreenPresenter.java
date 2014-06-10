@@ -10,11 +10,15 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author Alon Kodner
+ */
+
 public class CardsScreenPresenter extends AbstractTestPresenter {
 	private CardsScreenView view;
 	private static final int MAX_STEPS = 4;
-	private static int TEST_TIME = 10;
-	private static int PENALTY_POINTS = 10;
+	private static int TEST_TIME = 3;
+	private static int PENALTY_POINTS = 300;
 
 	private int totalWinAmount, totalLoseAmount, totalPoints;
 
@@ -77,7 +81,6 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		totalPoints = 0;
 		totalWinAmount = 0;
 		totalLoseAmount = 0;
-		turnTime = 0;
 		updatePoints(0, 0);
 
 		Date now = new Date();
@@ -146,6 +149,10 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		addColumnToTable(
 				questionNumner + MyConstants.INSTANCE.loseAmountOutput(),
 				String.valueOf(reducedPoints));
+		
+		addColumnToTable(
+				questionNumner + MyConstants.INSTANCE.turnTotalAmountOutput(),
+				String.valueOf(addedPoints - reducedPoints));
 
 		playTurn();
 	}

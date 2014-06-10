@@ -3,6 +3,10 @@ package com.dev.dina.proj.client.constants;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Constants;
 
+/**
+ * @author Alon Kodner
+ */
+
 public interface MyConstants extends Constants {
 	static final MyConstants INSTANCE = GWT.create(MyConstants.class);
 
@@ -36,6 +40,10 @@ public interface MyConstants extends Constants {
 	
 	String mathExamExplanation();
 	
+	String correctAnswer();
+	
+	String incorrectAnswer();
+	
 //	File output
 	String examineeNumberOutput();
 
@@ -58,10 +66,14 @@ public interface MyConstants extends Constants {
 	String winAmountOutput();
 
 	String loseAmountOutput();
+	
+	String turnTotalAmountOutput();
 
 	String totalWinAmountOutput();
 
 	String totalLoseAmountOutput();
 
 	String totalAmountOutput();
+
+	String numberOfStepsOutput();	
 }

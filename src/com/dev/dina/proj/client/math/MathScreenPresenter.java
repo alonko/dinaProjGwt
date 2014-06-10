@@ -7,7 +7,6 @@ import com.dev.dina.proj.client.events.AnswerRecivedEvent;
 import com.dev.dina.proj.client.events.AnswerRecivedHandler;
 import com.dev.dina.proj.client.main.AbstractTestPresenter;
 import com.dev.dina.proj.client.main.AppUtils;
-import com.dev.dina.proj.client.popup.MessageBox;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -15,9 +14,13 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author Alon Kodner
+ */
+
 public class MathScreenPresenter extends AbstractTestPresenter {
 	private MathScreenView view;
-	private static int TEST_TIME = 10;
+	private static int TEST_TIME = 20;
 	private static final int MAX_STEPS = 4;
 	private static final int PREVIEW_CORRECT_ANSWERS = 2;
 	private int numberOfCorrectAnswers;
@@ -30,13 +33,21 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 			1000, 1100, 1200 };
 	private Boolean isPreview;
 
-	public MathScreenPresenter(Boolean isPresure, String examineeNumber) {
+	public MathScreenPresenter(Boolean isPresure, String examineeNumber,
+			Boolean isPreview) {
 		super(isPresure, examineeNumber);
-		isPreview = true;
+		this.isPreview = isPreview;
 		view = new MathScreenView();
-		addExportWidget("Math");
 		setHandlers();
-		showExplanationScreen(MyConstants.INSTANCE.examExplanation(),MyConstants.INSTANCE.mathExamExplanation());		
+		String fileName;
+		if (isPreview) {
+			fileName = "Preview_Math";
+		} else {
+			fileName = "Math";
+		}
+		addExportWidget(fileName);
+		showExplanationScreen(MyConstants.INSTANCE.examExplanation(),
+				MyConstants.INSTANCE.mathExamExplanation());
 	}
 
 	private void setHandlers() {
@@ -56,8 +67,16 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 				Boolean isCorrectAnswer = isCorrectAnswer();
 				if (isCorrectAnswer) {
 					numberOfCorrectAnswers++;
-				} else if (isPreview) {
-					numberOfCorrectAnswers = 0;
+					if (!isPresure) {
+						view.setMessageToUser(MyConstants.INSTANCE
+								.correctAnswer(), true);
+					}
+				} else {// incorrect answer
+					view.setMessageToUser(MyConstants.INSTANCE
+							.incorrectAnswer(), false);
+					if (isPreview) {
+						numberOfCorrectAnswers = 0;
+					}
 				}
 
 				if (!isPreview) {
@@ -107,15 +126,20 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 	protected void beginTest() {
 		super.beginTest();
 		numberOfCorrectAnswers = 0;
+
+		Date now = new Date();
+		addColumnToTable(MyConstants.INSTANCE.examineeNumberOutput(),
+				examineeNumber);
+		addColumnToTable(MyConstants.INSTANCE.dateOutput(), now.toString());
 		if (!isPreview) {
-			Date now = new Date();
-			addColumnToTable(MyConstants.INSTANCE.examineeNumberOutput(),
-					examineeNumber);
-			addColumnToTable(MyConstants.INSTANCE.dateOutput(), now.toString());
 			addColumnToTable(MyConstants.INSTANCE.isPresureOutput(),
 					isPresure.toString());
 		}
-		view.setTimerVisible(isPresure);
+		if (isPreview) {
+			view.setTimerVisible(false);
+		} else {
+			view.setTimerVisible(isPresure);
+		}
 		playTurn();
 	}
 
@@ -123,8 +147,14 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 	protected void finishTest() {
 		super.finishTest();
 		view.setTimerVisible(false);
-		addColumnToTable(MyConstants.INSTANCE.numberOfCorrectAnswersOutput(),
-				String.valueOf(numberOfCorrectAnswers));		
+		if (!isPreview) {
+			addColumnToTable(
+					MyConstants.INSTANCE.numberOfCorrectAnswersOutput(),
+					String.valueOf(numberOfCorrectAnswers));
+		} else {
+			addColumnToTable(MyConstants.INSTANCE.numberOfStepsOutput(),
+					String.valueOf(step));
+		}
 	}
 
 	private void playTurn() {
@@ -155,18 +185,7 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 				view.setThirdValue(getRandomNumber(100, 999));
 				step++;
 			} else {
-				isPreview = false;
-				final MessageBox msgBox = new MessageBox(
-						MyConstants.INSTANCE.previewComplete());
-				msgBox.setCloseButtonHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-						step = 0;
-						beginTest();
-						msgBox.hide();
-					}
-				});
-				msgBox.show();
+				finishTest();
 			}
 		}
 	}
@@ -185,7 +204,7 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 					if (turnTime < TEST_TIME) {
 						view.setTimer(TEST_TIME - turnTime);
 					} else {
-						view.getApproveBtn().click();						
+						view.getApproveBtn().click();
 					}
 				}
 			}

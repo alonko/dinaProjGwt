@@ -12,6 +12,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
+/**
+ * @author Alon Kodner
+ */
+
 public class MessageBox {
 	private PopupPanel root;
 	@UiField

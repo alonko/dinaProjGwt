@@ -9,7 +9,11 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public abstract class AbstractTestPresenter {	
+/**
+ * @author Alon Kodner
+ */
+
+public abstract class AbstractTestPresenter {
 	protected int step;
 	protected int turnTime;
 	protected int totalTestTime;
@@ -27,7 +31,8 @@ public abstract class AbstractTestPresenter {
 	}
 
 	protected void addExportWidget(String testType) {
-		exportWidget = new ExportToExcelWidget(examineeNumber,testType,isPresure);
+		exportWidget = new ExportToExcelWidget(examineeNumber, testType,
+				isPresure);
 		exportWidget.setVisible(false);
 
 		getMmainContainer().add(exportWidget);
@@ -37,24 +42,29 @@ public abstract class AbstractTestPresenter {
 
 	protected void beginTest() {
 		step = 0;
+		turnTime = 0;
+		totalTestTime = 0;
 	}
-	
-	protected void finishTest(){
+
+	protected void finishTest() {
 		timer.cancel();
 		addColumnToTable(MyConstants.INSTANCE.totalTestTimeOutput(),
 				String.valueOf(totalTestTime));
 		showTestCompleteMessage();
 	}
-	
+
 	protected void addColumnToTable(String header, String value) {
-		exportWidget.getExportFlexTable().setWidget(0, gridColumnNumber, new Label(header));
-		exportWidget.getExportFlexTable().setWidget(1, gridColumnNumber, new Label(value));
+		exportWidget.getExportFlexTable().setWidget(0, gridColumnNumber,
+				new Label(header));
+		exportWidget.getExportFlexTable().setWidget(1, gridColumnNumber,
+				new Label(value));
 		gridColumnNumber++;
-		
+
 	}
-	
+
 	protected void showTestCompleteMessage() {
-		final MessageBox messageBox = new MessageBox(MyConstants.INSTANCE.testComplete());
+		final MessageBox messageBox = new MessageBox(
+				MyConstants.INSTANCE.testComplete());
 		messageBox.setTitle(MyConstants.INSTANCE.testComplete());
 		messageBox.show();
 		messageBox.setCloseButtonHandler(new ClickHandler() {
@@ -66,9 +76,9 @@ public abstract class AbstractTestPresenter {
 			}
 		});
 	}
-	
+
 	protected void showExplanationScreen(String title, String message) {
-		final MessageBox msgBox = new MessageBox(title,message);
+		final MessageBox msgBox = new MessageBox(title, message);
 		msgBox.asWidget().setSize("700px", "400px");
 		msgBox.setCloseButtonHandler(new ClickHandler() {
 			@Override

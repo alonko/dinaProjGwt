@@ -25,6 +25,10 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author Alon Kodner
+ */
+
 public class MathWidget extends Composite implements HasValue<String>,
 		IsEditor<TakesValueEditor<String>> {
 	private final static int CURSOR_LEFT = 37;
@@ -62,74 +66,57 @@ public class MathWidget extends Composite implements HasValue<String>,
 	}
 
 	private void addHandlers() {
-		firstValue.addKeyDownHandler(new KeyDownHandler() {
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				int keyPressed = event.getNativeKeyCode();
-				if (keyPressed == ENTER) {
-					AppUtils.EVENT_BUS.fireEvent(new AnswerRecivedEvent());
-				} else if (keyPressed != CURSOR_LEFT
-						&& keyPressed != CURSOR_RIGHT) {
-					firstValue.setValue("");
-				} else if (keyPressed == CURSOR_LEFT) {
-					secondValue.setFocus(true);
-				}
-			}
-		});
+		firstValue.addKeyDownHandler(getKeyDownHandler(firstValue, secondValue,
+				null));
 
-		secondValue.addKeyDownHandler(new KeyDownHandler() {
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				int keyPressed = event.getNativeKeyCode();
-				if (keyPressed == ENTER) {
-					AppUtils.EVENT_BUS.fireEvent(new AnswerRecivedEvent());
-				} else if (keyPressed != CURSOR_LEFT
-						&& keyPressed != CURSOR_RIGHT) {
-					secondValue.setValue("");
-				} else if (keyPressed == CURSOR_LEFT) {
-					thirdValue.setFocus(true);
-				} else {
-					firstValue.setFocus(true);
-				}
-			}
-		});
+		secondValue.addKeyDownHandler(getKeyDownHandler(secondValue,
+				thirdValue, firstValue));
 
-		thirdValue.addKeyDownHandler(new KeyDownHandler() {
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				int keyPressed = event.getNativeKeyCode();
-				if (keyPressed == ENTER) {
-					AppUtils.EVENT_BUS.fireEvent(new AnswerRecivedEvent());
-				} else if (keyPressed != CURSOR_LEFT
-						&& keyPressed != CURSOR_RIGHT) {
-					thirdValue.setValue("");
-				} else if (keyPressed == CURSOR_LEFT) {
-					forthValue.setFocus(true);
-				} else {
-					secondValue.setFocus(true);
-				}
-			}
-		});
+		thirdValue.addKeyDownHandler(getKeyDownHandler(thirdValue, forthValue,
+				secondValue));
 
-		forthValue.addKeyDownHandler(new KeyDownHandler() {
+		forthValue.addKeyDownHandler(getKeyDownHandler(forthValue, null,
+				thirdValue));
+	}
+
+	private KeyDownHandler getKeyDownHandler(final TextBox widget,
+			final TextBox leftWidget, final TextBox rightWidget) {
+		return new KeyDownHandler() {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				int keyPressed = event.getNativeKeyCode();
 				if (keyPressed == ENTER) {
 					AppUtils.EVENT_BUS.fireEvent(new AnswerRecivedEvent());
-				} else if (keyPressed != CURSOR_LEFT
-						&& keyPressed != CURSOR_RIGHT) {
-					forthValue.setValue("");
+				} else if (keyPressed == CURSOR_LEFT) {
+					if (leftWidget != null) {
+						leftWidget.setFocus(true);
+					}
 				} else if (keyPressed == CURSOR_RIGHT) {
-					thirdValue.setFocus(true);
+					if (rightWidget != null) {
+						rightWidget.setFocus(true);
+					}
+					// } else if (!Character.isDigit(keyPressed)) {
+				} else if (!(keyPressed >= '0' && keyPressed <= '9')) {
+					widget.cancelKey();
+				}else{
+					widget.setValue("");
 				}
+
+				// if (leftWidget != null) {
+				// leftWidget.setFocus(true);
+				// }
+				// } else if (keyPressed != CURSOR_LEFT
+				// && keyPressed != CURSOR_RIGHT) {
+				// widget.setValue("");
+				// }
+
 			}
-		});
+		};
 	}
 
 	@UiHandler("firstValue")
 	void onKeyUp(KeyUpEvent event) {
-		// if 2 chars were entered focus the next box
+		// // if 2 chars were entered focus the next box
 		int keyPressed = event.getNativeKeyCode();
 		if (keyPressed != CURSOR_LEFT && keyPressed != CURSOR_RIGHT) {
 			if (firstValue.getText().length() == firstValue.getMaxLength())
@@ -139,7 +126,7 @@ public class MathWidget extends Composite implements HasValue<String>,
 
 	@UiHandler("secondValue")
 	void onKeyUp2(KeyUpEvent event) {
-		// if 2 chars were entered focus the next box
+		// // if 2 chars were entered focus the next box
 		int keyPressed = event.getNativeKeyCode();
 		if (keyPressed != CURSOR_LEFT && keyPressed != CURSOR_RIGHT) {
 			if (secondValue.getText().length() == secondValue.getMaxLength())
@@ -157,15 +144,15 @@ public class MathWidget extends Composite implements HasValue<String>,
 		}
 	}
 
-	@UiHandler("forthValue")
-	void onKeyUp4(KeyUpEvent event) {
-		// if 2 chars were entered focus the next box
-		int keyPressed = event.getNativeKeyCode();
-		if (keyPressed != CURSOR_LEFT && keyPressed != CURSOR_RIGHT) {
-			if (forthValue.getText().length() == thirdValue.getMaxLength())
-				firstValue.setFocus(true);
-		}
-	}
+//	@UiHandler("forthValue")
+//	void onKeyUp4(KeyUpEvent event) {
+//		// if 2 chars were entered focus the next box
+//		int keyPressed = event.getNativeKeyCode();
+//		if (keyPressed != CURSOR_LEFT && keyPressed != CURSOR_RIGHT) {
+//			if (forthValue.getText().length() == forthValue.getMaxLength())
+//				firstValue.setFocus(true);
+//		}
+//	}
 
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return addDomHandler(handler, ChangeEvent.getType());

@@ -1,13 +1,13 @@
+<!-- @author Alon Kodner -->
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:math="urn:import:com.dev.dina.proj.client.math.widget">
 	<ui:with type="com.dev.dina.proj.client.resources.ProjectResources"
 		field="res" />
 
-	<g:FlowPanel>
+	<g:FlowPanel styleName="{res.css.mathMainContainer}">
 		<g:FlowPanel styleName="{res.css.mathContainer}">
 			<g:FlowPanel ui:field="mainContainer" styleName="{res.css.questionPanel}">
-
 				<g:Label ui:field="firstNumberLbl" styleName="{res.css.mathValue}" />
 
 				<g:Label text="+" styleName="{res.css.addLbl}" />
@@ -29,6 +29,10 @@
 		<g:FlowPanel styleName="{res.css.timerContainer}">
 			<g:Label ui:field="timerLbl" text="Time left:" />
 			<g:Label ui:field="timerValue" styleName="{res.css.timer}" />
+		</g:FlowPanel>
+		
+		<g:FlowPanel styleName="{res.css.messagePanel}">
+			<g:Label ui:field="messageLbl"/>
 		</g:FlowPanel>
 	</g:FlowPanel>
 </ui:UiBinder> 

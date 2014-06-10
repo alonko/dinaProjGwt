@@ -9,6 +9,10 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author Alon Kodner
+ */
+
 public class CardsScreenView {
 	private Widget root;
 	@UiField

@@ -5,6 +5,10 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
 
+/**
+ * @author Alon Kodner
+ */
+
 public interface ProjectResources extends ClientBundle {
 	public static final ProjectResources INSTANCE = GWT
 			.create(ProjectResources.class);
@@ -21,9 +25,9 @@ public interface ProjectResources extends ClientBundle {
 	public interface ProjectCssResources extends CssResource {
 		// Main
 		String mainButton();
-		
+
 		String okButton();
-		
+
 		String mainButtonContainer();
 
 		String controlPanel();
@@ -37,32 +41,32 @@ public interface ProjectResources extends ClientBundle {
 		String timer();
 
 		String examineeContainer();
-		
+
 		String examineeInnerContainer();
 
 		String examineeLbl();
-		
+
 		String examineeText();
-		
+
 		String popupPanel();
-		
+
 		String popupContainer();
-		
+
 		String popupTextArea();
-		
+
 		String popupCloseButton();
-		
+
 		String popupTitle();
-		
+
 		// Cards
 		String cardsMainPanel();
 
 		String resultPanel();
-		
-		String resultInnerPanel(); 
-		
+
+		String resultInnerPanel();
+
 		String resultLbl();
-		
+
 		String resultValue();
 
 		String cardContainer();
@@ -73,18 +77,26 @@ public interface ProjectResources extends ClientBundle {
 		String instructionsPanel();
 
 		// Math
+		String mathMainContainer();
+
 		String mathContainer();
 
 		String mathValue();
-		
+
 		String addLbl();
 
 		String equals();
-		
+
 		String questionPanel();
 
 		String answerPanel();
 
 		String answer();
+
+		String messagePanel();
+
+		String posetiveMessage();
+
+		String negativeMessage();
 	}
 }
