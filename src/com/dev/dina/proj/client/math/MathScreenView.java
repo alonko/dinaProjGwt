@@ -38,7 +38,6 @@ public class MathScreenView {
 	public MathScreenView() {
 		root = uiBinder.createAndBindUi(this);
 		approveBtn.setText(MyConstants.INSTANCE.approveBtn());
-		messageLbl.setText("qwewqe");
 	}
 
 	public Widget asWidget() {
@@ -109,7 +108,7 @@ public class MathScreenView {
 		Timer timer = new Timer() {
 			@Override
 			public void run() {
-//				messageLbl.setText("");
+				messageLbl.setText("");
 			}
 		};
 		timer.schedule(5000);
