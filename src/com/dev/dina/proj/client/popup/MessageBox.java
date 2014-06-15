@@ -1,6 +1,8 @@
 package com.dev.dina.proj.client.popup;
 
 import com.dev.dina.proj.client.constants.MyConstants;
+import com.dev.dina.proj.client.resources.ProjectResources;
+import com.dev.dina.proj.client.resources.ProjectResources.ProjectCssResources;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -25,6 +27,8 @@ public class MessageBox {
 	@UiField
 	Label title;
 
+	private ProjectCssResources style;
+
 	private static MessageBoxUiBinder uiBinder = GWT
 			.create(MessageBoxUiBinder.class);
 
@@ -36,14 +40,22 @@ public class MessageBox {
 		setTitle(title);
 	}
 
+	public MessageBox() {
+		this("");
+	}
+
 	public MessageBox(String text) {
 		root = uiBinder.createAndBindUi(this);
+		style = ProjectResources.INSTANCE.css();
+		
 		setDescriptionText(text);
 		root.setAnimationEnabled(true);
 		root.setModal(true);
+		root.setSize("600px", "500px");
 		messageContent.setEnabled(false);
 		closeButton.setText(MyConstants.INSTANCE.closeBtn());
 		setHandlers();
+		
 	}
 
 	private void setHandlers() {
@@ -57,12 +69,6 @@ public class MessageBox {
 
 	public void show() {
 		root.center();
-//		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-//			@Override
-//			public void execute() {
-//				closeButton.setFocus(true);
-//			}
-//		});
 	}
 
 	public void hide() {
@@ -73,9 +79,22 @@ public class MessageBox {
 		closeButton.addClickHandler(clickHandler);
 	}
 
+	public void setDescriptionText(String text, Boolean isPositive) {
+		setDescriptionText(text);
+		if (isPositive) {
+			messageContent.addStyleName(style.posetiveMessage());
+			messageContent.removeStyleName(style.negativeMessage());
+		}else{
+			messageContent.addStyleName(style.negativeMessage());
+			messageContent.removeStyleName(style.posetiveMessage());
+		}
+	}
+
 	public void setDescriptionText(String text) {
 		messageContent.setVisible(true);
 		messageContent.setText(text);
+		messageContent.removeStyleName(style.posetiveMessage());
+		messageContent.removeStyleName(style.negativeMessage());
 	}
 
 	public PopupPanel asWidget() {

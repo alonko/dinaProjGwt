@@ -16,13 +16,13 @@
 				<g:Label text="+" styleName="{res.css.addLbl}" />
 				<g:Label ui:field="thirdNumberLbl" styleName="{res.css.mathValue}" />
 				<g:Label ui:field="equalsLbl" styleName="{res.css.equals}"
-					text="------" />
+					text="--------" />
 			</g:FlowPanel>			
 
 			<math:MathWidget ui:field="answerWidget"/>
 
-			<g:FlowPanel styleName="{res.css.answerPanel}">
-				<g:Button ui:field="approveBtn"  styleName="{res.css.okButton}"/>
+			<g:FlowPanel styleName="{res.css.buttonPanel}">
+				<g:Button ui:field="approveBtn"/>
 			</g:FlowPanel>
 		</g:FlowPanel>
 
@@ -31,8 +31,8 @@
 			<g:Label ui:field="timerValue" styleName="{res.css.timer}" />
 		</g:FlowPanel>
 		
-		<g:FlowPanel styleName="{res.css.messagePanel}">
+		<!-- <g:FlowPanel styleName="{res.css.messagePanel}">
 			<g:Label ui:field="messageLbl"/>
-		</g:FlowPanel>
+		</g:FlowPanel> -->
 	</g:FlowPanel>
 </ui:UiBinder> 

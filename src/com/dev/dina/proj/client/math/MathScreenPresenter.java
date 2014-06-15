@@ -7,6 +7,7 @@ import com.dev.dina.proj.client.events.AnswerRecivedEvent;
 import com.dev.dina.proj.client.events.AnswerRecivedHandler;
 import com.dev.dina.proj.client.main.AbstractTestPresenter;
 import com.dev.dina.proj.client.main.AppUtils;
+import com.dev.dina.proj.client.popup.MessageBox;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -21,16 +22,34 @@ import com.google.gwt.user.client.ui.Widget;
 public class MathScreenPresenter extends AbstractTestPresenter {
 	private MathScreenView view;
 	private static int TEST_TIME = 20;
-	private static final int MAX_STEPS = 4;
+	private static final int MAX_STEPS = 17;
 	private static final int PREVIEW_CORRECT_ANSWERS = 2;
 	private int numberOfCorrectAnswers;
 
-	private int[] firstNumbersArray = { 100, 200, 300, 400, 500, 600, 700, 800,
-			900, 1000 };
-	private int[] secondNumbersArray = { 200, 300, 400, 500, 600, 700, 800,
-			900, 1000, 1100 };
-	private int[] thirdNumbersArray = { 300, 400, 500, 600, 700, 800, 900,
-			1000, 1100, 1200 };
+	private int[] firstNumbers = { 801, 903, 414, 490, 115, 975, 711, 147, 148,
+			748, 683, 346, 627, 279, 826, 229, 482, 716, 114, 125, 775, 409,
+			338, 638, 167, 498, 521, 238, 426, 116 };
+
+	private int[] secondNumbers = { 483, 534, 783, 321, 385, 837, 998, 311,
+			982, 227, 986, 224, 240, 401, 597, 880, 997, 370, 603, 562, 387,
+			222, 438, 465, 587, 330, 150, 398, 928, 677 };
+
+	private int[] thirdNumbers = { 975, 470, 600, 966, 269, 957, 831, 585, 218,
+			417, 474, 634, 708, 135, 944, 653, 756, 583, 438, 504, 293, 882,
+			716, 912, 658, 420, 138, 426, 367, 196 };
+
+	private int[] previewFirstNumbers = { 602, 927, 519, 863, 400, 875, 646,
+			778, 600, 367, 227, 957, 396, 890, 248, 150, 285, 614, 325, 594,
+			563, 893, 425, 491, 702, 139, 673, 722, 519, 493 };
+
+	private int[] previewSecondNumbers = { 802, 256, 325, 135, 984, 475, 803,
+			118, 768, 736, 706, 388, 859, 754, 399, 258, 809, 434, 871, 587,
+			579, 918, 309, 202, 370, 268, 200, 139, 445, 238 };
+
+	private int[] previewThirdNumbers = { 965, 963, 883, 694, 828, 825, 977,
+			325, 244, 780, 163, 495, 656, 831, 631, 993, 200, 882, 369, 562,
+			396, 246, 538, 643, 107, 537, 174, 724, 404, 322 };
+
 	private Boolean isPreview;
 
 	public MathScreenPresenter(Boolean isPresure, String examineeNumber,
@@ -64,26 +83,45 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 		view.getApproveBtn().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				Boolean isCorrectAnswer = isCorrectAnswer();
+				Boolean showMessage = false;
+				final Boolean isCorrectAnswer = isCorrectAnswer();
+				final MessageBox messageBox = new MessageBox();
 				if (isCorrectAnswer) {
 					numberOfCorrectAnswers++;
 					if (!isPresure) {
-						view.setMessageToUser(MyConstants.INSTANCE
-								.correctAnswer(), true);
+						showMessage = true;
+						messageBox.setDescriptionText(
+								MyConstants.INSTANCE.correctAnswer(), true);
+						messageBox.show();
 					}
 				} else {// incorrect answer
-					view.setMessageToUser(MyConstants.INSTANCE
-							.incorrectAnswer(), false);
+					showMessage = true;
+					messageBox.setDescriptionText(
+							MyConstants.INSTANCE.incorrectAnswer(), false);
+					messageBox.show();
 					if (isPreview) {
 						numberOfCorrectAnswers = 0;
 					}
 				}
 
-				if (!isPreview) {
-					updateOutputFile(isCorrectAnswer);
+				if (!showMessage) {
+					view.clearValue();
+					playTurn();
+				} else {
+					Timer timer = new Timer() {
+						@Override
+						public void run() {
+							messageBox.hide();
+							if (!isPreview) {
+								updateOutputFile(isCorrectAnswer);
+							}
+							view.clearValue();
+							playTurn();
+						}
+					};
+					timer.schedule(2000);
 				}
-				view.clearValue();
-				playTurn();
+
 			}
 
 			private void updateOutputFile(Boolean isCorrectAnswer) {
@@ -171,27 +209,23 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 
 		if (!isPreview) {
 			if (step <= MAX_STEPS) {
-				view.setFirstValue(firstNumbersArray[step]);
-				view.setSecondValue(secondNumbersArray[step]);
-				view.setThirdValue(thirdNumbersArray[step]);
+				view.setFirstValue(firstNumbers[step]);
+				view.setSecondValue(secondNumbers[step]);
+				view.setThirdValue(thirdNumbers[step]);
 				step++;
 			} else {
 				finishTest();
 			}
 		} else { // preview
 			if (numberOfCorrectAnswers < PREVIEW_CORRECT_ANSWERS) {
-				view.setFirstValue(getRandomNumber(100, 999));
-				view.setSecondValue(getRandomNumber(100, 999));
-				view.setThirdValue(getRandomNumber(100, 999));
+				view.setFirstValue(previewFirstNumbers[step]);
+				view.setSecondValue(previewSecondNumbers[step]);
+				view.setThirdValue(previewThirdNumbers[step]);
 				step++;
 			} else {
 				finishTest();
 			}
 		}
-	}
-
-	private int getRandomNumber(int min, int max) {
-		return (min + (int) (Math.random() * ((max - min) + 1)));
 	}
 
 	@Override

@@ -22,10 +22,12 @@ public abstract class AbstractTestPresenter {
 	protected ExportToExcelWidget exportWidget;
 	protected int gridColumnNumber;
 	protected String examineeNumber;
+//	protected MessageBox messageBox;
 
 	public AbstractTestPresenter(Boolean isPresure, String examineeNumber) {
 		this.isPresure = isPresure;
 		this.examineeNumber = examineeNumber;
+//		messageBox = new MessageBox();
 		gridColumnNumber = 0;
 		turnTime = 0;
 	}
@@ -63,8 +65,8 @@ public abstract class AbstractTestPresenter {
 	}
 
 	protected void showTestCompleteMessage() {
-		final MessageBox messageBox = new MessageBox(
-				MyConstants.INSTANCE.testComplete());
+		final MessageBox messageBox = new MessageBox();
+		messageBox.setDescriptionText(MyConstants.INSTANCE.testComplete());
 		messageBox.setTitle(MyConstants.INSTANCE.testComplete());
 		messageBox.show();
 		messageBox.setCloseButtonHandler(new ClickHandler() {
@@ -78,16 +80,18 @@ public abstract class AbstractTestPresenter {
 	}
 
 	protected void showExplanationScreen(String title, String message) {
-		final MessageBox msgBox = new MessageBox(title, message);
-		msgBox.asWidget().setSize("700px", "400px");
-		msgBox.setCloseButtonHandler(new ClickHandler() {
+		final MessageBox messageBox = new MessageBox();
+		messageBox.setDescriptionText(message);
+		messageBox.setTitle(title);
+		messageBox.asWidget().setSize("700px", "400px");
+		messageBox.setCloseButtonHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				msgBox.hide();
+				messageBox.hide();
 				beginTest();
 			}
 		});
-		msgBox.show();
+		messageBox.show();
 	}
 
 	protected abstract void updateTimer();

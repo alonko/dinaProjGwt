@@ -16,20 +16,34 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CardsScreenPresenter extends AbstractTestPresenter {
 	private CardsScreenView view;
-	private static final int MAX_STEPS = 4;
+	private static final int MAX_STEPS = 50;
 	private static int TEST_TIME = 3;
 	private static int PENALTY_POINTS = 300;
 
+	private static int DECK_A_POSITIVE_POINTS = 100;
+	private static int DECK_B_POSITIVE_POINTS = 100;
+	private static int DECK_C_POSITIVE_POINTS = 50;
+	private static int DECK_D_POSITIVE_POINTS = 50;
+
 	private int totalWinAmount, totalLoseAmount, totalPoints;
 
-	private int[] firstDeckPositivePoints = { 100, 200, 300, 400 };
-	private int[] firstDeckNegativePoints = { 50, 300, 100, 0 };
-	private int[] secondDeckPositivePoints = { 100, 200, 300, 400 };
-	private int[] secondDeckNegativePoints = { 50, 300, 100, 0 };
-	private int[] thirdDeckPositivePoints = { 100, 200, 300, 400 };
-	private int[] thirdDeckNegativePoints = { 50, 300, 100, 0 };
-	private int[] forthDeckPositivePoints = { 100, 200, 300, 400 };
-	private int[] forthDeckNegativePoints = { 50, 300, 100, 0 };
+	private int[] deckANegativePoints = { 0, 0, 150, 0, 300, 0, 200, 0, 250,
+			350, 0, 350, 0, 250, 200, 0, 300, 150, 0, 0, 0, 300, 0, 350, 0,
+			200, 250, 150, 0, 0, 350, 200, 250, 0, 0, 0, 150, 300, 0, 0, 0, 0,
+			150, 0, 300, 0, 200, 0, 250, 350 };
+
+	private int[] deckBNegativePoints = { 0, 0, 0, 0, 0, 0, 0, 0, 1250, 0, 0,
+			0, 0, 1250, 0, 0, 0, 0, 0, 0, 1250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			1250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1250, 0 };
+
+	private int[] deckCNegativePoints = { 0, 0, 50, 0, 50, 0, 50, 0, 50, 50, 0,
+			25, 75, 0, 0, 0, 25, 75, 0, 50, 0, 0, 0, 50, 25, 50, 0, 0, 75, 50,
+			0, 0, 0, 25, 25, 0, 75, 0, 50, 75, 0, 0, 50, 0, 50, 0, 50, 0, 50,
+			50 };
+
+	private int[] deckDNegativePoints = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 250, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 250, 0, 0, 0, 0,
+			0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 250 };
 
 	public CardsScreenPresenter(Boolean isPresure, String examineeNumber) {
 		super(isPresure, examineeNumber);
@@ -45,32 +59,32 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		view.getCard1().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(firstDeckPositivePoints[step],
-						firstDeckNegativePoints[step], "A");
+				cardClicked(DECK_A_POSITIVE_POINTS, deckANegativePoints[step],
+						"A");
 			}
 		});
 
 		view.getCard2().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(secondDeckPositivePoints[step],
-						secondDeckNegativePoints[step], "B");
+				cardClicked(DECK_B_POSITIVE_POINTS, deckBNegativePoints[step],
+						"B");
 			}
 		});
 
 		view.getCard3().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(thirdDeckPositivePoints[step],
-						thirdDeckNegativePoints[step], "C");
+				cardClicked(DECK_C_POSITIVE_POINTS, deckCNegativePoints[step],
+						"C");
 			}
 		});
 
 		view.getCard4().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(forthDeckPositivePoints[step],
-						forthDeckNegativePoints[step], "D");
+				cardClicked(DECK_D_POSITIVE_POINTS, deckDNegativePoints[step],
+						"D");
 			}
 		});
 	}
@@ -149,7 +163,7 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		addColumnToTable(
 				questionNumner + MyConstants.INSTANCE.loseAmountOutput(),
 				String.valueOf(reducedPoints));
-		
+
 		addColumnToTable(
 				questionNumner + MyConstants.INSTANCE.turnTotalAmountOutput(),
 				String.valueOf(addedPoints - reducedPoints));

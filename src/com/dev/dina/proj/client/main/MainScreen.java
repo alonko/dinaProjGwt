@@ -33,6 +33,7 @@ public class MainScreen implements EntryPoint {
 	private FlowPanel examineeContainer;
 	private Button approveButton;
 	private TextBox examineeNumber;
+	private MessageBox messageBox;
 
 	private final static int ENTER = KeyCodes.KEY_ENTER;
 
@@ -42,16 +43,17 @@ public class MainScreen implements EntryPoint {
 	public void onModuleLoad() {
 		style = ProjectResources.INSTANCE.css();
 		style.ensureInjected();
+		messageBox = new MessageBox();
 
 		Label buttonsHeader = new Label();
 		buttonsHeader.setStyleName(style.buttonsHeader());
 		buttonsHeader.setText(MyConstants.INSTANCE.selectTask());
 
-		final Button mathPreviewExaButton = createButton("MathPre");
+		final Button mathPreviewExaButton = createButton("Math Preview");
 		final Button mathExamButton = createButton("Math");
-		final Button mathPresureExamButton = createButton("MathP");
+		final Button mathPresureExamButton = createButton("Math Pressure");
 		final Button cardsExaButton = createButton("Cards");
-		final Button cardsPresureExaButton = createButton("CardsP");
+		final Button cardsPresureExaButton = createButton("Cards Pressure");
 
 		Label examineeLbl = new Label(MyConstants.INSTANCE.examineeLbl());
 		examineeLbl.setStyleName(style.examineeLbl());
@@ -68,7 +70,10 @@ public class MainScreen implements EntryPoint {
 			}
 		});
 		approveButton = new Button(MyConstants.INSTANCE.approveBtn());// createButton(MyConstants.INSTANCE.approveBtn());
-
+		approveButton.addStyleName("btn");
+		approveButton.addStyleName("btn-large");
+		approveButton.addStyleName("btn-success");
+		approveButton.addStyleName("placeholder");
 		approveButton.addStyleName(style.okButton());
 
 		controlPanel = RootPanel.get("controlPanelContainer");
@@ -78,7 +83,7 @@ public class MainScreen implements EntryPoint {
 		buttonContainer.setStyleName(style.mainButtonContainer());
 		buttonContainer.add(mathPreviewExaButton);
 		controlPanel.add(buttonContainer);
-		
+
 		buttonContainer = new FlowPanel();
 		buttonContainer.setStyleName(style.mainButtonContainer());
 		buttonContainer.add(mathExamButton);
@@ -155,8 +160,8 @@ public class MainScreen implements EntryPoint {
 									examineeNumber.setText("");
 									examineeContainer.setVisible(false);
 								} else {
-									final MessageBox messageBox = new MessageBox(
-											MyConstants.INSTANCE
+									messageBox
+											.setDescriptionText(MyConstants.INSTANCE
 													.enterExamineeNumber());
 									messageBox.show();
 									messageBox
@@ -195,7 +200,8 @@ public class MainScreen implements EntryPoint {
 		controlPanel.setVisible(false);
 	}
 
-	private void mathExam(Boolean isPresure, String examineeNumber, Boolean isPreview) {
+	private void mathExam(Boolean isPresure, String examineeNumber,
+			Boolean isPreview) {
 		MathScreenPresenter mathScreenPresenter = new MathScreenPresenter(
 				isPresure, examineeNumber, isPreview);
 		mainContainer.add(mathScreenPresenter.getWidget());
@@ -217,12 +223,13 @@ public class MainScreen implements EntryPoint {
 	}
 
 	private Button createButton(String text) {
-		final Button mathPresureExamButton = new Button(text);
-		mathPresureExamButton.setStyleName(style.mainButton());
-		mathPresureExamButton.addStyleName("btn");
-		mathPresureExamButton.addStyleName("btn-large");
-		mathPresureExamButton.addStyleName("btn-success");
-		mathPresureExamButton.addStyleName("placeholder");
-		return mathPresureExamButton;
+		final Button button = new Button(text);
+		button.setStyleName(style.mainButton());
+		// mathPresureExamButton.setStyleName(style.button());
+		button.addStyleName("btn");
+		button.addStyleName("btn-large");
+		button.addStyleName("btn-success");
+		button.addStyleName("placeholder");
+		return button;
 	}
 }

@@ -13,7 +13,7 @@ public interface ProjectResources extends ClientBundle {
 	public static final ProjectResources INSTANCE = GWT
 			.create(ProjectResources.class);
 
-	@Source("com/dev/dina/proj/client/resources/images/card.jpg")
+	@Source("com/dev/dina/proj/client/resources/images/card.png")
 	ImageResource cardImage();
 
 	@Source("com/dev/dina/proj/client/resources/images/logo_excel.gif")
@@ -24,6 +24,8 @@ public interface ProjectResources extends ClientBundle {
 
 	public interface ProjectCssResources extends CssResource {
 		// Main
+		String button();
+		
 		String mainButton();
 
 		String okButton();
@@ -92,11 +94,15 @@ public interface ProjectResources extends ClientBundle {
 		String answerPanel();
 
 		String answer();
+		
+		String buttonPanel();
 
 		String messagePanel();
 
 		String posetiveMessage();
 
 		String negativeMessage();
+		
+		String regularMessage();
 	}
 }

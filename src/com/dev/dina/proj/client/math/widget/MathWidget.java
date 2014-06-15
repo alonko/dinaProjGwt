@@ -95,21 +95,12 @@ public class MathWidget extends Composite implements HasValue<String>,
 					if (rightWidget != null) {
 						rightWidget.setFocus(true);
 					}
-					// } else if (!Character.isDigit(keyPressed)) {
-				} else if (!(keyPressed >= '0' && keyPressed <= '9')) {
+				} else if (!((keyPressed >= '0' && keyPressed <= '9')
+						|| (keyPressed >= 96 && keyPressed <= 105))) {					
 					widget.cancelKey();
-				}else{
+				} else {
 					widget.setValue("");
 				}
-
-				// if (leftWidget != null) {
-				// leftWidget.setFocus(true);
-				// }
-				// } else if (keyPressed != CURSOR_LEFT
-				// && keyPressed != CURSOR_RIGHT) {
-				// widget.setValue("");
-				// }
-
 			}
 		};
 	}
@@ -143,16 +134,6 @@ public class MathWidget extends Composite implements HasValue<String>,
 				forthValue.setFocus(true);
 		}
 	}
-
-//	@UiHandler("forthValue")
-//	void onKeyUp4(KeyUpEvent event) {
-//		// if 2 chars were entered focus the next box
-//		int keyPressed = event.getNativeKeyCode();
-//		if (keyPressed != CURSOR_LEFT && keyPressed != CURSOR_RIGHT) {
-//			if (forthValue.getText().length() == forthValue.getMaxLength())
-//				firstValue.setFocus(true);
-//		}
-//	}
 
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return addDomHandler(handler, ChangeEvent.getType());
