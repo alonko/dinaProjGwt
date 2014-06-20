@@ -2,7 +2,6 @@ package com.dev.dina.proj.client.math;
 
 import java.util.Date;
 
-import com.dev.dina.proj.client.constants.MyConstants;
 import com.dev.dina.proj.client.events.AnswerRecivedEvent;
 import com.dev.dina.proj.client.events.AnswerRecivedHandler;
 import com.dev.dina.proj.client.main.AbstractTestPresenter;
@@ -22,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class MathScreenPresenter extends AbstractTestPresenter {
 	private MathScreenView view;
 	private static int TEST_TIME = 20;
-	private static final int MAX_STEPS = 17;
+	private static final int MAX_STEPS = 3;//17;
 	private static final int PREVIEW_CORRECT_ANSWERS = 2;
 	private int numberOfCorrectAnswers;
 
@@ -58,6 +57,8 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 		this.isPreview = isPreview;
 		view = new MathScreenView();
 		setHandlers();
+		view.setTimerVisible(false);
+
 		String fileName;
 		if (isPreview) {
 			fileName = "Preview_Math";
@@ -65,8 +66,8 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 			fileName = "Math";
 		}
 		addExportWidget(fileName);
-		showExplanationScreen(MyConstants.INSTANCE.examExplanation(),
-				MyConstants.INSTANCE.mathExamExplanation());
+		showExplanationScreen(constants.examExplanation(),
+				constants.mathExamExplanation());
 	}
 
 	private void setHandlers() {
@@ -83,21 +84,28 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 		view.getApproveBtn().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				String questionNumner = String.valueOf(step) + " ";
+				addColumnToTable(
+						questionNumner
+								+ constants.mathQuestionAnsweredTimeOutput(),
+						new Date().toString());
+
 				Boolean showMessage = false;
 				final Boolean isCorrectAnswer = isCorrectAnswer();
 				final MessageBox messageBox = new MessageBox();
+				messageBox.setCloseButtonVsisble(false);
 				if (isCorrectAnswer) {
 					numberOfCorrectAnswers++;
 					if (!isPresure) {
 						showMessage = true;
 						messageBox.setDescriptionText(
-								MyConstants.INSTANCE.correctAnswer(), true);
+								constants.correctAnswer(), true);
 						messageBox.show();
 					}
 				} else {// incorrect answer
 					showMessage = true;
-					messageBox.setDescriptionText(
-							MyConstants.INSTANCE.incorrectAnswer(), false);
+					messageBox.setDescriptionText(constants.incorrectAnswer(),
+							false);
 					messageBox.show();
 					if (isPreview) {
 						numberOfCorrectAnswers = 0;
@@ -127,16 +135,13 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 			private void updateOutputFile(Boolean isCorrectAnswer) {
 				String questionNumner = String.valueOf(step) + " ";
 				addColumnToTable(
-						questionNumner
-								+ MyConstants.INSTANCE.questionTimeOutput(),
+						questionNumner + constants.questionTimeOutput(),
 						String.valueOf(turnTime));
 				addColumnToTable(
-						questionNumner
-								+ MyConstants.INSTANCE.examineeAnswerOutput(),
+						questionNumner + constants.examineeAnswerOutput(),
 						view.getAnswer());
 				addColumnToTable(
-						questionNumner
-								+ MyConstants.INSTANCE.isCorrectAnswerOutput(),
+						questionNumner + constants.isCorrectAnswerOutput(),
 						isCorrectAnswer.toString());
 			}
 		});
@@ -166,12 +171,10 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 		numberOfCorrectAnswers = 0;
 
 		Date now = new Date();
-		addColumnToTable(MyConstants.INSTANCE.examineeNumberOutput(),
-				examineeNumber);
-		addColumnToTable(MyConstants.INSTANCE.dateOutput(), now.toString());
+		addColumnToTable(constants.examineeNumberOutput(), examineeNumber);
+		addColumnToTable(constants.dateOutput(), now.toString());
 		if (!isPreview) {
-			addColumnToTable(MyConstants.INSTANCE.isPresureOutput(),
-					isPresure.toString());
+			addColumnToTable(constants.isPresureOutput(), isPresure.toString());
 		}
 		if (isPreview) {
 			view.setTimerVisible(false);
@@ -186,11 +189,10 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 		super.finishTest();
 		view.setTimerVisible(false);
 		if (!isPreview) {
-			addColumnToTable(
-					MyConstants.INSTANCE.numberOfCorrectAnswersOutput(),
+			addColumnToTable(constants.numberOfCorrectAnswersOutput(),
 					String.valueOf(numberOfCorrectAnswers));
 		} else {
-			addColumnToTable(MyConstants.INSTANCE.numberOfStepsOutput(),
+			addColumnToTable(constants.numberOfStepsOutput(),
 					String.valueOf(step));
 		}
 	}

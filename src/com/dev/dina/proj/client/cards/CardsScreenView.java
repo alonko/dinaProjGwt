@@ -22,7 +22,7 @@ public class CardsScreenView {
 	Image card1, card2, card3, card4;
 
 	@UiField
-	Label resultValue, pointsAddedValue, pointsReducedValue, timerValue,
+	Label previousResultValue, currentResultValue, pointsAddedValue, pointsReducedValue, timerValue,
 			timerLbl;
 
 	private static CardsScreenUiBinder uiBinder = GWT
@@ -38,6 +38,9 @@ public class CardsScreenView {
 		card3 = new Image(resources.cardImage());
 		card4 = new Image(resources.cardImage());
 		root = uiBinder.createAndBindUi(this);
+		
+		timerLbl.addStyleName(resources.css().negativeMessage());
+		timerValue.addStyleName(resources.css().negativeMessage());
 	}
 
 	public Widget asWidget() {
@@ -60,8 +63,12 @@ public class CardsScreenView {
 		return card4;
 	}
 
-	public void setValueToResult(int result) {
-		resultValue.setText(String.valueOf(result));
+	public void setValueToCurrentResult(int result) {
+		currentResultValue.setText(String.valueOf(result));
+	}
+	
+	public void setValueToPreviousResult(int result) {
+		previousResultValue.setText(String.valueOf(result));
 	}
 
 	public void setValueToAddedPoints(int points) {
@@ -77,6 +84,7 @@ public class CardsScreenView {
 	}
 
 	public void setTimerVisible(Boolean isVisible) {
+		timerValue.getParent().setVisible(isVisible);
 		timerValue.setVisible(isVisible);
 		timerLbl.setVisible(isVisible);
 	}

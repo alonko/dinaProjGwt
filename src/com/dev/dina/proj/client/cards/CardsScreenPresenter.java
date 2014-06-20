@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.dev.dina.proj.client.constants.MyConstants;
 import com.dev.dina.proj.client.main.AbstractTestPresenter;
+import com.dev.dina.proj.client.popup.MessageBox;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
@@ -16,8 +17,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CardsScreenPresenter extends AbstractTestPresenter {
 	private CardsScreenView view;
-	private static final int MAX_STEPS = 50;
-	private static int TEST_TIME = 3;
+	private static final int MAX_STEPS =3; //50;
+	private static int TEST_TIME = 300;
 	private static int PENALTY_POINTS = 300;
 
 	private static int DECK_A_POSITIVE_POINTS = 100;
@@ -47,12 +48,13 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 
 	public CardsScreenPresenter(Boolean isPresure, String examineeNumber) {
 		super(isPresure, examineeNumber);
-		view = new CardsScreenView();
+		view = new CardsScreenView();		
+		view.setTimerVisible(false);
 		addExportWidget("Cards");
 		addCardClickHandlers();
 
-		showExplanationScreen(MyConstants.INSTANCE.examExplanation(),
-				MyConstants.INSTANCE.cardsExamExplanation());
+		showExplanationScreen(constants.examExplanation(),
+				constants.cardsExamExplanation());
 	}
 
 	private void addCardClickHandlers() {
@@ -98,11 +100,9 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		updatePoints(0, 0);
 
 		Date now = new Date();
-		addColumnToTable(MyConstants.INSTANCE.examineeNumberOutput(),
-				examineeNumber);
-		addColumnToTable(MyConstants.INSTANCE.dateOutput(), now.toString());
-		addColumnToTable(MyConstants.INSTANCE.isPresureOutput(),
-				isPresure.toString());
+		addColumnToTable(constants.examineeNumberOutput(), examineeNumber);
+		addColumnToTable(constants.dateOutput(), now.toString());
+		addColumnToTable(constants.isPresureOutput(), isPresure.toString());
 
 		view.setTimerVisible(isPresure);
 		view.setTimer(TEST_TIME);
@@ -114,13 +114,13 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		super.finishTest();
 		view.setTimerVisible(false);
 
-		addColumnToTable(MyConstants.INSTANCE.totalWinAmountOutput(),
+		addColumnToTable(constants.totalWinAmountOutput(),
 				String.valueOf(totalWinAmount));
 
-		addColumnToTable(MyConstants.INSTANCE.totalLoseAmountOutput(),
+		addColumnToTable(constants.totalLoseAmountOutput(),
 				String.valueOf(totalLoseAmount));
 
-		addColumnToTable(MyConstants.INSTANCE.totalAmountOutput(),
+		addColumnToTable(constants.totalAmountOutput(),
 				String.valueOf(totalPoints));
 	}
 
@@ -148,24 +148,21 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		totalLoseAmount += reducedPoints;
 
 		String questionNumner = String.valueOf(step + 1) + " ";
-		addColumnToTable(
-				questionNumner + MyConstants.INSTANCE.questionTimeOutput(),
+		addColumnToTable(questionNumner + constants.cardClickedTimeOutput(),
+				new Date().toString());
+		
+		addColumnToTable(questionNumner + constants.questionTimeOutput(),
 				String.valueOf(turnTime));
 
-		addColumnToTable(
-				questionNumner + MyConstants.INSTANCE.selectedDeckOutput(),
-				deck);
+		addColumnToTable(questionNumner + constants.selectedDeckOutput(), deck);
 
-		addColumnToTable(
-				questionNumner + MyConstants.INSTANCE.winAmountOutput(),
+		addColumnToTable(questionNumner + constants.winAmountOutput(),
 				String.valueOf(addedPoints));
 
-		addColumnToTable(
-				questionNumner + MyConstants.INSTANCE.loseAmountOutput(),
+		addColumnToTable(questionNumner + constants.loseAmountOutput(),
 				String.valueOf(reducedPoints));
 
-		addColumnToTable(
-				questionNumner + MyConstants.INSTANCE.turnTotalAmountOutput(),
+		addColumnToTable(questionNumner + constants.turnTotalAmountOutput(),
 				String.valueOf(addedPoints - reducedPoints));
 
 		playTurn();
@@ -174,8 +171,9 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	protected void updatePoints(int addedPoints, int reducedPoints) {
 		view.setValueToAddedPoints(addedPoints);
 		view.setValueToReducedPoints(reducedPoints);
+		view.setValueToPreviousResult(totalPoints);
 		totalPoints += addedPoints - reducedPoints;
-		view.setValueToResult(totalPoints);
+		view.setValueToCurrentResult(totalPoints);
 	}
 
 	@Override
@@ -186,7 +184,26 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 				turnTime++;
 				if (isPresure) {
 					if (turnTime > TEST_TIME) {
-						cardClicked(0, PENALTY_POINTS, null);
+						final MessageBox messageBox = new MessageBox();
+						messageBox.setCloseButtonVsisble(false);
+						messageBox.setTitle(constants.timeUpTitle());
+						messageBox.setDescriptionText(constants
+								.timeUpDescription()
+								+ " "
+								+ PENALTY_POINTS
+								+ " " + constants.points());
+						messageBox.show();
+						timer.cancel();
+						
+						final Timer messageTimer = new Timer() {
+							@Override
+							public void run() {
+								messageBox.hide();
+								cardClicked(0, PENALTY_POINTS, null);
+								timer.run();
+							}
+						};
+						messageTimer.schedule(2000);
 					} else {
 						view.setTimer(TEST_TIME - turnTime);
 					}

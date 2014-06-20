@@ -1,5 +1,7 @@
 package com.dev.dina.proj.client.main;
 
+import java.util.Date;
+
 import com.dev.dina.proj.client.constants.MyConstants;
 import com.dev.dina.proj.client.events.TestCompleteEvent;
 import com.dev.dina.proj.client.popup.MessageBox;
@@ -22,12 +24,14 @@ public abstract class AbstractTestPresenter {
 	protected ExportToExcelWidget exportWidget;
 	protected int gridColumnNumber;
 	protected String examineeNumber;
-//	protected MessageBox messageBox;
+	protected MyConstants constants = MyConstants.INSTANCE;
+
+	// protected MessageBox messageBox;
 
 	public AbstractTestPresenter(Boolean isPresure, String examineeNumber) {
 		this.isPresure = isPresure;
 		this.examineeNumber = examineeNumber;
-//		messageBox = new MessageBox();
+		// messageBox = new MessageBox();
 		gridColumnNumber = 0;
 		turnTime = 0;
 	}
@@ -50,7 +54,7 @@ public abstract class AbstractTestPresenter {
 
 	protected void finishTest() {
 		timer.cancel();
-		addColumnToTable(MyConstants.INSTANCE.totalTestTimeOutput(),
+		addColumnToTable(constants.totalTestTimeOutput(),
 				String.valueOf(totalTestTime));
 		showTestCompleteMessage();
 	}
@@ -66,13 +70,15 @@ public abstract class AbstractTestPresenter {
 
 	protected void showTestCompleteMessage() {
 		final MessageBox messageBox = new MessageBox();
-		messageBox.setDescriptionText(MyConstants.INSTANCE.testComplete());
-		messageBox.setTitle(MyConstants.INSTANCE.testComplete());
+		messageBox.setDescriptionText(constants.testComplete());
+		messageBox.setTitle(constants.testComplete());
 		messageBox.show();
 		messageBox.setCloseButtonHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				messageBox.hide();
+				messageBox.hide();				
+				addColumnToTable(constants.testCompleteTimeOutput(),
+						new Date().toString());
 				AppUtils.EVENT_BUS.fireEvent(new TestCompleteEvent());
 				exportWidget.performExport();
 			}
@@ -91,7 +97,21 @@ public abstract class AbstractTestPresenter {
 				beginTest();
 			}
 		});
-		messageBox.show();
+
+		
+		final MessageBox bioMessage = new MessageBox();
+		bioMessage.setDescriptionText(constants.bioMessage());
+		bioMessage.asWidget().setSize("700px", "400px");
+		bioMessage.setCloseButtonHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				bioMessage.hide();
+				messageBox.show();
+				addColumnToTable(constants.testStartTimeOutput(),
+						new Date().toString());
+			}
+		});
+		bioMessage.show();
 	}
 
 	protected abstract void updateTimer();

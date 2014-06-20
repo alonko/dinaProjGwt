@@ -13,18 +13,26 @@ public interface MyConstants extends Constants {
 	String exportLbl();
 
 	String examineeLbl();
-	
+
 	String enterExamineeNumber();
 
 	String selectTask();
 
 	String timerLbl();
 
-	String resultLbl();
-	
+	String previousResultLbl();
+
+	String currentResultLbl();
+
 	String pointsAddedLbl();
 
 	String pointsReducedLbl();
+
+	String timeUpTitle();
+
+	String timeUpDescription();
+
+	String points();
 
 	String approveBtn();
 
@@ -37,19 +45,25 @@ public interface MyConstants extends Constants {
 	String examExplanation();
 
 	String cardsExamExplanation();
-	
+
 	String mathExamExplanation();
 	
+	String bioMessage();
+
 	String correctAnswer();
-	
+
 	String incorrectAnswer();
-	
-//	File output
+
+	// File output
 	String examineeNumberOutput();
 
 	String isPresureOutput();
 
 	String dateOutput();
+	
+	String cardClickedTimeOutput();
+	
+	String mathQuestionAnsweredTimeOutput();
 
 	String questionTimeOutput();
 
@@ -60,13 +74,17 @@ public interface MyConstants extends Constants {
 	String numberOfCorrectAnswersOutput();
 
 	String totalTestTimeOutput();
+	
+	String testStartTimeOutput();
+	
+	String testCompleteTimeOutput();
 
 	String selectedDeckOutput();
 
 	String winAmountOutput();
 
 	String loseAmountOutput();
-	
+
 	String turnTotalAmountOutput();
 
 	String totalWinAmountOutput();
@@ -75,5 +93,5 @@ public interface MyConstants extends Constants {
 
 	String totalAmountOutput();
 
-	String numberOfStepsOutput();	
+	String numberOfStepsOutput();
 }

@@ -85,6 +85,7 @@ public class MathScreenView {
 	}
 
 	public void setTimerVisible(Boolean isVisible) {
+		timerValue.getParent().setVisible(isVisible);	
 		timerValue.setVisible(isVisible);
 		timerLbl.setVisible(isVisible);
 	}

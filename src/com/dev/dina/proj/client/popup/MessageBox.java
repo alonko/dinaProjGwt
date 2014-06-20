@@ -47,15 +47,16 @@ public class MessageBox {
 	public MessageBox(String text) {
 		root = uiBinder.createAndBindUi(this);
 		style = ProjectResources.INSTANCE.css();
-		
+
 		setDescriptionText(text);
 		root.setAnimationEnabled(true);
 		root.setModal(true);
 		root.setSize("600px", "500px");
 		messageContent.setEnabled(false);
 		closeButton.setText(MyConstants.INSTANCE.closeBtn());
+		setCloseButtonVsisble(true);
 		setHandlers();
-		
+
 	}
 
 	private void setHandlers() {
@@ -79,12 +80,16 @@ public class MessageBox {
 		closeButton.addClickHandler(clickHandler);
 	}
 
+	public void setCloseButtonVsisble(Boolean visible) {
+		closeButton.setVisible(visible);
+	}
+
 	public void setDescriptionText(String text, Boolean isPositive) {
 		setDescriptionText(text);
 		if (isPositive) {
 			messageContent.addStyleName(style.posetiveMessage());
 			messageContent.removeStyleName(style.negativeMessage());
-		}else{
+		} else {
 			messageContent.addStyleName(style.negativeMessage());
 			messageContent.removeStyleName(style.posetiveMessage());
 		}

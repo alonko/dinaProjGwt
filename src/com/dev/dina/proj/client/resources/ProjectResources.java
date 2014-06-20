@@ -25,7 +25,7 @@ public interface ProjectResources extends ClientBundle {
 	public interface ProjectCssResources extends CssResource {
 		// Main
 		String button();
-		
+
 		String mainButton();
 
 		String okButton();
@@ -65,11 +65,21 @@ public interface ProjectResources extends ClientBundle {
 
 		String resultPanel();
 
+		String resultLeftPanel();
+		
+		String resultCenterPanel();
+
+		String resultRightPanel();
+		
+		String cardsTimerContainer();
+
 		String resultInnerPanel();
 
 		String resultLbl();
 
 		String resultValue();
+		
+		String timerValue();
 
 		String cardContainer();
 
@@ -94,7 +104,7 @@ public interface ProjectResources extends ClientBundle {
 		String answerPanel();
 
 		String answer();
-		
+
 		String buttonPanel();
 
 		String messagePanel();
@@ -102,7 +112,7 @@ public interface ProjectResources extends ClientBundle {
 		String posetiveMessage();
 
 		String negativeMessage();
-		
+
 		String regularMessage();
 	}
 }

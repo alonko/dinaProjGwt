@@ -4,6 +4,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:math="urn:import:com.dev.dina.proj.client.math.widget">
 	<ui:with type="com.dev.dina.proj.client.resources.ProjectResources"
 		field="res" />
+	<ui:with type="com.dev.dina.proj.client.constants.MyConstants"
+		field="constants" />
 
 	<g:FlowPanel styleName="{res.css.mathMainContainer}">
 		<g:FlowPanel styleName="{res.css.mathContainer}">
@@ -17,22 +19,18 @@
 				<g:Label ui:field="thirdNumberLbl" styleName="{res.css.mathValue}" />
 				<g:Label ui:field="equalsLbl" styleName="{res.css.equals}"
 					text="--------" />
-			</g:FlowPanel>			
+			</g:FlowPanel>
 
-			<math:MathWidget ui:field="answerWidget"/>
+			<math:MathWidget ui:field="answerWidget" />
 
 			<g:FlowPanel styleName="{res.css.buttonPanel}">
-				<g:Button ui:field="approveBtn"/>
+				<g:Button ui:field="approveBtn" />
 			</g:FlowPanel>
 		</g:FlowPanel>
 
 		<g:FlowPanel styleName="{res.css.timerContainer}">
-			<g:Label ui:field="timerLbl" text="Time left:" />
+			<g:Label ui:field="timerLbl" text="{constants.timerLbl}" />
 			<g:Label ui:field="timerValue" styleName="{res.css.timer}" />
 		</g:FlowPanel>
-		
-		<!-- <g:FlowPanel styleName="{res.css.messagePanel}">
-			<g:Label ui:field="messageLbl"/>
-		</g:FlowPanel> -->
 	</g:FlowPanel>
 </ui:UiBinder> 
