@@ -2,7 +2,6 @@ package com.dev.dina.proj.client.cards;
 
 import java.util.Date;
 
-import com.dev.dina.proj.client.constants.MyConstants;
 import com.dev.dina.proj.client.main.AbstractTestPresenter;
 import com.dev.dina.proj.client.popup.MessageBox;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,8 +16,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CardsScreenPresenter extends AbstractTestPresenter {
 	private CardsScreenView view;
-	private static final int MAX_STEPS =3; //50;
-	private static int TEST_TIME = 300;
+	private static final int MAX_STEPS = 7; // 50;
+	private static int TEST_TIME = 3;
 	private static int PENALTY_POINTS = 300;
 
 	private static int DECK_A_POSITIVE_POINTS = 100;
@@ -48,13 +47,18 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 
 	public CardsScreenPresenter(Boolean isPresure, String examineeNumber) {
 		super(isPresure, examineeNumber);
-		view = new CardsScreenView();		
+		view = new CardsScreenView();
 		view.setTimerVisible(false);
 		addExportWidget("Cards");
 		addCardClickHandlers();
 
-		showExplanationScreen(constants.examExplanation(),
-				constants.cardsExamExplanation());
+		String message;
+		if (isPresure) {
+			message = constants.cardsPressureExamExplanation();
+		} else {
+			message = constants.cardsExamExplanation();
+		}
+		showExplanationScreen(constants.examExplanation(), message);
 	}
 
 	private void addCardClickHandlers() {
@@ -95,7 +99,7 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	protected void beginTest() {
 		super.beginTest();
 		totalPoints = 0;
-		totalWinAmount = 0;
+		totalWinAmount = 2000;
 		totalLoseAmount = 0;
 		updatePoints(0, 0);
 
@@ -150,7 +154,7 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		String questionNumner = String.valueOf(step + 1) + " ";
 		addColumnToTable(questionNumner + constants.cardClickedTimeOutput(),
 				new Date().toString());
-		
+
 		addColumnToTable(questionNumner + constants.questionTimeOutput(),
 				String.valueOf(turnTime));
 
@@ -194,7 +198,7 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 								+ " " + constants.points());
 						messageBox.show();
 						timer.cancel();
-						
+
 						final Timer messageTimer = new Timer() {
 							@Override
 							public void run() {

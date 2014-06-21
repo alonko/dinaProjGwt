@@ -38,7 +38,9 @@ public interface MyConstants extends Constants {
 
 	String closeBtn();
 
-	String testComplete();
+	String testCompleteTitle();
+
+	String testCompleteMessage();
 
 	String previewComplete();
 
@@ -46,8 +48,14 @@ public interface MyConstants extends Constants {
 
 	String cardsExamExplanation();
 
+	String cardsPressureExamExplanation();
+
+	String mathPreviewExamExplanation();
+
+	String mathPressureExamExplanation();
+
 	String mathExamExplanation();
-	
+
 	String bioMessage();
 
 	String correctAnswer();
@@ -60,9 +68,9 @@ public interface MyConstants extends Constants {
 	String isPresureOutput();
 
 	String dateOutput();
-	
+
 	String cardClickedTimeOutput();
-	
+
 	String mathQuestionAnsweredTimeOutput();
 
 	String questionTimeOutput();
@@ -74,9 +82,9 @@ public interface MyConstants extends Constants {
 	String numberOfCorrectAnswersOutput();
 
 	String totalTestTimeOutput();
-	
+
 	String testStartTimeOutput();
-	
+
 	String testCompleteTimeOutput();
 
 	String selectedDeckOutput();

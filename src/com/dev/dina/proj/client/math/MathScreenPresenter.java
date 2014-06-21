@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class MathScreenPresenter extends AbstractTestPresenter {
 	private MathScreenView view;
 	private static int TEST_TIME = 20;
-	private static final int MAX_STEPS = 3;//17;
+	private static final int MAX_STEPS = 7;//17;
 	private static final int PREVIEW_CORRECT_ANSWERS = 2;
 	private int numberOfCorrectAnswers;
 
@@ -66,8 +66,17 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 			fileName = "Math";
 		}
 		addExportWidget(fileName);
+		
+		String message;
+		if(isPreview){
+			message = constants.mathPreviewExamExplanation();
+		}else if(isPresure){
+			message = constants.mathPressureExamExplanation();
+		}else{
+			message = constants.mathExamExplanation();
+		}
 		showExplanationScreen(constants.examExplanation(),
-				constants.mathExamExplanation());
+				message);
 	}
 
 	private void setHandlers() {

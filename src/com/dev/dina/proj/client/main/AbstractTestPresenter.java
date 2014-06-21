@@ -26,12 +26,9 @@ public abstract class AbstractTestPresenter {
 	protected String examineeNumber;
 	protected MyConstants constants = MyConstants.INSTANCE;
 
-	// protected MessageBox messageBox;
-
 	public AbstractTestPresenter(Boolean isPresure, String examineeNumber) {
 		this.isPresure = isPresure;
 		this.examineeNumber = examineeNumber;
-		// messageBox = new MessageBox();
 		gridColumnNumber = 0;
 		turnTime = 0;
 	}
@@ -70,8 +67,8 @@ public abstract class AbstractTestPresenter {
 
 	protected void showTestCompleteMessage() {
 		final MessageBox messageBox = new MessageBox();
-		messageBox.setDescriptionText(constants.testComplete());
-		messageBox.setTitle(constants.testComplete());
+		messageBox.setDescriptionText(constants.testCompleteTitle());
+		messageBox.setTitle(constants.testCompleteTitle());
 		messageBox.show();
 		messageBox.setCloseButtonHandler(new ClickHandler() {
 			@Override
