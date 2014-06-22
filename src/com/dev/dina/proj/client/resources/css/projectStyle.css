@@ -183,17 +183,18 @@
 }
 
 .cardsTimerContainer {
-	width: 100%;
+	width: 50%;
 	height: 100%;
-	float: right;
+	float: left;
 	visibility: visible;
-	color: red;
-	border: 3px solid red;
+	color: #D10015;
+	border: 3px solid #D10015;
 }
 
 .resultInnerPanel {
 	width: 100%;
 	text-align: center;
+	padding: 2%;
 }
 
 .resultLbl {
@@ -210,6 +211,7 @@
 	display: inline-block;
 	padding-left: 30px;
 	direction: ltr;
+	width: 100%;
 }
 
 .card {
@@ -237,8 +239,8 @@
 	font-size: 45px;
 	line-height: 70px;
 	text-align: center;
-	color: red;
-	border: 3px solid red;
+	color: #D10015;
+	border: 3px solid #D10015;
 	margin-top: 10%;
 	margin-right: 8%;
 }
@@ -351,7 +353,7 @@
 }
 
 .negativeMessage {
-	color: red;
+	color: #D10015;	
 }
 
 .regularMessage {
