@@ -22,7 +22,7 @@ public class CardsScreenView {
 	Image card1, card2, card3, card4;
 
 	@UiField
-	Label /* previousResultValue, */currentResultValue, pointsAddedValue,
+	Label currentResultValue, pointsAddedValue,
 			pointsReducedValue, timerValue, timerLbl;
 
 	ProjectResources resources = ProjectResources.INSTANCE;
@@ -39,7 +39,8 @@ public class CardsScreenView {
 		card3 = new Image(resources.cardImage());
 		card4 = new Image(resources.cardImage());
 		root = uiBinder.createAndBindUi(this);
-		
+		setViewVisible(false);
+
 		currentResultValue.addStyleName(resources.css().posetiveMessage());
 		pointsAddedValue.addStyleName(resources.css().posetiveMessage());
 		pointsReducedValue.addStyleName(resources.css().negativeMessage());
@@ -81,11 +82,6 @@ public class CardsScreenView {
 		}
 	}
 
-	/*
-	 * public void setValueToPreviousResult(int result) {
-	 * previousResultValue.setText(String.valueOf(result)); }
-	 */
-
 	public void setValueToAddedPoints(int points) {
 		pointsAddedValue.setText(String.valueOf(points));
 	}
@@ -106,5 +102,9 @@ public class CardsScreenView {
 
 	public FlowPanel getMainContainer() {
 		return mainContainer;
+	}
+
+	public void setViewVisible(boolean isVisible) {
+		root.setVisible(isVisible);
 	}
 }

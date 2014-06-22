@@ -5,11 +5,13 @@ import java.util.Date;
 import com.dev.dina.proj.client.constants.MyConstants;
 import com.dev.dina.proj.client.events.TestCompleteEvent;
 import com.dev.dina.proj.client.popup.MessageBox;
+import com.dev.dina.proj.client.resources.ProjectResources;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * @author Alon Kodner
@@ -26,6 +28,8 @@ public abstract class AbstractTestPresenter {
 	protected String examineeNumber;
 	protected MyConstants constants = MyConstants.INSTANCE;
 	protected Boolean testComplete;
+	private int countDown;
+	private Timer countDownTimer;
 
 	public AbstractTestPresenter(Boolean isPresure, String examineeNumber) {
 		this.isPresure = isPresure;
@@ -75,7 +79,7 @@ public abstract class AbstractTestPresenter {
 		messageBox.setCloseButtonHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				messageBox.hide();				
+				messageBox.hide();
 				addColumnToTable(constants.testCompleteTimeOutput(),
 						new Date().toString());
 				AppUtils.EVENT_BUS.fireEvent(new TestCompleteEvent());
@@ -97,17 +101,83 @@ public abstract class AbstractTestPresenter {
 			}
 		});
 
-		
+		// countDown = 15;
+		// final MessageBox bioCounterMessage = new MessageBox();
+		// bioCounterMessage.asWidget().setSize("80px", "80px");
+		// bioCounterMessage.setCloseButtonVsisble(false);
+		//
+		// countDownTimer = new Timer() {
+		// @Override
+		// public void run() {
+		// if (countDown > 0) {
+		// bioCounterMessage.setDescriptionText(String
+		// .valueOf(countDown));
+		// countDown--;
+		// } else {
+		// bioCounterMessage.hide();
+		// messageBox.show();
+		// addColumnToTable(constants.testStartTimeOutput(),
+		// new Date().toString());
+		// countDownTimer.cancel();
+		// }
+		// }
+		// };
+		// countDownTimer.scheduleRepeating(1000);
+
 		final MessageBox bioMessage = new MessageBox();
 		bioMessage.setDescriptionText(constants.bioMessage());
 		bioMessage.asWidget().setSize("700px", "400px");
 		bioMessage.setCloseButtonHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
+				countDown = 15;
 				bioMessage.hide();
-				messageBox.show();
-				addColumnToTable(constants.testStartTimeOutput(),
-						new Date().toString());
+				final PopupPanel counterPopup = new PopupPanel();
+				counterPopup.setAutoHideEnabled(false);
+				counterPopup.setAnimationEnabled(true);
+				counterPopup.setGlassEnabled(true);
+				counterPopup.setModal(true);
+				counterPopup.setSize("250px", "60px");
+				final Label countDownLabel = new Label();
+				countDownLabel.setStyleName(ProjectResources.INSTANCE.css().countDownLabel());
+				counterPopup.setWidget(countDownLabel);
+				counterPopup.center();
+				// bioMessage.setCloseButtonEnabled(false);
+
+				countDownTimer = new Timer() {
+					@Override
+					public void run() {
+						if (countDown > 0) {
+							// bioMessage.setCloseButtonText(String
+							// .valueOf(countDown));
+							// counterPopup.setTitle();
+							countDownLabel.setText(MyConstants.INSTANCE.pleaseWait() + String.valueOf(countDown));
+							countDown--;
+						} else {
+							// bioMessage.setCloseButtonText(String
+							// .valueOf(countDown));
+							counterPopup.hide();
+							countDownTimer.cancel();
+							// bioMessage.setCloseButtonEnabled(true);
+							// bioMessage
+							// .setCloseButtonHandler(new ClickHandler() {
+							// @Override
+							// public void onClick(ClickEvent event) {
+							// bioMessage.hide();
+							// bioCounterMessage.hide();
+							messageBox.show();
+							addColumnToTable(constants.testStartTimeOutput(),
+									new Date().toString());
+						}
+						// });
+
+					}
+					// }
+				};
+				countDownTimer.scheduleRepeating(1000);
+				// bioMessage.hide();
+				// bioCounterMessage.show();
+
 			}
 		});
 		bioMessage.show();

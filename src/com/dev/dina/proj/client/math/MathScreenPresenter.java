@@ -20,8 +20,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MathScreenPresenter extends AbstractTestPresenter {
 	private MathScreenView view;
-	private static int TEST_TIME = 17;
-	private static final int MAX_STEPS = 7;//17;
+	private static int TEST_TIME = 13;
+	private static final int MAX_STEPS = 7;// 17;
 	private static final int PREVIEW_CORRECT_ANSWERS = 2;
 	private int numberOfCorrectAnswers;
 
@@ -66,17 +66,16 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 			fileName = "Math";
 		}
 		addExportWidget(fileName);
-		
+
 		String message;
-		if(isPreview){
+		if (isPreview) {
 			message = constants.mathPreviewExamExplanation();
-		}else if(isPresure){
+		} else if (isPresure) {
 			message = constants.mathPressureExamExplanation();
-		}else{
+		} else {
 			message = constants.mathExamExplanation();
 		}
-		showExplanationScreen(constants.examExplanation(),
-				message);
+		showExplanationScreen(constants.examExplanation(), message);
 	}
 
 	private void setHandlers() {
@@ -122,23 +121,26 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 				}
 
 				if (!showMessage) {
-					view.clearValue();
-					playTurn();
+					finishTurn(isCorrectAnswer);
 				} else {
 					Timer timer = new Timer() {
 						@Override
 						public void run() {
 							messageBox.hide();
-							if (!isPreview) {
-								updateOutputFile(isCorrectAnswer);
-							}
-							view.clearValue();
-							playTurn();
+							finishTurn(isCorrectAnswer);
 						}
 					};
-					timer.schedule(2000);
+					timer.schedule(1000);
 				}
 
+			}
+
+			private void finishTurn(final Boolean isCorrectAnswer) {
+				if (!isPreview) {
+					updateOutputFile(isCorrectAnswer);
+				}
+				view.clearValue();
+				playTurn();
 			}
 
 			private void updateOutputFile(Boolean isCorrectAnswer) {
@@ -177,6 +179,8 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 	@Override
 	protected void beginTest() {
 		super.beginTest();
+		view.setViewVisible(true);
+		step = 7;
 		numberOfCorrectAnswers = 0;
 
 		Date now = new Date();

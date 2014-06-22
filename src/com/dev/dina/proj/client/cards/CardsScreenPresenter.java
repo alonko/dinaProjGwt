@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class CardsScreenPresenter extends AbstractTestPresenter {
 	private CardsScreenView view;
 	private static final int MAX_STEPS = 7; // 50;
-	private static int TEST_TIME = 300;
+	private static int TEST_TIME = 3;
 	private static int PENALTY_POINTS = 300;
 
 	private static int START_POINTS = 1000;
@@ -99,6 +99,7 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	@Override
 	protected void beginTest() {
 		super.beginTest();
+		view.setViewVisible(true);
 		totalPoints = START_POINTS;
 		totalWinAmount = 0;
 		totalLoseAmount = 0;

@@ -53,7 +53,7 @@ public class MessageBox {
 		root.setModal(true);
 		root.setSize("600px", "500px");
 		messageContent.setEnabled(false);
-		closeButton.setText(MyConstants.INSTANCE.closeBtn());
+		setCloseButtonText(MyConstants.INSTANCE.closeBtn());
 		setCloseButtonVsisble(true);
 		setHandlers();
 
@@ -84,6 +84,14 @@ public class MessageBox {
 		closeButton.setVisible(visible);
 	}
 
+	public void setCloseButtonText(String text) {
+		closeButton.setText(text);
+	}
+
+	public void setCloseButtonEnabled(Boolean isEnabled) {
+		closeButton.setEnabled(isEnabled);
+	}
+	
 	public void setDescriptionText(String text, Boolean isPositive) {
 		setDescriptionText(text);
 		if (isPositive) {

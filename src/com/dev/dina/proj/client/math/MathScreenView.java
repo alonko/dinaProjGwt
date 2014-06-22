@@ -39,6 +39,7 @@ public class MathScreenView {
 
 	public MathScreenView() {
 		root = uiBinder.createAndBindUi(this);
+		setViewVisible(false);
 		style = ProjectResources.INSTANCE.css();
 		createApproveButton();
 	}
@@ -108,5 +109,9 @@ public class MathScreenView {
 
 	public void clearValue() {
 		answerWidget.clearValue();
+	}
+	
+	public void setViewVisible(boolean isVisible) {
+		root.setVisible(isVisible);
 	}
 }

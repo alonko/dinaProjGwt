@@ -103,8 +103,8 @@
 }
 
 .popupPanel {
-	min-height: 200px;
-	min-width: 300px;
+	/* min-height: 200px;
+	min-width: 300px; */
 	background: rgb(206, 220, 231); /* Old browsers */
 	background: -moz-linear-gradient(top, rgba(206, 220, 231, 1) 0%,
 		rgba(89, 106, 114, 1) 100%); /* FF3.6+ */
@@ -145,6 +145,14 @@
 	width: 100%;
 	height: 10%;
 	line-height: 50px;
+}
+
+.countDownLabel {
+	width: 100%;
+	height: 10%;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 35px;
+	text-align: left;
 }
 
 .cardsMainPanel {
@@ -353,7 +361,7 @@
 }
 
 .negativeMessage {
-	color: #D10015;	
+	color: #D10015;
 }
 
 .regularMessage {

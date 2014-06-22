@@ -49,11 +49,11 @@ public class MainScreen implements EntryPoint {
 		buttonsHeader.setStyleName(style.buttonsHeader());
 		buttonsHeader.setText(MyConstants.INSTANCE.selectTask());
 
-		final Button mathPreviewExaButton = createButton("Math Preview");
+		final Button mathPreviewExaButton = createButton("Preview");
 		final Button mathExamButton = createButton("Math");
-		final Button mathPresureExamButton = createButton("Math Pressure");
+		final Button mathPresureExamButton = createButton("Math Time");
 		final Button cardsExaButton = createButton("Cards");
-		final Button cardsPresureExaButton = createButton("Cards Pressure");
+		final Button cardsPresureExaButton = createButton("Cards Time");
 
 		Label examineeLbl = new Label(MyConstants.INSTANCE.examineeLbl());
 		examineeLbl.setStyleName(style.examineeLbl());

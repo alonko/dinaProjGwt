@@ -59,6 +59,8 @@ public interface ProjectResources extends ClientBundle {
 		String popupCloseButton();
 
 		String popupTitle();
+		
+		String countDownLabel(); 
 
 		// Cards
 		String cardsMainPanel();

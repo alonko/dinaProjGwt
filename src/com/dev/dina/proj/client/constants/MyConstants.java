@@ -61,6 +61,8 @@ public interface MyConstants extends Constants {
 	String correctAnswer();
 
 	String incorrectAnswer();
+	
+	String pleaseWait();
 
 	// File output
 	String examineeNumberOutput();
