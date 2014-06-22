@@ -102,8 +102,12 @@ public interface ProjectResources extends ClientBundle {
 		String questionPanel();
 
 		String answerPanel();
+		
+		String answersContainer();
 
 		String answer();
+		
+		String answerContainer();
 
 		String buttonPanel();
 

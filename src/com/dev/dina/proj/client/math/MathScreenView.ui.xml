@@ -18,7 +18,7 @@
 				<g:Label text="+" styleName="{res.css.addLbl}" />
 				<g:Label ui:field="thirdNumberLbl" styleName="{res.css.mathValue}" />
 				<g:Label ui:field="equalsLbl" styleName="{res.css.equals}"
-					text="--------" />
+					text="------" />
 			</g:FlowPanel>
 
 			<math:MathWidget ui:field="answerWidget" />

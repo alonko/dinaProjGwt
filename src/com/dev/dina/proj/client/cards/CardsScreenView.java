@@ -22,8 +22,10 @@ public class CardsScreenView {
 	Image card1, card2, card3, card4;
 
 	@UiField
-	Label previousResultValue, currentResultValue, pointsAddedValue, pointsReducedValue, timerValue,
-			timerLbl;
+	Label /* previousResultValue, */currentResultValue, pointsAddedValue,
+			pointsReducedValue, timerValue, timerLbl;
+
+	ProjectResources resources = ProjectResources.INSTANCE;
 
 	private static CardsScreenUiBinder uiBinder = GWT
 			.create(CardsScreenUiBinder.class);
@@ -32,13 +34,16 @@ public class CardsScreenView {
 	}
 
 	public CardsScreenView() {
-		ProjectResources resources = ProjectResources.INSTANCE;
 		card1 = new Image(resources.cardImage());
 		card2 = new Image(resources.cardImage());
 		card3 = new Image(resources.cardImage());
 		card4 = new Image(resources.cardImage());
 		root = uiBinder.createAndBindUi(this);
 		
+		currentResultValue.addStyleName(resources.css().posetiveMessage());
+		pointsAddedValue.addStyleName(resources.css().posetiveMessage());
+		pointsReducedValue.addStyleName(resources.css().negativeMessage());
+
 		timerLbl.addStyleName(resources.css().negativeMessage());
 		timerValue.addStyleName(resources.css().negativeMessage());
 	}
@@ -65,11 +70,21 @@ public class CardsScreenView {
 
 	public void setValueToCurrentResult(int result) {
 		currentResultValue.setText(String.valueOf(result));
+		if (result > 0) {
+			currentResultValue.addStyleName(resources.css().posetiveMessage());
+			currentResultValue.removeStyleName(resources.css()
+					.negativeMessage());
+		} else {
+			currentResultValue.addStyleName(resources.css().negativeMessage());
+			currentResultValue.removeStyleName(resources.css()
+					.posetiveMessage());
+		}
 	}
-	
-	public void setValueToPreviousResult(int result) {
-		previousResultValue.setText(String.valueOf(result));
-	}
+
+	/*
+	 * public void setValueToPreviousResult(int result) {
+	 * previousResultValue.setText(String.valueOf(result)); }
+	 */
 
 	public void setValueToAddedPoints(int points) {
 		pointsAddedValue.setText(String.valueOf(points));

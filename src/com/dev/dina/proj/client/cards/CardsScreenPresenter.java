@@ -20,6 +20,7 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	private static int TEST_TIME = 3;
 	private static int PENALTY_POINTS = 300;
 
+	private static int START_POINTS = 1000;
 	private static int DECK_A_POSITIVE_POINTS = 100;
 	private static int DECK_B_POSITIVE_POINTS = 100;
 	private static int DECK_C_POSITIVE_POINTS = 50;
@@ -98,8 +99,8 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	@Override
 	protected void beginTest() {
 		super.beginTest();
-		totalPoints = 0;
-		totalWinAmount = 2000;
+		totalPoints = START_POINTS;
+		totalWinAmount = 0;
 		totalLoseAmount = 0;
 		updatePoints(0, 0);
 
@@ -116,6 +117,7 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	@Override
 	protected void finishTest() {
 		super.finishTest();
+		testComplete = true;
 		view.setTimerVisible(false);
 
 		addColumnToTable(constants.totalWinAmountOutput(),
@@ -175,7 +177,6 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	protected void updatePoints(int addedPoints, int reducedPoints) {
 		view.setValueToAddedPoints(addedPoints);
 		view.setValueToReducedPoints(reducedPoints);
-		view.setValueToPreviousResult(totalPoints);
 		totalPoints += addedPoints - reducedPoints;
 		view.setValueToCurrentResult(totalPoints);
 	}
@@ -204,7 +205,9 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 							public void run() {
 								messageBox.hide();
 								cardClicked(0, PENALTY_POINTS, null);
-								timer.run();
+								if (!testComplete) {
+									timer.run();
+								}
 							}
 						};
 						messageTimer.schedule(2000);

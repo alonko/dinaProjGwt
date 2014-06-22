@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MathScreenPresenter extends AbstractTestPresenter {
 	private MathScreenView view;
-	private static int TEST_TIME = 20;
+	private static int TEST_TIME = 17;
 	private static final int MAX_STEPS = 7;//17;
 	private static final int PREVIEW_CORRECT_ANSWERS = 2;
 	private int numberOfCorrectAnswers;

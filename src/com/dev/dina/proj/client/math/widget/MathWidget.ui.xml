@@ -6,9 +6,11 @@
 		field="res" />
 
 	<g:FlowPanel styleName="{res.css.answerPanel}">
-		<g:TextBox ui:field="firstValue" styleName="{res.css.answer}" />
-		<g:TextBox ui:field="secondValue" styleName="{res.css.answer}" />
-		<g:TextBox ui:field="thirdValue" styleName="{res.css.answer}" />
-		<g:TextBox ui:field="forthValue" styleName="{res.css.answer}" />
+		<g:FlowPanel styleName="{res.css.answersContainer}">
+			<g:TextBox ui:field="firstValue" styleName="{res.css.answer}" />
+			<g:TextBox ui:field="secondValue" styleName="{res.css.answer}" />
+			<g:TextBox ui:field="thirdValue" styleName="{res.css.answer}" />
+			<g:TextBox ui:field="forthValue" styleName="{res.css.answer}" />
+		</g:FlowPanel>
 	</g:FlowPanel>
 </ui:UiBinder> 

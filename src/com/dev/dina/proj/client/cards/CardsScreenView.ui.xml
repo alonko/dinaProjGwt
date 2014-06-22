@@ -25,20 +25,8 @@
 				<g:Image ui:field="card4" styleName="{res.css.card}" />
 			</g:FlowPanel>
 		</g:FlowPanel>
-		<g:FlowPanel styleName="{res.css.resultPanel}">
+		<g:FlowPanel styleName="{res.css.resultPanel}">		
 			<g:FlowPanel styleName="{res.css.resultLeftPanel}">
-				<g:FlowPanel styleName="{res.css.resultInnerPanel}">
-					<g:Label styleName="{res.css.resultLbl}" text="{constants.previousResultLbl}" />
-					<g:Label styleName="{res.css.resultValue}" ui:field="previousResultValue" />
-				</g:FlowPanel>
-
-				<g:FlowPanel styleName="{res.css.resultInnerPanel}">
-					<g:Label styleName="{res.css.resultLbl}" text="{constants.currentResultLbl}" />
-					<g:Label styleName="{res.css.resultValue}" ui:field="currentResultValue" />
-				</g:FlowPanel>
-			</g:FlowPanel>
-
-			<g:FlowPanel styleName="{res.css.resultCenterPanel}">
 				<g:FlowPanel styleName="{res.css.cardsTimerContainer}">
 					<g:Label ui:field="timerLbl" styleName="{res.css.resultLbl}"
 						text="{constants.timerLbl}" />
@@ -55,6 +43,11 @@
 				<g:FlowPanel styleName="{res.css.resultInnerPanel}">
 					<g:Label styleName="{res.css.resultLbl}" text="{constants.pointsReducedLbl}" />
 					<g:Label styleName="{res.css.resultValue}" ui:field="pointsReducedValue" />
+				</g:FlowPanel>
+				
+				<g:FlowPanel styleName="{res.css.resultInnerPanel}">
+					<g:Label styleName="{res.css.resultLbl}" text="{constants.currentResultLbl}" />
+					<g:Label styleName="{res.css.resultValue}" ui:field="currentResultValue" />
 				</g:FlowPanel>
 			</g:FlowPanel>
 		</g:FlowPanel>

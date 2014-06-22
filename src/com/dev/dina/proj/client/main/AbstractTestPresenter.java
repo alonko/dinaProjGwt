@@ -25,12 +25,14 @@ public abstract class AbstractTestPresenter {
 	protected int gridColumnNumber;
 	protected String examineeNumber;
 	protected MyConstants constants = MyConstants.INSTANCE;
+	protected Boolean testComplete;
 
 	public AbstractTestPresenter(Boolean isPresure, String examineeNumber) {
 		this.isPresure = isPresure;
 		this.examineeNumber = examineeNumber;
 		gridColumnNumber = 0;
 		turnTime = 0;
+		testComplete = false;
 	}
 
 	protected void addExportWidget(String testType) {
