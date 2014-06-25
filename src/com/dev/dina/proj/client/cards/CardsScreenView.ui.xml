@@ -11,18 +11,22 @@
 		<g:FlowPanel ui:field="mainContainer" styleName="{res.css.cardsMainPanel}">
 			<g:FlowPanel addStyleNames="{res.css.cardContainer}">
 				<g:Image ui:field="card1" styleName="{res.css.card}" />
+				<g:Label  styleName="{res.css.cardLabel}" text="A"/>
 			</g:FlowPanel>
 
 			<g:FlowPanel addStyleNames=" {res.css.cardContainer}">
 				<g:Image ui:field="card2" styleName="{res.css.card}" />
+				<g:Label  styleName="{res.css.cardLabel}" text="B"/>
 			</g:FlowPanel>
 
 			<g:FlowPanel addStyleNames=" {res.css.cardContainer}">
 				<g:Image ui:field="card3" styleName="{res.css.card}" />
+				<g:Label  styleName="{res.css.cardLabel}" text="C"/>
 			</g:FlowPanel>
 
 			<g:FlowPanel addStyleNames=" {res.css.cardContainer}">
 				<g:Image ui:field="card4" styleName="{res.css.card}" />
+				<g:Label  styleName="{res.css.cardLabel}" text="D"/>
 			</g:FlowPanel>
 		</g:FlowPanel>
 		<g:FlowPanel styleName="{res.css.resultPanel}">		

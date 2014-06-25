@@ -223,9 +223,15 @@
 }
 
 .card {
-	margin: 48px;
-	width: 150px;
-	height: 230px;
+	margin: 4% 17%;
+	width: 70%;
+	height: 80%;;
+}
+
+.cardLabel {
+	text-align: center;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 40px;
 }
 
 .cardContainer {

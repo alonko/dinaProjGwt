@@ -30,6 +30,7 @@ public abstract class AbstractTestPresenter {
 	protected Boolean testComplete;
 	private int countDown;
 	private Timer countDownTimer;
+	protected Boolean isPreview = false;
 
 	public AbstractTestPresenter(Boolean isPresure, String examineeNumber) {
 		this.isPresure = isPresure;
@@ -46,8 +47,6 @@ public abstract class AbstractTestPresenter {
 
 		getMmainContainer().add(exportWidget);
 	}
-
-	protected abstract FlowPanel getMmainContainer();
 
 	protected void beginTest() {
 		step = 0;
@@ -73,8 +72,7 @@ public abstract class AbstractTestPresenter {
 
 	protected void showTestCompleteMessage() {
 		final MessageBox messageBox = new MessageBox();
-		messageBox.setDescriptionText(constants.testCompleteTitle());
-		messageBox.setTitle(constants.testCompleteTitle());
+		messageBox.setDescriptionText(constants.testCompleteMessage());
 		messageBox.show();
 		messageBox.setCloseButtonHandler(new ClickHandler() {
 			@Override
@@ -101,31 +99,15 @@ public abstract class AbstractTestPresenter {
 			}
 		});
 
-		// countDown = 15;
-		// final MessageBox bioCounterMessage = new MessageBox();
-		// bioCounterMessage.asWidget().setSize("80px", "80px");
-		// bioCounterMessage.setCloseButtonVsisble(false);
-		//
-		// countDownTimer = new Timer() {
-		// @Override
-		// public void run() {
-		// if (countDown > 0) {
-		// bioCounterMessage.setDescriptionText(String
-		// .valueOf(countDown));
-		// countDown--;
-		// } else {
-		// bioCounterMessage.hide();
-		// messageBox.show();
-		// addColumnToTable(constants.testStartTimeOutput(),
-		// new Date().toString());
-		// countDownTimer.cancel();
-		// }
-		// }
-		// };
-		// countDownTimer.scheduleRepeating(1000);
-
+		String bioMessageToUser;
+		if (!isPreview) {
+			bioMessageToUser = constants.bioMessage();
+		} else {
+			bioMessageToUser = constants.bioMessagePreview();
+		}
 		final MessageBox bioMessage = new MessageBox();
-		bioMessage.setDescriptionText(constants.bioMessage());
+
+		bioMessage.setDescriptionText(bioMessageToUser);
 		bioMessage.asWidget().setSize("700px", "400px");
 		bioMessage.setCloseButtonHandler(new ClickHandler() {
 			@Override
@@ -139,49 +121,36 @@ public abstract class AbstractTestPresenter {
 				counterPopup.setModal(true);
 				counterPopup.setSize("250px", "60px");
 				final Label countDownLabel = new Label();
-				countDownLabel.setStyleName(ProjectResources.INSTANCE.css().countDownLabel());
+				countDownLabel.setStyleName(ProjectResources.INSTANCE.css()
+						.countDownLabel());
 				counterPopup.setWidget(countDownLabel);
 				counterPopup.center();
-				// bioMessage.setCloseButtonEnabled(false);
 
 				countDownTimer = new Timer() {
 					@Override
 					public void run() {
 						if (countDown > 0) {
-							// bioMessage.setCloseButtonText(String
-							// .valueOf(countDown));
-							// counterPopup.setTitle();
-							countDownLabel.setText(MyConstants.INSTANCE.pleaseWait() + String.valueOf(countDown));
+							countDownLabel.setText(MyConstants.INSTANCE
+									.pleaseWait() + String.valueOf(countDown));
 							countDown--;
 						} else {
-							// bioMessage.setCloseButtonText(String
-							// .valueOf(countDown));
 							counterPopup.hide();
 							countDownTimer.cancel();
-							// bioMessage.setCloseButtonEnabled(true);
-							// bioMessage
-							// .setCloseButtonHandler(new ClickHandler() {
-							// @Override
-							// public void onClick(ClickEvent event) {
-							// bioMessage.hide();
-							// bioCounterMessage.hide();
+
 							messageBox.show();
 							addColumnToTable(constants.testStartTimeOutput(),
 									new Date().toString());
 						}
-						// });
-
 					}
-					// }
 				};
 				countDownTimer.scheduleRepeating(1000);
-				// bioMessage.hide();
-				// bioCounterMessage.show();
-
+				countDownTimer.run();
 			}
 		});
 		bioMessage.show();
 	}
 
 	protected abstract void updateTimer();
+
+	protected abstract FlowPanel getMmainContainer();
 }

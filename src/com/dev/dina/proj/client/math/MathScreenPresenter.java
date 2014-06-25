@@ -49,8 +49,6 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 			325, 244, 780, 163, 495, 656, 831, 631, 993, 200, 882, 369, 562,
 			396, 246, 538, 643, 107, 537, 174, 724, 404, 322 };
 
-	private Boolean isPreview;
-
 	public MathScreenPresenter(Boolean isPresure, String examineeNumber,
 			Boolean isPreview) {
 		super(isPresure, examineeNumber);

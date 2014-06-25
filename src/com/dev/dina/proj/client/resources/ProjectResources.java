@@ -86,6 +86,8 @@ public interface ProjectResources extends ClientBundle {
 		String cardContainer();
 
 		String card();
+		
+		String cardLabel();
 
 		// instructions
 		String instructionsPanel();

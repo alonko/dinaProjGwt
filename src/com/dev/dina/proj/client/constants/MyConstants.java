@@ -38,8 +38,6 @@ public interface MyConstants extends Constants {
 
 	String closeBtn();
 
-	String testCompleteTitle();
-
 	String testCompleteMessage();
 
 	String previewComplete();
@@ -57,6 +55,8 @@ public interface MyConstants extends Constants {
 	String mathExamExplanation();
 
 	String bioMessage();
+	
+	String bioMessagePreview();
 
 	String correctAnswer();
 
