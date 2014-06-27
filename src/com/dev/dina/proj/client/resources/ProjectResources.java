@@ -1,6 +1,7 @@
 package com.dev.dina.proj.client.resources;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
@@ -55,12 +56,14 @@ public interface ProjectResources extends ClientBundle {
 		String popupContainer();
 
 		String popupTextArea();
+		
+		String popupWidgetPanel();
 
 		String popupCloseButton();
 
 		String popupTitle();
-		
-		String countDownLabel(); 
+
+		String countDownLabel();
 
 		// Cards
 		String cardsMainPanel();
@@ -68,10 +71,12 @@ public interface ProjectResources extends ClientBundle {
 		String resultPanel();
 
 		String resultLeftPanel();
-		
+
 		String resultCenterPanel();
 
 		String resultRightPanel();
+
+		String resultTopPanel();
 		
 		String cardsTimerContainer();
 
@@ -80,14 +85,16 @@ public interface ProjectResources extends ClientBundle {
 		String resultLbl();
 
 		String resultValue();
-		
+
 		String timerValue();
 
 		String cardContainer();
 
 		String card();
-		
+
 		String cardLabel();
+		
+		String selectedDeck();
 
 		// instructions
 		String instructionsPanel();
@@ -106,11 +113,11 @@ public interface ProjectResources extends ClientBundle {
 		String questionPanel();
 
 		String answerPanel();
-		
+
 		String answersContainer();
 
 		String answer();
-		
+
 		String answerContainer();
 
 		String buttonPanel();
@@ -122,5 +129,12 @@ public interface ProjectResources extends ClientBundle {
 		String negativeMessage();
 
 		String regularMessage();
+
+		String stressPanel();
+
+		String stressRadio();
+
+		String stressLabel();
+
 	}
 }

@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class CardsScreenPresenter extends AbstractTestPresenter {
 	private CardsScreenView view;
 	private static final int MAX_STEPS = 7; // 50;
-	private static int TEST_TIME = 3;
+	private static int TEST_TIME = 4;
 	private static int PENALTY_POINTS = 300;
 
 	private static int START_POINTS = 1000;
@@ -46,6 +46,8 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 			0, 0, 0, 0, 0, 0, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 250, 0, 0, 0, 0,
 			0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 250 };
 
+	private Integer selectedDeckNumber;
+
 	public CardsScreenPresenter(Boolean isPresure, String examineeNumber) {
 		super(isPresure, examineeNumber);
 		view = new CardsScreenView();
@@ -66,32 +68,66 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		view.getCard1().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(DECK_A_POSITIVE_POINTS, deckANegativePoints[step],
-						"A");
+				cardClicked(1);
+				// cardClicked(DECK_A_POSITIVE_POINTS,
+				// deckANegativePoints[step],
+				// "A");
 			}
 		});
 
 		view.getCard2().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(DECK_B_POSITIVE_POINTS, deckBNegativePoints[step],
-						"B");
+				cardClicked(2);
+				// cardClicked(DECK_B_POSITIVE_POINTS,
+				// deckBNegativePoints[step],
+				// "B");
 			}
 		});
 
 		view.getCard3().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(DECK_C_POSITIVE_POINTS, deckCNegativePoints[step],
-						"C");
+				cardClicked(3);
+				// cardClicked(DECK_C_POSITIVE_POINTS,
+				// deckCNegativePoints[step],
+				// "C");
 			}
 		});
 
 		view.getCard4().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				cardClicked(DECK_D_POSITIVE_POINTS, deckDNegativePoints[step],
-						"D");
+				cardClicked(4);
+				// cardClicked(DECK_D_POSITIVE_POINTS,
+				// deckDNegativePoints[step],
+				// "D");
+			}
+		});
+
+		view.setApproveClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (selectedDeckNumber != null) {
+					if (selectedDeckNumber == 1) {
+						cardClickApproved(DECK_A_POSITIVE_POINTS,
+								deckANegativePoints[step], "A");
+					} else if (selectedDeckNumber == 2) {
+						cardClickApproved(DECK_B_POSITIVE_POINTS,
+								deckBNegativePoints[step], "B");
+					} else if (selectedDeckNumber == 3) {
+						cardClickApproved(DECK_C_POSITIVE_POINTS,
+								deckCNegativePoints[step], "C");
+					} else {// (selectedDeckNumber == 4)
+						cardClickApproved(DECK_D_POSITIVE_POINTS,
+								deckDNegativePoints[step], "D");
+					}
+				}else{
+					MessageBox messageBox = new  MessageBox();
+					messageBox.setCloseButtonVsisble(true);
+					messageBox.setDescriptionText(constants.selectCard());
+					messageBox.show();
+				}
 			}
 		});
 	}
@@ -99,6 +135,7 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	@Override
 	protected void beginTest() {
 		super.beginTest();
+		selectedDeckNumber = null;
 		view.setViewVisible(true);
 		totalPoints = START_POINTS;
 		totalWinAmount = 0;
@@ -147,9 +184,20 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 		} else {
 			finishTest();
 		}
+
+		selectedDeckNumber = null;
+		view.unselectedAllDecks();
+		view.setApproveButtonEnabled(false);
 	}
 
-	private void cardClicked(int addedPoints, int reducedPoints, String deck) {
+	private void cardClicked(int selectedDeckNumber) {
+		this.selectedDeckNumber = selectedDeckNumber;
+		view.markDeckSelected(selectedDeckNumber);
+		view.setApproveButtonEnabled(true);
+	}
+
+	private void cardClickApproved(int addedPoints, int reducedPoints,
+			String deck) {
 		updatePoints(addedPoints, reducedPoints);
 		totalWinAmount += addedPoints;
 		totalLoseAmount += reducedPoints;
@@ -205,7 +253,7 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 							@Override
 							public void run() {
 								messageBox.hide();
-								cardClicked(0, PENALTY_POINTS, null);
+								cardClickApproved(0, PENALTY_POINTS, null);
 								if (!testComplete) {
 									timer.run();
 								}

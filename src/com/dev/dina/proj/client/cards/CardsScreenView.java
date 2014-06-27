@@ -1,9 +1,12 @@
 package com.dev.dina.proj.client.cards;
 
+import com.dev.dina.proj.client.constants.MyConstants;
 import com.dev.dina.proj.client.resources.ProjectResources;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -22,8 +25,10 @@ public class CardsScreenView {
 	Image card1, card2, card3, card4;
 
 	@UiField
-	Label currentResultValue, pointsAddedValue,
-			pointsReducedValue, timerValue, timerLbl;
+	Label currentResultValue, pointsAddedValue, pointsReducedValue, timerValue,
+			timerLbl;
+	@UiField
+	Button approveButton;
 
 	ProjectResources resources = ProjectResources.INSTANCE;
 
@@ -40,6 +45,14 @@ public class CardsScreenView {
 		card4 = new Image(resources.cardImage());
 		root = uiBinder.createAndBindUi(this);
 		setViewVisible(false);
+		
+		approveButton.setText(MyConstants.INSTANCE.approveBtn());
+		approveButton.addStyleName("btn");
+		approveButton.addStyleName("btn-large");
+		approveButton.addStyleName("btn-success");
+		approveButton.addStyleName("placeholder");
+		approveButton.addStyleName(resources.css().okButton());
+		setApproveButtonEnabled(false);
 
 		currentResultValue.addStyleName(resources.css().posetiveMessage());
 		pointsAddedValue.addStyleName(resources.css().posetiveMessage());
@@ -67,6 +80,14 @@ public class CardsScreenView {
 
 	public Image getCard4() {
 		return card4;
+	}
+	
+	public void setApproveClickHandler(ClickHandler handler) {
+		approveButton.addClickHandler(handler);
+	}
+	
+	public void setApproveButtonEnabled(Boolean enabled) {
+		approveButton.setEnabled(enabled);
 	}
 
 	public void setValueToCurrentResult(int result) {
@@ -106,5 +127,27 @@ public class CardsScreenView {
 
 	public void setViewVisible(boolean isVisible) {
 		root.setVisible(isVisible);
+	}
+
+	public void markDeckSelected(int selectedDeckNumber) {
+		unselectedAllDecks();
+		Image selectedDeck = card1;
+		if (selectedDeckNumber == 1) {
+			selectedDeck = card1;
+		} else if (selectedDeckNumber == 2) {
+			selectedDeck = card2;
+		} else if (selectedDeckNumber == 3) {
+			selectedDeck = card3;
+		} else {
+			selectedDeck = card4;
+		}
+		selectedDeck.addStyleName(resources.css().selectedDeck());
+	}
+
+	public void unselectedAllDecks() {
+		card1.removeStyleName(resources.css().selectedDeck());
+		card2.removeStyleName(resources.css().selectedDeck());
+		card3.removeStyleName(resources.css().selectedDeck());
+		card4.removeStyleName(resources.css().selectedDeck());
 	}
 }

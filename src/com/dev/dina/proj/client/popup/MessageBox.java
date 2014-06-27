@@ -10,9 +10,11 @@ import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Alon Kodner
@@ -26,6 +28,8 @@ public class MessageBox {
 	Button closeButton;
 	@UiField
 	Label title;
+	@UiField
+	FlowPanel widgetPanel;
 
 	private ProjectCssResources style;
 
@@ -44,7 +48,13 @@ public class MessageBox {
 		this("");
 	}
 
+	
 	public MessageBox(String text) {
+		this("", false);
+	}
+	
+	public MessageBox(String text, Boolean preventDefaultCloseButton) {
+		
 		root = uiBinder.createAndBindUi(this);
 		style = ProjectResources.INSTANCE.css();
 
@@ -55,15 +65,22 @@ public class MessageBox {
 		messageContent.setEnabled(false);
 		setCloseButtonText(MyConstants.INSTANCE.closeBtn());
 		setCloseButtonVsisble(true);
-		setHandlers();
-
+		if(!preventDefaultCloseButton){
+			setHandlers();
+		}
+		
+		closeButton.addStyleName("btn");
+		closeButton.addStyleName("btn-large");
+		closeButton.addStyleName("btn-success");
+		closeButton.addStyleName("placeholder");
+		closeButton.addStyleName(style.okButton());
 	}
 
 	private void setHandlers() {
 		closeButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				messageContent.setVisible(false);
+				hide();
 			}
 		});
 	}
@@ -91,7 +108,7 @@ public class MessageBox {
 	public void setCloseButtonEnabled(Boolean isEnabled) {
 		closeButton.setEnabled(isEnabled);
 	}
-	
+
 	public void setDescriptionText(String text, Boolean isPositive) {
 		setDescriptionText(text);
 		if (isPositive) {
@@ -116,5 +133,10 @@ public class MessageBox {
 
 	public void setTitle(String titleText) {
 		title.setText(titleText, Direction.RTL);
+	}
+	
+	public void setWidgetToPopup(Widget widget){
+		widgetPanel.setVisible(true);
+		widgetPanel.add(widget);
 	}
 }

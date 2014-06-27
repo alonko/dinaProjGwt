@@ -29,7 +29,10 @@
 				<g:Label  styleName="{res.css.cardLabel}" text="D"/>
 			</g:FlowPanel>
 		</g:FlowPanel>
-		<g:FlowPanel styleName="{res.css.resultPanel}">		
+		<g:FlowPanel styleName="{res.css.resultPanel}">
+		    <g:FlowPanel styleName="{res.css.resultTopPanel}">
+		    	<g:Button ui:field="approveButton" text="{constants.approveBtn}"/>
+		    </g:FlowPanel>		
 			<g:FlowPanel styleName="{res.css.resultLeftPanel}">
 				<g:FlowPanel styleName="{res.css.cardsTimerContainer}">
 					<g:Label ui:field="timerLbl" styleName="{res.css.resultLbl}"

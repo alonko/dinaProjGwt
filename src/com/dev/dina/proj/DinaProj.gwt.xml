@@ -21,6 +21,9 @@
 	<!-- inherit these modules to activate GWT internationalization -->
 	<inherits name='com.google.gwt.i18n.I18N' />
 	<inherits name="com.google.gwt.i18n.CldrLocales" />
+	
+	<!-- Slider -->
+	<inherits name="com.kiouri.sliderbar.SliderBarMVP" />
 
 	<!-- add the various locales you wish to support -->
 	<extend-property name="locale" values="iw" />

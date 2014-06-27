@@ -63,6 +63,16 @@ public interface MyConstants extends Constants {
 	String incorrectAnswer();
 	
 	String pleaseWait();
+	
+	String selectCard();
+	
+	String selectStressLevelExplanation();
+	
+	String selectStressLevel();	
+
+	String highestRank();
+
+	String lowestRank();
 
 	// File output
 	String examineeNumberOutput();
@@ -104,4 +114,6 @@ public interface MyConstants extends Constants {
 	String totalAmountOutput();
 
 	String numberOfStepsOutput();
+
+	String selectedStressLevelOutput();
 }

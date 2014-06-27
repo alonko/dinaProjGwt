@@ -10,6 +10,7 @@
 		<g:FlowPanel styleName="{res.css.popupContainer}">
 			<g:Label ui:field="title" styleName="{res.css.popupTitle}" />
 			<g:TextArea ui:field="messageContent" styleName="{res.css.popupTextArea}" />
+			<g:FlowPanel ui:field="widgetPanel" styleName="{res.css.popupWidgetPanel}" visible="false"/>
 			<g:Button ui:field="closeButton" styleName="{res.css.popupCloseButton}" />
 		</g:FlowPanel>
 	</g:PopupPanel>
