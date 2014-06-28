@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CardsScreenPresenter extends AbstractTestPresenter {
 	private CardsScreenView view;
-	private static final int MAX_STEPS = 7; // 50;
+	private static final int MAX_STEPS = 7; // 50
 	private static int TEST_TIME = 4;
 	private static int PENALTY_POINTS = 300;
 
@@ -51,6 +51,7 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	public CardsScreenPresenter(Boolean isPresure, String examineeNumber) {
 		super(isPresure, examineeNumber);
 		view = new CardsScreenView();
+		setVisibleView(false);
 		view.setTimerVisible(false);
 		addExportWidget("Cards");
 		addCardClickHandlers();
@@ -122,8 +123,8 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 						cardClickApproved(DECK_D_POSITIVE_POINTS,
 								deckDNegativePoints[step], "D");
 					}
-				}else{
-					MessageBox messageBox = new  MessageBox();
+				} else {
+					MessageBox messageBox = new MessageBox();
 					messageBox.setCloseButtonVsisble(true);
 					messageBox.setDescriptionText(constants.selectCard());
 					messageBox.show();
@@ -276,5 +277,10 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 
 	public Widget getWidget() {
 		return view.asWidget();
+	}
+
+	@Override
+	protected void setVisibleView(boolean visible) {
+		view.setVisibleView(visible);
 	}
 }

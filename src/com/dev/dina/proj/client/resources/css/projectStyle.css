@@ -173,7 +173,7 @@
 	height: 10%;
 	font-family: FONT_FAMILY;
 	font-size: 35px;
-	text-align: left;
+	text-align: center;
 }
 
 .cardsMainPanel {
@@ -450,13 +450,13 @@ button.gwt-table-to-excel-exportWidget {
 }
 
 .stressRadio {
-	width: 7%;
-	font-family: FONT_FAMILY;
-	font-size: 20px;
+	font-family: "Times New Roman", Times, serif;
+	font-size: 18px;
+	padding: 0 5%;
 }
 
 .stressLabel {
 	font-family: FONT_FAMILY;
-	font-size: 28px;
+	font-size: 26px;
 	text-align: center;
 }

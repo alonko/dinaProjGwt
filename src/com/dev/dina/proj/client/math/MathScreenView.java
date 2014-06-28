@@ -114,4 +114,8 @@ public class MathScreenView {
 	public void setViewVisible(boolean isVisible) {
 		root.setVisible(isVisible);
 	}
+	
+	public void setVisibleView(boolean visible){
+		asWidget().setVisible(visible);
+	}
 }

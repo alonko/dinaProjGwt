@@ -73,6 +73,10 @@ public interface MyConstants extends Constants {
 	String highestRank();
 
 	String lowestRank();
+	
+	String middleMessagePressure();
+	
+	String middleMessageRegular();
 
 	// File output
 	String examineeNumberOutput();
@@ -116,4 +120,6 @@ public interface MyConstants extends Constants {
 	String numberOfStepsOutput();
 
 	String selectedStressLevelOutput();
+
+	String selectedMiddleStressLevelOutput();
 }

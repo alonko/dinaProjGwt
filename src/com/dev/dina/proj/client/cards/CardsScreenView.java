@@ -150,4 +150,8 @@ public class CardsScreenView {
 		card3.removeStyleName(resources.css().selectedDeck());
 		card4.removeStyleName(resources.css().selectedDeck());
 	}
+	
+	public void setVisibleView(boolean visible){
+		asWidget().setVisible(visible);
+	}
 }

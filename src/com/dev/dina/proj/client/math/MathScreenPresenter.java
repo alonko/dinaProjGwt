@@ -7,6 +7,7 @@ import com.dev.dina.proj.client.events.AnswerRecivedHandler;
 import com.dev.dina.proj.client.main.AbstractTestPresenter;
 import com.dev.dina.proj.client.main.AppUtils;
 import com.dev.dina.proj.client.popup.MessageBox;
+import com.dev.dina.proj.client.popup.StressMeterMessageBox;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -22,6 +23,7 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 	private MathScreenView view;
 	private static int TEST_TIME = 13;
 	private static final int MAX_STEPS = 17;
+	private static final int HALF_STEPS = Math.round(MAX_STEPS / 2);
 	private static final int PREVIEW_CORRECT_ANSWERS = 2;
 	private int numberOfCorrectAnswers;
 
@@ -54,6 +56,7 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 		super(isPresure, examineeNumber);
 		this.isPreview = isPreview;
 		view = new MathScreenView();
+		setVisibleView(false);
 		setHandlers();
 		view.setTimerVisible(false);
 
@@ -138,7 +141,47 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 					updateOutputFile(isCorrectAnswer);
 				}
 				view.clearValue();
-				playTurn();
+
+				if (!isPreview && step == HALF_STEPS) {
+					if (timer != null) {
+						timer.cancel();
+					}
+
+					final MessageBox message = new MessageBox();
+					String userMessage;
+					if (isPresure) {
+						userMessage = constants.middleMessagePressure();
+					} else {
+						userMessage = constants.middleMessageRegular();
+					}
+					message.setDescriptionText(userMessage);
+					message.setCloseButtonHandler(new ClickHandler() {
+						@Override
+						public void onClick(ClickEvent event) {
+							message.hide();
+							setVisibleView(true);
+							playTurn();							
+						}
+					});
+
+					final StressMeterMessageBox stressMsg = new StressMeterMessageBox();
+					stressMsg.setCloseButtonHandler(new ClickHandler() {
+						@Override
+						public void onClick(ClickEvent event) {
+							int selectedStressValue = stressMsg
+									.getSelectedStressValue();
+							addColumnToTable(
+									constants.selectedMiddleStressLevelOutput(),
+									String.valueOf(selectedStressValue));
+							stressMsg.hide();
+							message.show();
+						}
+					});
+					setVisibleView(false);
+					stressMsg.show();
+				} else {
+					playTurn();
+				}
 			}
 
 			private void updateOutputFile(Boolean isCorrectAnswer) {
@@ -209,6 +252,7 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 	}
 
 	private void playTurn() {
+
 		view.setFocusOnFirst();
 		totalTestTime += turnTime;
 		turnTime = 0;
@@ -266,5 +310,10 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 
 	public Widget getWidget() {
 		return view.asWidget();
+	}
+
+	@Override
+	protected void setVisibleView(boolean visible) {
+		view.setVisibleView(visible);
 	}
 }
