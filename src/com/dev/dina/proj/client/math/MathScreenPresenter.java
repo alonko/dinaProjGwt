@@ -265,7 +265,7 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 		updateTimer();
 
 		if (!isPreview) {
-			if (step <= MAX_STEPS) {
+			if (step < MAX_STEPS) {
 				view.setFirstValue(firstNumbers[step]);
 				view.setSecondValue(secondNumbers[step]);
 				view.setThirdValue(thirdNumbers[step]);

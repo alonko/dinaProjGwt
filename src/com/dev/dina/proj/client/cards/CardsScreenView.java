@@ -46,7 +46,6 @@ public class CardsScreenView {
 		root = uiBinder.createAndBindUi(this);
 		setViewVisible(false);
 		
-		approveButton.setText(MyConstants.INSTANCE.approveBtn());
 		approveButton.addStyleName("btn");
 		approveButton.addStyleName("btn-large");
 		approveButton.addStyleName("btn-success");

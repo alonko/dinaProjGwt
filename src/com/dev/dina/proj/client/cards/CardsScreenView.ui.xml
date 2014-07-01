@@ -31,7 +31,7 @@
 		</g:FlowPanel>
 		<g:FlowPanel styleName="{res.css.resultPanel}">
 		    <g:FlowPanel styleName="{res.css.resultTopPanel}">
-		    	<g:Button ui:field="approveButton" text="{constants.approveBtn}"/>
+		    	<g:Button ui:field="approveButton" text="{constants.closeBtn}"/>
 		    </g:FlowPanel>		
 			<g:FlowPanel styleName="{res.css.resultLeftPanel}">
 				<g:FlowPanel styleName="{res.css.cardsTimerContainer}">
