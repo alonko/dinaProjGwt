@@ -21,8 +21,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MathScreenPresenter extends AbstractTestPresenter {
 	private MathScreenView view;
-	private static int TEST_TIME = 13;
-	private static final int MAX_STEPS = 17;
+	private static int TEST_TIME = 17;
+	private static final int MAX_STEPS = 30;
 	private static final int HALF_STEPS = Math.round(MAX_STEPS / 2);
 	private static final int PREVIEW_CORRECT_ANSWERS = 2;
 	private int numberOfCorrectAnswers;
@@ -221,7 +221,7 @@ public class MathScreenPresenter extends AbstractTestPresenter {
 	protected void beginTest() {
 		super.beginTest();
 		view.setViewVisible(true);
-		step = 7;
+		step = 0;
 		numberOfCorrectAnswers = 0;
 
 		Date now = new Date();

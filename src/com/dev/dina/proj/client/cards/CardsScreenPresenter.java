@@ -16,11 +16,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CardsScreenPresenter extends AbstractTestPresenter {
 	private CardsScreenView view;
-	private static final int MAX_STEPS = 7; // 50
+	private static final int MAX_STEPS = 100; // 50
 	private static int TEST_TIME = 4;
 	private static int PENALTY_POINTS = 300;
 
-	private static int START_POINTS = 1000;
+	private static int START_POINTS = 2000;
 	private static int DECK_A_POSITIVE_POINTS = 100;
 	private static int DECK_B_POSITIVE_POINTS = 100;
 	private static int DECK_C_POSITIVE_POINTS = 50;
@@ -31,20 +31,31 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 	private int[] deckANegativePoints = { 0, 0, 150, 0, 300, 0, 200, 0, 250,
 			350, 0, 350, 0, 250, 200, 0, 300, 150, 0, 0, 0, 300, 0, 350, 0,
 			200, 250, 150, 0, 0, 350, 200, 250, 0, 0, 0, 150, 300, 0, 0, 0, 0,
-			150, 0, 300, 0, 200, 0, 250, 350 };
+			150, 0, 300, 0, 200, 0, 250, 350, 0, 0, 150, 0, 300, 0, 200, 0,
+			250, 350, 0, 350, 0, 250, 200, 0, 300, 150, 0, 0, 0, 300, 0, 350,
+			0, 200, 250, 150, 0, 0, 350, 200, 250, 0, 0, 0, 150, 300, 0, 0, 0,
+			0, 150, 0, 300, 0, 200, 0, 250, 350 };
 
 	private int[] deckBNegativePoints = { 0, 0, 0, 0, 0, 0, 0, 0, 1250, 0, 0,
 			0, 0, 1250, 0, 0, 0, 0, 0, 0, 1250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			1250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1250, 0 };
+			1250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1250, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 1250, 0, 0, 0, 0, 1250, 0, 0, 0, 0, 0, 0,
+			1250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1250, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 1250, 0 };
 
 	private int[] deckCNegativePoints = { 0, 0, 50, 0, 50, 0, 50, 0, 50, 50, 0,
 			25, 75, 0, 0, 0, 25, 75, 0, 50, 0, 0, 0, 50, 25, 50, 0, 0, 75, 50,
 			0, 0, 0, 25, 25, 0, 75, 0, 50, 75, 0, 0, 50, 0, 50, 0, 50, 0, 50,
-			50 };
+			50, 0, 0, 50, 0, 50, 0, 50, 0, 50, 50, 0, 25, 75, 0, 0, 0, 25, 75,
+			0, 50, 0, 0, 0, 50, 25, 50, 0, 0, 75, 50, 0, 0, 0, 25, 25, 0, 75,
+			0, 50, 75, 0, 0, 50, 0, 50, 0, 50, 0, 50, 50 };
 
 	private int[] deckDNegativePoints = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 250, 0, 0,
 			0, 0, 0, 0, 0, 0, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 250, 0, 0, 0, 0,
-			0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 250 };
+			0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 250, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 250, 0, 0, 0, 0, 0,
+			0, 0, 0, 250, 0, 0, 0, 0, 0, 250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 250 };
 
 	private Integer selectedDeckNumber;
 
@@ -70,9 +81,6 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				cardClicked(1);
-				// cardClicked(DECK_A_POSITIVE_POINTS,
-				// deckANegativePoints[step],
-				// "A");
 			}
 		});
 
@@ -80,9 +88,6 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				cardClicked(2);
-				// cardClicked(DECK_B_POSITIVE_POINTS,
-				// deckBNegativePoints[step],
-				// "B");
 			}
 		});
 
@@ -90,9 +95,6 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				cardClicked(3);
-				// cardClicked(DECK_C_POSITIVE_POINTS,
-				// deckCNegativePoints[step],
-				// "C");
 			}
 		});
 
@@ -100,9 +102,6 @@ public class CardsScreenPresenter extends AbstractTestPresenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				cardClicked(4);
-				// cardClicked(DECK_D_POSITIVE_POINTS,
-				// deckDNegativePoints[step],
-				// "D");
 			}
 		});
 
